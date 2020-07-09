@@ -28,22 +28,25 @@
 				<th colspan="2">&emsp;&emsp;</th>
 			</tr>
 		</thead>
+		<!--
 		<tbody>
-			<tr th:each="user,list : ${userlist}" th:object="${user}">
+			<tr th:each="user,list : ${customerlist}" th:object="${user}">
 				<td class="center" th:text="${list.count}"></td>
-				<td class="name" th:text="*{name}"></td>
-				<td class="listaddress" th:attr="onmouseover=|mOver('*{address}')|"
-					onmouseout="mOut()">[[*{address}]]</td>
-				<td class="tel" th:text="*{phone}"></td>
-				<td bgcolor=#808080><form th:action="@{/user/{id}(id=*{id})}">
-						<button type="submit" class="btn-edit-delete">編集</button>
-					</form></td>
-				<td bgcolor=#808080><form
-						th:action="@{/user/{id}/delete(id=*{id})}">
-						<button type="submit" class="btn-edit-delete">削除</button>
-					</form></td>
+				<td class="name" th:text="*{customer_id}"></td>
+				<td class="name" th:text="*{orderdate}"></td>
+				<td class="tel" th:text="*{s_number"></td>
+				<td class="tel" th:text="*{subject}"></td>
+				<td class="tel" th:text="*{quantity}"></td>
+				<td class="tel" th:text="*{quantity}"></td>
+				<td class="tel" th:text="*{quantity}"></td>
+				<td class="tel" th:text="*{quantity}"></td>
+				<td bgcolor=#808080>
+						<button type="submit" class="btn-edit-delete">編集</button>/td>
+				<td bgcolor=#808080>
+						<button type="submit" class="btn-edit-delete">削除</button></td>
 			</tr>
 		</tbody>
+		 -->
 	</table>
 	</div>
 </body>

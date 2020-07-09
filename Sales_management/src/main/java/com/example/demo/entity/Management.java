@@ -54,7 +54,7 @@ public class Management implements Serializable {
 	 * 件名
 	 */
 	@Column(name="subject")
-	private int subject;
+	private String subject;
 
 	/**
 	 * 数量
