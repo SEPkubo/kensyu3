@@ -3,10 +3,10 @@ import java.io.Serializable;
 
 import lombok.Data;
 /**
-* ユーザー情報 リクエストデータ
+* 情報 リクエストデータ
 */
 @Data
-public class UserRequest implements Serializable {
+public class ManagementRequest implements Serializable {
 /**
 * 名前
 */

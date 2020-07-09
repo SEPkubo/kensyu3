@@ -78,3 +78,7 @@ table tr.jyusyoroku_list {
 	width: 120px;
 
 }
+
+.list_table {
+	top:100px;
+}

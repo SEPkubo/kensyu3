@@ -11,6 +11,8 @@
 <body>
 	<h3>製造部売上管理システム:案件一覧</h3>
 	<button type="submit" class="btn-sinki">新規登録</button>
+	<br><br>
+	<div class="list_table">
 	<table>
 		<thead>
 			<tr class="jyusyoroku_list">
@@ -26,6 +28,23 @@
 				<th colspan="2">&emsp;&emsp;</th>
 			</tr>
 		</thead>
+		<tbody>
+			<tr th:each="user,list : ${userlist}" th:object="${user}">
+				<td class="center" th:text="${list.count}"></td>
+				<td class="name" th:text="*{name}"></td>
+				<td class="listaddress" th:attr="onmouseover=|mOver('*{address}')|"
+					onmouseout="mOut()">[[*{address}]]</td>
+				<td class="tel" th:text="*{phone}"></td>
+				<td bgcolor=#808080><form th:action="@{/user/{id}(id=*{id})}">
+						<button type="submit" class="btn-edit-delete">編集</button>
+					</form></td>
+				<td bgcolor=#808080><form
+						th:action="@{/user/{id}/delete(id=*{id})}">
+						<button type="submit" class="btn-edit-delete">削除</button>
+					</form></td>
+			</tr>
+		</tbody>
 	</table>
+	</div>
 </body>
 </html>
