@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>住所録管理システム</title>
+<script th:inline="javascript">
+
+function mOver(address) {		// ポップアップする住所を取得
+    document.getElementById("info1").innerHTML = address;
+    document.getElementById("info1").style.visibility = "visible";
+
+}
+
+function mOut() {	// 非表示にする
+    document.getElementById("info1").style.visibility = "hidden";
+}
+
+</script>
+<link href="/css/list.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<h3>住所録管理システム:住所録一覧</h3>
+
+</body>
+</html>

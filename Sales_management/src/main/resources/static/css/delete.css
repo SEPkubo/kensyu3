@@ -1,0 +1,48 @@
+@charset "UTF-8";
+.btn {
+  background-color: #808080;
+  color: black;
+  border : solid 1px #000 ;
+  width: 150px;
+  height:28px;
+}
+
+
+.btn-return {
+	margin-top:148px;
+	margin-left:355px;
+}
+
+.btn-ok {
+	position: absolute;
+	margin-left:185px;
+	margin-top:130px;
+}
+
+.table {
+	left:110px;
+	position: absolute;
+}
+
+.address-txt {
+	width: 300px;
+}
+
+.category {
+	width: 177px;
+	border-color:#9932CC;
+}
+
+
+
+th{
+	text-align: right;
+}
+
+.address-size {
+	width: 560px;
+}
+
+.name-size {
+	width: 280px;
+}
