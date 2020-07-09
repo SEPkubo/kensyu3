@@ -4,23 +4,28 @@
 <head>
 <title>住所録管理システム</title>
 <script th:inline="javascript">
-
-function mOver(address) {		// ポップアップする住所を取得
-    document.getElementById("info1").innerHTML = address;
-    document.getElementById("info1").style.visibility = "visible";
-
-}
-
-function mOut() {	// 非表示にする
-    document.getElementById("info1").style.visibility = "hidden";
-}
-
 </script>
 <link href="/css/list.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
 <body>
-	<h3>住所録管理システム:住所録一覧</h3>
-
+	<h3>製造部売上管理システム:案件一覧</h3>
+	<button type="submit" class="btn-sinki">新規登録</button>
+	<table>
+		<thead>
+			<tr class="jyusyoroku_list">
+				<th>No.</th>
+				<th>顧客</th>
+				<th>受注日</th>
+				<th>件名</th>
+				<th>数量</th>
+				<th>納入指定日<br>/納入日</th>
+				<th>請求日</th>
+				<th>見積金額<br>/受注金額</th>
+				<th>ステータス</th>
+				<th colspan="2">&emsp;&emsp;</th>
+			</tr>
+		</thead>
+	</table>
 </body>
 </html>
