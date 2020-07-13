@@ -17,7 +17,8 @@ import com.example.demo.entity.Management;
 public interface UserRepository extends JpaRepository<Management, Long>,JpaSpecificationExecutor<Management> {
 
 	@Query(value = "Select * from management ", nativeQuery = true)
-	 public Page<Management> findAll(Pageable pageable);		// 検索条件がない場合
+	 public Page<Management> findAll(Pageable pageable);		// 検索条件がない場合の一覧表示
+
 
 
 }

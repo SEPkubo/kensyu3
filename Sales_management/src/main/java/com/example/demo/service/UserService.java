@@ -44,7 +44,6 @@ public class UserService {
 
 
 
-
 	public List<Map<String, Object>> queryForList(String string) {
 		return null;
 	}

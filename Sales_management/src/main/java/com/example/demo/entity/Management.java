@@ -14,7 +14,7 @@ import lombok.Data;
 
 
 /**
- * ユーザー情報 Entity
+ * 案件一覧情報 Entity
  */
 @Entity
 @Data
@@ -35,8 +35,8 @@ public class Management implements Serializable {
 	/**
 	 * 顧客id
 	 */
-	@Column(name="customer_id")
-	private int customer_id;
+	@Column(name="customer_name")
+	private String customer_name;
 
 	/**
 	 * 受注日
@@ -96,8 +96,8 @@ public class Management implements Serializable {
 	/**
 	 * ステータスid
 	 */
-	@Column(name="status_id")
-	private int status_id;
+	@Column(name="status")
+	private String status;
 
 
 

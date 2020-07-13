@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>住所録管理システム</title>
+<title>売上管理システム</title>
 <script th:inline="javascript">
 </script>
 <link href="/css/list.css" rel="stylesheet"></link>
@@ -19,6 +19,7 @@
 				<th>No.</th>
 				<th>顧客</th>
 				<th>受注日</th>
+				<th>S番号</th>
 				<th>件名</th>
 				<th>数量</th>
 				<th>納入指定日<br>/納入日</th>
@@ -28,25 +29,25 @@
 				<th colspan="2">&emsp;&emsp;</th>
 			</tr>
 		</thead>
-		<!--
+
 		<tbody>
-			<tr th:each="user,list : ${customerlist}" th:object="${user}">
+			<tr th:each="customlist,list : ${customerlist}">
 				<td class="center" th:text="${list.count}"></td>
-				<td class="name" th:text="*{customer_id}"></td>
-				<td class="name" th:text="*{orderdate}"></td>
-				<td class="tel" th:text="*{s_number"></td>
-				<td class="tel" th:text="*{subject}"></td>
-				<td class="tel" th:text="*{quantity}"></td>
-				<td class="tel" th:text="*{quantity}"></td>
-				<td class="tel" th:text="*{quantity}"></td>
-				<td class="tel" th:text="*{quantity}"></td>
+				<td class="name" th:text="${customlist.customer_name}"></td>
+				<td class="name" th:text="${customlist.orderdate}"></td>
+				<td class="tel" th:text="${customlist.s_number}"></td>
+				<td class="tel" th:text="${customlist.subject}"></td>
+				<td class="tel" th:text="${customlist.quantity}"></td>
+				<td class="tel">[[${customlist.delivery_designation}]]<br>[[${customlist.delivery_date}]]</td>
+				<td class="tel" th:text="*{billing_date}"></td>
+				<td class="tel">[[${customlist.estimated_money}]]<br>[[${customlist.Order_money}]]</td>
+				<td class="tel" th:text="*{customlist.status}"></td>
 				<td bgcolor=#808080>
-						<button type="submit" class="btn-edit-delete">編集</button>/td>
+						<button type="submit" class="btn-edit-delete">編集</button></td>
 				<td bgcolor=#808080>
 						<button type="submit" class="btn-edit-delete">削除</button></td>
 			</tr>
 		</tbody>
-		 -->
 	</table>
 	</div>
 </body>
