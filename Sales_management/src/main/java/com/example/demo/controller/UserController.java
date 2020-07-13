@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -53,7 +55,7 @@ public class UserController {
 	/**
 	 * 登録画面を表示
 	 * @param model Model
-	 * @return 一覧画面
+	 * @return 登録画面
 	 */
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -61,6 +63,19 @@ public class UserController {
 
 		model.addAttribute("managementRequest", new ManagementRequest());
 		return "add";
+	}
+
+	/**
+	 * 登録確認画面を表示
+	 * @param model Model
+	 * @return 登録画面
+	 */
+
+	@PostMapping(value = "/addcheck")
+	public String displayAddcheck(@ModelAttribute("managementRequest") ManagementRequest managementRequest,Model model) {
+
+		model.addAttribute("managementRequest",managementRequest);
+		return "addcheck";
 	}
 
 

@@ -10,7 +10,7 @@ public class ManagementRequest implements Serializable {
 /**
 * 顧客id
 */
-private String customer_id;
+private String customer_name;
 /**
  * 受注日
  */
@@ -29,33 +29,33 @@ private String subject;
 /**
  * 数量
  */
-private int quantity;
+private String quantity;
 
 /**
  * 納品指定日
  */
-private int delivery_designation;
+private String delivery_designation;
 
 /**
  * 納品日
  */
-private int delivery_date;
+private String delivery_date;
 
 /**
  * 請求日
  */
-private int billing_date;
+private String billing_date;
 
 
 /**
  * 見積金額
  */
-private int estimated_money;
+private String estimated_money;
 
 /**
  * 請求金額
  */
-private int Order_money;
+private String Order_money;
 
 /**
  * ステータスid
