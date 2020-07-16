@@ -3,39 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>製造部売上管理システム</title>
-<script type="text/javascript" src="js/adjustment.js" th:src="@{/js/adjustment.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-	//alert('JavaScriptのアラート');
-	var $children = $('.children'); //都道府県の要素を変数に入れます。
-
-	var original = $children.html(); //後のイベントで、不要なoption要素を削除するため、オリジナルをとっておく
-
-	//地方側のselect要素が変更になるとイベントが発生
-	$('.parent').change(function() {
-		alert('JavaScriptのアラート');
-	  //選択された地方のvalueを取得し変数に入れる
-	  var val1 = $(this).val();
-
-	  //削除された要素をもとに戻すため.html(original)を入れておく
-	  $children.html(original).find('option').each(function() {
-	    var val2 = $(this).data('val'); //data-valの値を取得
-
-	    //valueと異なるdata-valを持つ要素を削除
-	    if (val1 != val2) {
-	      $(this).not(':first-child').remove();
-	    }
-
-	  });
-
-	  //地方側のselect要素が未選択の場合、都道府県をdisabledにする
-	  if ($(this).val() == "") {
-	    $children.attr('disabled', 'disabled');
-	  } else {
-	    $children.removeAttr('disabled');
-	  }
-
-	});
-</script>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <link href="/css/add.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
@@ -47,12 +15,12 @@
 			<table>
 				<tr>
 					<th>顧客名* :</th>
-					<td>  <!--  <select class="parent" name="foo">
+					<td><select class="parent" id="customoer" name="customer_name">
 							<option value="" selected="selected">顧客を選択</option>
 							<option value="ビールシステム">ビールシステム</option>
 							<option value="ABC">ABC</option>
 							<option value="昭和製作所">昭和製作所</option>
-					</select>--></td>
+					</select></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注日 :</th>
@@ -77,7 +45,7 @@
 				<tr>
 					<th class="cell_title">納入指定日 :</th>
 					<td><input class="address-size" type="date"
-						th:field="*{delivery_designation}"></td>
+						name="delivery_designation" th:value="*{delivery_designation}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">納入日 :</th>
@@ -101,7 +69,8 @@
 				</tr>
 				<tr>
 					<th class="cell_title">ステータス :</th>
-					<td><!--  <select class="children" name="bar" disabled>
+					<td><select class="children" id="status" name="status"
+						disabled>
 							<option value="" selected="selected">ステータスを選択</option>
 							<option value="引合い" data-val="ビールシステム">引合い</option>
 							<option value="見積済み" data-val="ビールシステム">見積済み</option>
@@ -124,11 +93,11 @@
 							<option value="受入書受領" data-val="昭和製作所">受入書受領</option>
 							<option value="請求書提出" data-val="昭和製作所">請求書提出</option>
 							<option value="失注" data-val="昭和製作所">失注</option>
-					</select>--></td>
+					</select></td>
 				</tr>
 				<tr>
 					<th class="cell_title">備考 :</th>
-					<td><textarea name="bikou" rows="4" cols="40"></textarea></td>
+					<td><textarea name="note" rows="4" cols="40">[[${managementRequest.note}]]</textarea></td>
 				</tr>
 			</table>
 		</div>
@@ -141,68 +110,66 @@
 			<button type="submit" class="btn">戻る</button>
 		</div>
 	</form>
+	<script th:inline="javascript">
+	$(function() {
 
-	<select class="parent" name="foo">
-  <option value="" selected="selected">地方を選択</option>
-  <option value="北海道・東北">北海道・東北</option>
-  <option value="関東">関東</option>
-  <option value="甲信越・北陸">甲信越・北陸</option>
-  <option value="東海">東海</option>
-  <option value="関西">関西</option>
-  <option value="中国">中国</option>
-  <option value="四国">四国</option>
-  <option value="九州・沖縄">九州・沖縄</option>
-</select>
+		var $children = $('.children'); //ステータスの要素を変数に入れます。
 
-<select class="children" name="bar" disabled>
-  <option value="" selected="selected">都道府県を選択</option>
-  <option value="北海道" data-val="北海道・東北">北海道</option>
-  <option value="青森県" data-val="北海道・東北">青森県</option>
-  <option value="岩手県" data-val="北海道・東北">岩手県</option>
-  <option value="宮城県" data-val="北海道・東北">宮城県</option>
-  <option value="秋田県" data-val="北海道・東北">秋田県</option>
-  <option value="山形県" data-val="北海道・東北">山形県</option>
-  <option value="福島県" data-val="北海道・東北">福島県</option>
-  <option value="茨城県" data-val="関東">茨城県</option>
-  <option value="栃木県" data-val="関東">栃木県</option>
-  <option value="群馬県" data-val="関東">群馬県</option>
-  <option value="埼玉県" data-val="関東">埼玉県</option>
-  <option value="千葉県" data-val="関東">千葉県</option>
-  <option value="東京都" data-val="関東">東京都</option>
-  <option value="神奈川県" data-val="関東">神奈川県</option>
-  <option value="新潟県" data-val="甲信越・北陸">新潟県</option>
-  <option value="富山県" data-val="甲信越・北陸">富山県</option>
-  <option value="石川県" data-val="甲信越・北陸">石川県</option>
-  <option value="福井県" data-val="甲信越・北陸">福井県</option>
-  <option value="山梨県" data-val="甲信越・北陸">山梨県</option>
-  <option value="長野県" data-val="甲信越・北陸">長野県</option>
-  <option value="岐阜県" data-val="東海">岐阜県</option>
-  <option value="静岡県" data-val="東海">静岡県</option>
-  <option value="愛知県" data-val="東海">愛知県</option>
-  <option value="三重県" data-val="東海">三重県</option>
-  <option value="滋賀県" data-val="関西">滋賀県</option>
-  <option value="京都府" data-val="関西">京都府</option>
-  <option value="大阪府" data-val="関西">大阪府</option>
-  <option value="兵庫県" data-val="関西">兵庫県</option>
-  <option value="奈良県" data-val="関西">奈良県</option>
-  <option value="和歌山県" data-val="関西">和歌山県</option>
-  <option value="鳥取県" data-val="中国">鳥取県</option>
-  <option value="島根県" data-val="中国">島根県</option>
-  <option value="岡山県" data-val="中国">岡山県</option>
-  <option value="広島県" data-val="中国">広島県</option>
-  <option value="山口県" data-val="中国">山口県</option>
-  <option value="徳島県" data-val="四国">徳島県</option>
-  <option value="香川県" data-val="四国">香川県</option>
-  <option value="愛媛県" data-val="四国">愛媛県</option>
-  <option value="高知県" data-val="四国">高知県</option>
-  <option value="福岡県" data-val="九州・沖縄">福岡県</option>
-  <option value="佐賀県" data-val="九州・沖縄">佐賀県</option>
-  <option value="長崎県" data-val="九州・沖縄">長崎県</option>
-  <option value="熊本県" data-val="九州・沖縄">熊本県</option>
-  <option value="大分県" data-val="九州・沖縄">大分県</option>
-  <option value="宮崎県" data-val="九州・沖縄">宮崎県</option>
-  <option value="鹿児島県" data-val="九州・沖縄">鹿児島県</option>
-  <option value="沖縄県" data-val="九州・沖縄">沖縄県</option>
-</select>
+		var original = $children.html(); //後のイベントで、不要なoption要素を削除するため、オリジナルをとっておく
+
+
+		// ここから確認画面から戻ってきた場合の処理
+
+		// 顧客名の情報を受け取る
+		var alertStr2 = /*[[${managementRequest.customer_name}]]*/
+
+		if(alertStr2 != null || console.log(alertStr2 === '')) {
+			document.getElementById('customoer').value =  alertStr2; // 顧客名のプルダウンに取得した値を入れる
+			 var val1 = alertStr2;
+
+			  //ここから下と同じ処理
+			  $children.html(original).find('option').each(function() {
+			    var val2 = $(this).data('val');
+
+			    if (val1 != val2) {
+			    	 $(this).not(':first-child').remove();
+			    }
+
+			  });
+			  // ここまで同じ処理
+			  $children.removeAttr('disabled');		// ステータスを活性状態にする
+
+			  // ステータスのプルダウンに取得した値を入れる
+			  document.getElementById('status').value = /*[[${managementRequest.status}]]*/
+		}
+
+
+		// ここまで
+
+		//顧客名のselect要素が変更になるとイベントが発生
+		$('.parent').change(function() {
+		  //選択された顧客名のvalueを取得し変数に入れる
+		  var val1 = $(this).val();
+
+		  //削除された要素をもとに戻すため.html(original)を入れておく
+		  $children.html(original).find('option').each(function() {
+		    var val2 = $(this).data('val'); //data-valの値を取得
+		    //valueと異なるdata-valを持つ要素を削除
+		    if (val1 != val2) {
+		      $(this).not(':first-child').remove();
+		    }
+
+		  });
+
+		  //顧客名のselect要素が未選択の場合、ステータスをdisabledにする
+		  if ($(this).val() == "") {
+		    $children.attr('disabled', 'disabled');
+		  } else {
+		    $children.removeAttr('disabled');
+		  }
+
+		});
+	})
+	</script>
 </body>
 </html>

@@ -1,5 +1,11 @@
 package com.example.demo.dto;
 import java.io.Serializable;
+//import javax.validation.Validation;
+//import javax.validation.Validator;
+//import javax.validation.ValidatorFactory;
+//import javax.validation.constraints.NotEmpty;
+//import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.Size;
 
 import lombok.Data;
 /**
@@ -61,5 +67,15 @@ private String Order_money;
  * ステータスid
  */
 private String status;
+
+/**
+ * 備考
+ */
+private String note;
+
+/**
+ * 削除プラグ
+ */
+private int delete_flg;
 
 }

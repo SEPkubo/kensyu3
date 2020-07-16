@@ -8,9 +8,10 @@
 <meta charset="utf-8" />
 </head>
 <body>
-	<h3>製造部売上管理システム:案件登録</h3>
-	<form th:action="@{/addcheck}" th:object="${managementRequest}"
+	<h3>製造部売上管理システム:案件編集</h3>
+	<form th:action="@{/editcheck}" th:object="${managementUpdateRequest}"
 		method="post">
+		<input type="hidden" name="id" th:value="*{id}">
 		<div class="table">
 			<table>
 				<tr>
@@ -97,7 +98,7 @@
 				</tr>
 				<tr>
 					<th class="cell_title">備考 :</th>
-					<td><textarea name="note" rows="4" cols="40">[[${managementRequest.note}]]</textarea></td>
+					<td><textarea name="note" rows="4" cols="40">[[${managementUpdateRequest.note}]]</textarea></td>
 				</tr>
 			</table>
 		</div>
@@ -121,10 +122,11 @@
 		// ここから確認画面から戻ってきた場合の処理
 
 		// 顧客名の情報を受け取る
-		var alertStr2 = /*[[${managementRequest.customer_name}]]*/
+		var alertStr2 = /*[[${managementUpdateRequest.customer_name}]]*/
 
-		if(alertStr2 != null || console.log(alertStr2 === '')) {
+		if(alertStr2 != null) {
 			document.getElementById('customoer').value =  alertStr2; // 顧客名のプルダウンに取得した値を入れる
+
 			 var val1 = alertStr2;
 
 			  //ここから下と同じ処理
@@ -140,7 +142,7 @@
 			  $children.removeAttr('disabled');		// ステータスを活性状態にする
 
 			  // ステータスのプルダウンに取得した値を入れる
-			  document.getElementById('status').value = /*[[${managementRequest.status}]]*/
+			  document.getElementById('status').value = /*[[${managementUpdateRequest.status}]]*/
 		}
 
 

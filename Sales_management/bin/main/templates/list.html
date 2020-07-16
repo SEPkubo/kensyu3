@@ -4,53 +4,65 @@
 <head>
 <title>売上管理システム</title>
 <script th:inline="javascript">
+
 </script>
 <link href="/css/list.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
 <body>
 	<h3>製造部売上管理システム:案件一覧</h3>
-	  <form th:action="@{/add}">
-	<button type="submit" class="btn-sinki">新規登録</button>
+	<form th:action="@{/add}">
+		<button type="submit" class="btn-sinki">新規登録</button>
 	</form>
-	<br><br>
+	<br>
+	<br>
 	<div class="list_table">
-	<table>
-		<thead>
-			<tr class="jyusyoroku_list">
-				<th>No.</th>
-				<th>顧客</th>
-				<th>受注日</th>
-				<th>S番号</th>
-				<th>件名</th>
-				<th>数量</th>
-				<th>納入指定日<br>/納入日</th>
-				<th>請求日</th>
-				<th>見積金額<br>/受注金額</th>
-				<th>ステータス</th>
-				<th colspan="2">&emsp;&emsp;</th>
-			</tr>
-		</thead>
+		<table>
+			<thead>
+				<tr class="jyusyoroku_list">
+					<th>No.</th>
+					<th>顧客</th>
+					<th>受注日</th>
+					<th>S番号</th>
+					<th>件名</th>
+					<th>数量</th>
+					<th>納入指定日<br>/納入日
+					</th>
+					<th>請求日</th>
+					<th>見積金額<br>/受注金額
+					</th>
+					<th>ステータス</th>
+					<th colspan="2">&emsp;&emsp;</th>
+				</tr>
+			</thead>
 
-		<tbody>
-			<tr th:each="customlist,list : ${customerlist}">
-				<td class="center" th:text="${list.count}"></td>
-				<td class="name" th:text="${customlist.customer_name}"></td>
-				<td class="name" th:text="${customlist.orderdate}"></td>
-				<td class="tel" th:text="${customlist.s_number}"></td>
-				<td class="tel" th:text="${customlist.subject}"></td>
-				<td class="tel" th:text="${customlist.quantity}"></td>
-				<td class="tel">[[${customlist.delivery_designation}]]<br>[[${customlist.delivery_date}]]</td>
-				<td class="tel" th:text="*{billing_date}"></td>
-				<td class="tel">[[${customlist.estimated_money}]]<br>[[${customlist.Order_money}]]</td>
-				<td class="tel" th:text="*{customlist.status}"></td>
-				<td bgcolor=#808080>
-						<button type="submit" class="btn-edit-delete">編集</button></td>
-				<td bgcolor=#808080>
-						<button type="submit" class="btn-edit-delete">削除</button></td>
-			</tr>
-		</tbody>
-	</table>
+			<tbody>
+				<tr th:each="customlist,list : ${customerlist}">
+					<td class="center" th:text="${list.count}"></td>
+					<td class="name" th:text="${customlist.customer_name}"></td>
+					<td class="name" th:text="${customlist.orderdate}"></td>
+					<td class="tel" th:text="${customlist.s_number}"></td>
+					<td class="tel" th:text="${customlist.subject}"></td>
+					<td class="tel" th:text="${customlist.quantity}"></td>
+					<td class="tel">[[${customlist.delivery_designation}]]<br>[[${customlist.delivery_date}]]
+					</td>
+					<td class="tel">[[${customlist.billing_date}]]</td>
+					<td class="tel">[[${customlist.estimated_money}]]<br>[[${customlist.Order_money}]]
+					</td>
+					<td class="tel" th:text="*{customlist.status}"></td>
+					<td bgcolor=#808080>
+						<form th:action="@{/edit/{id}(id=*{customlist.id})}">
+							<button type="submit" class="btn-edit-delete">編集</button>
+						</form>
+					</td>
+					<td bgcolor=#808080>
+					<form th:action="@{/delete/{id}(id=*{customlist.id})}">
+						<button type="submit" class="btn-edit-delete">削除</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

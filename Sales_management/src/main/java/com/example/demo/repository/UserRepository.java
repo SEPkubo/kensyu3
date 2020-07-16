@@ -16,7 +16,7 @@ import com.example.demo.entity.Management;
 @Repository
 public interface UserRepository extends JpaRepository<Management, Long>,JpaSpecificationExecutor<Management> {
 
-	@Query(value = "Select * from management ", nativeQuery = true)
+	@Query(value = "Select * from management where delete_flg = 0", nativeQuery = true)
 	 public Page<Management> findAll(Pageable pageable);		// 検索条件がない場合の一覧表示
 
 

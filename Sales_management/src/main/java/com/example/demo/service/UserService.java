@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.ManagementRequest;
+import com.example.demo.dto.ManagementUpdateRequest;
 import com.example.demo.entity.Management;
 import com.example.demo.repository.UserRepository;
 
@@ -42,6 +44,76 @@ public class UserService {
     }
 
 
+
+
+	public void create(ManagementRequest managementRequest) {
+		userRepository.save(CreateManagement(managementRequest));
+	}
+
+
+	/**
+	 * ユーザーTBLエンティティの生成
+	 * @param managementRequest ユーザー情報リクエストデータ
+	 * @return ユーザーTBLエンティティ
+	 */
+
+	private Management CreateManagement(ManagementRequest managementRequest) {
+		Management ｍanagement = new Management();
+		ｍanagement.setCustomer_name(managementRequest.getCustomer_name());
+		ｍanagement.setOrderdate(managementRequest.getOrderdate());
+		ｍanagement.setS_number(managementRequest.getS_number());
+		ｍanagement.setSubject(managementRequest.getSubject());
+		ｍanagement.setQuantity(managementRequest.getQuantity());
+		ｍanagement.setDelivery_designation(managementRequest.getDelivery_designation());
+		ｍanagement.setDelivery_date(managementRequest.getDelivery_date());
+		ｍanagement.setBilling_date(managementRequest.getBilling_date());
+		ｍanagement.setEstimated_money(managementRequest.getEstimated_money());
+		ｍanagement.setOrder_money(managementRequest.getOrder_money());
+		ｍanagement.setStatus(managementRequest.getStatus());
+		ｍanagement.setNote(managementRequest.getNote());
+
+		return ｍanagement;
+	}
+
+
+	/**
+     * 案件情報 更新
+     * @param user ユーザー情報
+     */
+    public void update(ManagementUpdateRequest managementUpdateRequest) {
+    	Management ｍanagement = findById(managementUpdateRequest.getId());
+    	ｍanagement.setCustomer_name(managementUpdateRequest.getCustomer_name());
+		ｍanagement.setOrderdate(managementUpdateRequest.getOrderdate());
+		ｍanagement.setS_number(managementUpdateRequest.getS_number());
+		ｍanagement.setSubject(managementUpdateRequest.getSubject());
+		ｍanagement.setQuantity(managementUpdateRequest.getQuantity());
+		ｍanagement.setDelivery_designation(managementUpdateRequest.getDelivery_designation());
+		ｍanagement.setDelivery_date(managementUpdateRequest.getDelivery_date());
+		ｍanagement.setBilling_date(managementUpdateRequest.getBilling_date());
+		ｍanagement.setEstimated_money(managementUpdateRequest.getEstimated_money());
+		ｍanagement.setOrder_money(managementUpdateRequest.getOrder_money());
+		ｍanagement.setStatus(managementUpdateRequest.getStatus());
+		ｍanagement.setNote(managementUpdateRequest.getNote());
+        userRepository.save(ｍanagement);
+    }
+
+	 /**
+     * 案件情報 削除
+     * @param user ユーザー情報
+     */
+    public void delete(ManagementUpdateRequest managementUpdateRequest) {
+    	Management ｍanagement = findById(managementUpdateRequest.getId());
+    	ｍanagement.setDelete_flg(1);
+        userRepository.save(ｍanagement);
+    }
+
+	/**
+     * 案件情報 主キー検索
+     * @return 検索結果
+     */
+    public Management findById(Long id) {
+        return userRepository.findById(id).get();
+    }
 
 
 	public List<Map<String, Object>> queryForList(String string) {

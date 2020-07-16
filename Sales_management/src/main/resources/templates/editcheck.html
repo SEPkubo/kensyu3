@@ -7,8 +7,8 @@
 <meta charset="utf-8" />
 </head>
 <body>
-	<h3>製造部売上管理システム:案件登録</h3>
-	<div th:object="${managementRequest}">
+	<h3>製造部売上管理システム:案件編集</h3>
+	<div th:object="${managementUpdateRequest}">
 		<div class="table">
 			<table>
 				<tr>
@@ -61,7 +61,8 @@
 				</tr>
 			</table>
 		</div>
-		<form th:action="@{/create}" th:object="${managementRequest}" method="post">
+		<form th:action="@{/update}" th:object="${managementUpdateRequest}" method="post">
+		<input type="hidden" name="id" th:value="*{id}">
 		<input type="hidden" name="customer_name" th:value="*{customer_name}">
 		<input type="hidden" name="orderdate" th:value="*{orderdate}">
 		<input type="hidden" name="s_number" th:value="*{s_number}">
@@ -79,7 +80,8 @@
 		</div>
 		</form>
 	</div>
-	<form th:action="@{/add}" th:object="${managementRequest}">
+	<form th:action="@{/edit}" th:object="${managementUpdateRequest}">
+		<input type="hidden" name="id" th:value="*{id}">
 		<input type="hidden" name="customer_name" th:value="*{customer_name}">
 		<input type="hidden" name="orderdate" th:value="*{orderdate}">
 		<input type="hidden" name="s_number" th:value="*{s_number}">

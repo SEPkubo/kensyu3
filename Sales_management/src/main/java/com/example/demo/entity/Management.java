@@ -60,44 +60,56 @@ public class Management implements Serializable {
 	 * 数量
 	 */
 	@Column(name="quantity")
-	private int quantity;
+	private String quantity;
 
 	/**
 	 * 納品指定日
 	 */
 	@Column(name="delivery_designation")
-	private int delivery_designation;
+	private String delivery_designation;
 
 	/**
 	 * 納品日
 	 */
 	@Column(name="delivery_date")
-	private int delivery_date;
+	private String delivery_date;
 
 	/**
 	 * 請求日
 	 */
 	@Column(name="billing_date")
-	private int billing_date;
+	private String billing_date;
 
 
 	/**
 	 * 見積金額
 	 */
 	@Column(name="estimated_money")
-	private int estimated_money;
+	private String estimated_money;
 
 	/**
 	 * 請求金額
 	 */
 	@Column(name="Order_money")
-	private int Order_money;
+	private String Order_money;
 
 	/**
 	 * ステータスid
 	 */
 	@Column(name="status")
 	private String status;
+
+	/**
+	 * 備考
+	 */
+	@Column(name="note")
+	private String note;
+
+	/**
+	 * 備考
+	 */
+	@Column(name="delete_flg")
+	private int delete_flg;
 
 
 

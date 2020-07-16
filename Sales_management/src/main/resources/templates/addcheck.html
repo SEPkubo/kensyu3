@@ -8,102 +8,90 @@
 </head>
 <body>
 	<h3>製造部売上管理システム:案件登録</h3>
-	<form th:action="@{/addcheck}" th:object="${managementRequest}"
-		method="post">
+	<div th:object="${managementRequest}">
 		<div class="table">
 			<table>
 				<tr>
 					<th>顧客名* :</th>
-					<td>  <select class="parent" name="foo">
-							<option value="" selected="selected">顧客を選択</option>
-							<option value="ビールシステム">ビールシステム</option>
-							<option value="ABC">ABC</option>
-							<option value="昭和製作所">昭和製作所</option>
-					</select></td>
+					<td><span th:text="*{customer_name}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注日 :</th>
-					<td><input class="address-size" type="date"
-						th:field="*{orderdate}"></td>
+					<td><span th:text="*{orderdate}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">S番号 :</th>
-					<td><input class="address-size" type="text"
-						th:field="*{s_number}"></td>
+					<td><span th:text="*{s_number}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">件名* :</th>
-					<td><input class="address-size" type="text"
-						th:field="*{subject}"></td>
+					<td><span th:text="*{subject}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">数量 :</th>
-					<td><input class="address-size" type="text"
-						th:field="*{quantity}"></td>
+					<td><span th:text="*{quantity}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">納入指定日 :</th>
-					<td><input class="address-size" type="date"
-						th:field="*{delivery_designation}"></td>
+					<td><span th:text="*{delivery_designation}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">納入日 :</th>
-					<td><input class="address-size" type="date"
-						th:field="*{delivery_date}"></td>
+					<td><span th:text="*{delivery_date}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">請求日 :</th>
-					<td><input class="address-size" type="date"
-						th:field="*{billing_date}"></td>
+					<td><span th:text="*{billing_date}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">見積金額 :</th>
-					<td><input class="address-size" type="text"
-						th:field="*{estimated_money}"></td>
+					<td><span th:text="*{estimated_money}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注金額 :</th>
-					<td><input class="address-size" type="text"
-						th:field="*{Order_money}"></td>
+					<td><span th:text="*{Order_money}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">ステータス :</th>
-					<td><select class="children" name="bar" disabled>
-							<option value="" selected="selected">ステータスを選択</option>
-							<option value="引合い" data-val="ビールシステム">引合い</option>
-							<option value="見積済み" data-val="ビールシステム">見積済み</option>
-							<option value="受注" data-val="ビールシステム">受注</option>
-							<option value="失注" data-val="ビールシステム">失注</option>
-							<option value="製造着手" data-val="ビールシステム">製造着手</option>
-							<option value="製造完了" data-val="ビールシステム">製造完了</option>
-							<option value="納品済み" data-val="ビールシステム">納品済み</option>
-							<option value="検収済み" data-val="ビールシステム">検収済み</option>
-							<option value="請求済み" data-val="ビールシステム">請求済み</option>
-							<option value="受注" data-val="ABC">受注</option>
-							<option value="失注" data-val="ABC">失注</option>
-							<option value="製造" data-val="ABC">製造</option>
-							<option value="保管" data-val="ABC">保管</option>
-							<option value="納品" data-val="ABC">納品</option>
-							<option value="請求" data-val="ABC">請求</option>
-							<option value="発注書受領" data-val="昭和製作所">発注書受領</option>
-							<option value="仕掛中" data-val="昭和製作所">仕掛中</option>
-							<option value="納品書提出" data-val="昭和製作所">納品書提出</option>
-							<option value="受入書受領" data-val="昭和製作所">受入書受領</option>
-							<option value="請求書提出" data-val="昭和製作所">請求書提出</option>
-							<option value="失注" data-val="昭和製作所">失注</option>
-					</select></td>
+					<td><span th:text="*{status}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">備考 :</th>
-					<td><textarea name="bikou" rows="4" cols="40"></textarea></td>
+					<td><span th:text="*{note}"></span></td>
 				</tr>
 			</table>
 		</div>
+		<form th:action="@{/create}" th:object="${managementRequest}" method="post">
+		<input type="hidden" name="customer_name" th:value="*{customer_name}">
+		<input type="hidden" name="orderdate" th:value="*{orderdate}">
+		<input type="hidden" name="s_number" th:value="*{s_number}">
+		<input type="hidden" name="subject" th:value="*{subject}">
+		<input type="hidden" name="quantity" th:value="*{quantity}">
+		<input type="hidden" name="delivery_designation" th:value="*{delivery_designation}">
+		<input type="hidden" name="delivery_date" th:value="*{delivery_date}">
+		<input type="hidden" name="billing_date" th:value="*{billing_date}">
+		<input type="hidden" name="estimated_money" th:value="*{estimated_money}">
+		<input type="hidden" name="Order_money" th:value="*{Order_money}">
+		<input type="hidden" name="status" th:value="*{status}">
+		<input type="hidden" name="note" th:value="*{note}">
 		<div class="btn-ok">
 			<input type="submit" value="確認" class="btn">
 		</div>
-	</form>
-	<form th:action="@{/list}">
+		</form>
+	</div>
+	<form th:action="@{/add}" th:object="${managementRequest}">
+		<input type="hidden" name="customer_name" th:value="*{customer_name}">
+		<input type="hidden" name="orderdate" th:value="*{orderdate}">
+		<input type="hidden" name="s_number" th:value="*{s_number}">
+		<input type="hidden" name="subject" th:value="*{subject}">
+		<input type="hidden" name="quantity" th:value="*{quantity}">
+		<input type="hidden" name="delivery_designation" th:value="*{delivery_designation}">
+		<input type="hidden" name="delivery_date" th:value="*{delivery_date}">
+		<input type="hidden" name="billing_date" th:value="*{billing_date}">
+		<input type="hidden" name="estimated_money" th:value="*{estimated_money}">
+		<input type="hidden" name="Order_money" th:value="*{Order_money}">
+		<input type="hidden" name="status" th:value="*{status}">
+		<input type="hidden" name="note" th:value="*{note}">
 		<div class="btn-return">
 			<button type="submit" class="btn">戻る</button>
 		</div>
