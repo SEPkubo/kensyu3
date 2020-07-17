@@ -19,6 +19,8 @@ public interface UserRepository extends JpaRepository<Management, Long>,JpaSpeci
 	@Query(value = "Select * from management where delete_flg = 0", nativeQuery = true)
 	 public Page<Management> findAll(Pageable pageable);		// 検索条件がない場合の一覧表示
 
+	@Query(value = "Select * from management where delete_flg = 0", nativeQuery = true)
+	 public Page<Management> ListSerch(String subject,Pageable pageable);		// 検索条件がない場合の一覧表示
 
 
 }

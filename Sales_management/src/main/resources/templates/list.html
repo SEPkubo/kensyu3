@@ -3,14 +3,69 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>売上管理システム</title>
-<script th:inline="javascript">
-
-</script>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <link href="/css/list.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
 <body>
 	<h3>製造部売上管理システム:案件一覧</h3>
+	<form th:action="@{/listsearch}">
+	<table>
+				<tr>
+					<th>顧客名* :</th>
+					<td><select class="parent" id="customoer" name="customer_name">
+							<option value="" selected="selected">顧客を選択</option>
+							<option value="ビールシステム">ビールシステム</option>
+							<option value="ABC">ABC</option>
+							<option value="昭和製作所">昭和製作所</option>
+					</select></td>
+				</tr>
+				<tr>
+					<th class="cell_title">ステータス :</th>
+					<td><select class="children" id="status" name="status"
+						disabled>
+							<option value="" selected="selected">ステータスを選択</option>
+							<option value="引合い" data-val="ビールシステム">引合い</option>
+							<option value="見積済み" data-val="ビールシステム">見積済み</option>
+							<option value="受注" data-val="ビールシステム">受注</option>
+							<option value="失注" data-val="ビールシステム">失注</option>
+							<option value="製造着手" data-val="ビールシステム">製造着手</option>
+							<option value="製造完了" data-val="ビールシステム">製造完了</option>
+							<option value="納品済み" data-val="ビールシステム">納品済み</option>
+							<option value="検収済み" data-val="ビールシステム">検収済み</option>
+							<option value="請求済み" data-val="ビールシステム">請求済み</option>
+							<option value="受注" data-val="ABC">受注</option>
+							<option value="失注" data-val="ABC">失注</option>
+							<option value="製造" data-val="ABC">製造</option>
+							<option value="保管" data-val="ABC">保管</option>
+							<option value="納品" data-val="ABC">納品</option>
+							<option value="請求" data-val="ABC">請求</option>
+							<option value="発注書受領" data-val="昭和製作所">発注書受領</option>
+							<option value="仕掛中" data-val="昭和製作所">仕掛中</option>
+							<option value="納品書提出" data-val="昭和製作所">納品書提出</option>
+							<option value="受入書受領" data-val="昭和製作所">受入書受領</option>
+							<option value="請求書提出" data-val="昭和製作所">請求書提出</option>
+							<option value="失注" data-val="昭和製作所">失注</option>
+					</select></td>
+				</tr>
+				</table>
+	<div class="kensaku">
+
+			<table>
+				<tr>
+					<th><input class="kensaku-txt" type="text" name="Serchaddress"
+						value=""></th>
+				</tr>
+
+				<tr>
+
+					<th><button type="submit" class="btn-kensaku">検索</button></th>
+				</tr>
+
+			</table>
+
+	</div>
+	</form>
 	<form th:action="@{/add}">
 		<button type="submit" class="btn-sinki">新規登録</button>
 	</form>
@@ -64,5 +119,38 @@
 			</tbody>
 		</table>
 	</div>
+	<script th:inline="javascript">
+	$(function() {
+
+		var $children = $('.children'); //ステータスの要素を変数に入れます。
+
+		var original = $children.html(); //後のイベントで、不要なoption要素を削除するため、オリジナルをとっておく
+
+
+		//顧客名のselect要素が変更になるとイベントが発生
+		$('.parent').change(function() {
+		  //選択された顧客名のvalueを取得し変数に入れる
+		  var val1 = $(this).val();
+
+		  //削除された要素をもとに戻すため.html(original)を入れておく
+		  $children.html(original).find('option').each(function() {
+		    var val2 = $(this).data('val'); //data-valの値を取得
+		    //valueと異なるdata-valを持つ要素を削除
+		    if (val1 != val2) {
+		      $(this).not(':first-child').remove();
+		    }
+
+		  });
+
+		  //顧客名のselect要素が未選択の場合、ステータスをdisabledにする
+		  if ($(this).val() == "") {
+		    $children.attr('disabled', 'disabled');
+		  } else {
+		    $children.removeAttr('disabled');
+		  }
+
+		});
+	})
+	</script>
 </body>
 </html>

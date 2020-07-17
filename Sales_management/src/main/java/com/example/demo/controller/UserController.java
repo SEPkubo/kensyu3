@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dto.ManagementRequest;
 import com.example.demo.dto.ManagementUpdateRequest;
@@ -52,6 +53,25 @@ public class UserController {
 
 
 		return "list";
+	}
+
+
+	/**
+	 * 住所検索の一覧画面を表示
+	 * @param model Model
+	 * @return 住所検索の一覧画面
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping(value = "/user/listsearch", method = RequestMethod.GET)
+	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,
+			@RequestParam(name = "Serchaddress") String Serchaddress,
+			Model model) throws UnsupportedEncodingException {
+		Page<Management> customerlist = userService.getListSerch(pageable,Serchaddress);
+
+
+
+		model.addAttribute("customerlist", customerlist.getContent());
+		return "user/list";
 	}
 
 

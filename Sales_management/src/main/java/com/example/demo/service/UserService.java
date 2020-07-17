@@ -43,6 +43,13 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
+	// 一覧取得(検索条件がある場合)
+		 public Page<Management> getListSerch(Pageable pageable,String address) {
+
+			 return userRepository.ListSerch(address,pageable);
+
+		 }
+
 
 
 
