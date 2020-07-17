@@ -1,15 +1,22 @@
-table{
+table.list{
     border-collapse: collapse;
     font-size: 12px;
 }
 
-table th, table td {
+table.list th, table.list td {
     border: 1px solid #000000;
     padding: 6px;
 }
 
+table.pulldown{
+	border: 0px solid #ffffff;
+}
 
-table tr.jyusyoroku_list {
+table.pulldown th{
+	text-align: right;
+}
+
+table.list tr.jyusyoroku_list {
     background-color: #6495ED;
 }
 
@@ -44,14 +51,14 @@ table tr.jyusyoroku_list {
 
 .kensaku {
 	top:50px;
-	margin-left:500px;
+	left:1000px;
 	position: absolute;
 }
 
 .btn-kensaku {
 	width: 170px;
 	border-width: 0px;
-	background-color: #ffffff;
+	background-color: #808080;
 }
 
 .kensaku-txt {
@@ -66,7 +73,7 @@ table tr.jyusyoroku_list {
 
 .kensakucategory {
 	top:33px;
-	margin-left:450px;
+	margin-left:930px;
 	position: absolute;
 }
 
@@ -81,4 +88,9 @@ table tr.jyusyoroku_list {
 
 .list_table {
 	top:100px;
+}
+
+.pulldown_kensaku{
+	left:600px;
+	position: absolute;
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dto.ManagementRequest;
 import com.example.demo.dto.ManagementUpdateRequest;
+import com.example.demo.dto.SearchRequest;
 import com.example.demo.entity.Management;
 import com.example.demo.service.UserService;
 
@@ -49,8 +50,9 @@ public class UserController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String displayList(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
 		Page<Management> customerlist = userService.getList(pageable);
+		SearchRequest searchRequest = new SearchRequest();
 		model.addAttribute("customerlist", customerlist.getContent());
-
+		model.addAttribute("searchRequest", searchRequest);
 
 		return "list";
 	}
@@ -62,17 +64,21 @@ public class UserController {
 	 * @return 住所検索の一覧画面
 	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value = "/user/listsearch", method = RequestMethod.GET)
+	@RequestMapping(value = "/listsearch", method = RequestMethod.GET)
 	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,
-			@RequestParam(name = "Serchaddress") String Serchaddress,
+			@RequestParam(name = "Serch_subject") String serch_subject,@RequestParam(name = "customer_name") String customer_name,@RequestParam(name = "status", defaultValue = "") String status,
 			Model model) throws UnsupportedEncodingException {
-		Page<Management> customerlist = userService.getListSerch(pageable,Serchaddress);
+		Page<Management> customerlist = userService.getListSerch(pageable,customer_name,status,serch_subject);
 
-
-
+		SearchRequest searchRequest = new SearchRequest();	// 検索ワードを保持
+		searchRequest.setCustomer_name(customer_name);
+		searchRequest.setStatus(status);
+		searchRequest.setSerch_subject(serch_subject);
 		model.addAttribute("customerlist", customerlist.getContent());
-		return "user/list";
+		model.addAttribute("searchRequest", searchRequest);
+		return "list";
 	}
+
 
 
 	/**

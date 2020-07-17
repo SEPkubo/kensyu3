@@ -44,9 +44,8 @@ public class UserService {
     }
 
 	// 一覧取得(検索条件がある場合)
-		 public Page<Management> getListSerch(Pageable pageable,String address) {
-
-			 return userRepository.ListSerch(address,pageable);
+		 public Page<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
+			 return userRepository.ListSerch(customer_name,status,serch_subject,pageable);
 
 		 }
 
