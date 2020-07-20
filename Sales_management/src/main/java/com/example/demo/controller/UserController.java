@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,22 +60,22 @@ public class UserController {
 
 
 	/**
-	 * 住所検索の一覧画面を表示
+	 * 検索の一覧画面を表示
 	 * @param model Model
-	 * @return 住所検索の一覧画面
-	 * @throws UnsupportedEncodingException
+	 * @return 検索の一覧画面
 	 */
 	@RequestMapping(value = "/listsearch", method = RequestMethod.GET)
 	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,
 			@RequestParam(name = "Serch_subject") String serch_subject,@RequestParam(name = "customer_name") String customer_name,@RequestParam(name = "status", defaultValue = "") String status,
-			Model model) throws UnsupportedEncodingException {
-		Page<Management> customerlist = userService.getListSerch(pageable,customer_name,status,serch_subject);
+			Model model){
+
+		List<Management> customerlist = userService.getListSerch(pageable,customer_name,status,serch_subject);	// リスト型
 
 		SearchRequest searchRequest = new SearchRequest();	// 検索ワードを保持
 		searchRequest.setCustomer_name(customer_name);
 		searchRequest.setStatus(status);
 		searchRequest.setSerch_subject(serch_subject);
-		model.addAttribute("customerlist", customerlist.getContent());
+		model.addAttribute("customerlist", customerlist);
 		model.addAttribute("searchRequest", searchRequest);
 		return "list";
 	}

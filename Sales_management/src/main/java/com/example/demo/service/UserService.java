@@ -8,13 +8,14 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ManagementRequest;
 import com.example.demo.dto.ManagementUpdateRequest;
 import com.example.demo.entity.Management;
 import com.example.demo.repository.UserRepository;
-
+import com.example.demo.specifications.UserSpecifications;
 
 /**
  * ユーザー情報 Service
@@ -40,18 +41,29 @@ public class UserService {
 
 	// 一覧取得(検索条件がない場合)
 	public Page<Management> getList(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return userRepository.All(pageable);
     }
 
 	// 一覧取得(検索条件がある場合)
-		 public Page<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
-			 return userRepository.ListSerch(customer_name,status,serch_subject,pageable);
-
-		 }
-
-
+//		 public Page<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
+//			 return userRepository.ListSerch(customer_name,status,serch_subject,pageable);
+//
+//		 }
 
 
+	// 一覧取得(検索条件がある場合)
+	 public List<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
+		 return userRepository.findAll(Specification
+				 .where(UserSpecifications.subjectContains(serch_subject))
+				 .and(UserSpecifications.customer_nameContains(customer_name))
+				 .and(UserSpecifications.statusContains(status))
+			    );
+
+	 }
+
+
+
+	// 案件作成
 	public void create(ManagementRequest managementRequest) {
 		userRepository.save(CreateManagement(managementRequest));
 	}
