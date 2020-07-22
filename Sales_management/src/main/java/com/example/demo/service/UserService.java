@@ -44,12 +44,6 @@ public class UserService {
         return userRepository.All(pageable);
     }
 
-	// 一覧取得(検索条件がある場合)
-//		 public Page<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
-//			 return userRepository.ListSerch(customer_name,status,serch_subject,pageable);
-//
-//		 }
-
 
 	// 一覧取得(検索条件がある場合)
 	 public List<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
@@ -57,6 +51,15 @@ public class UserService {
 				 .where(UserSpecifications.subjectContains(serch_subject))
 				 .and(UserSpecifications.customer_nameContains(customer_name))
 				 .and(UserSpecifications.statusContains(status))
+			    );
+
+	 }
+
+
+	// S番号重複チェック
+	 public Long s_numberCheck(String s_number) {
+		 return userRepository.count(Specification
+				 .where(UserSpecifications.s_number(s_number))
 			    );
 
 	 }

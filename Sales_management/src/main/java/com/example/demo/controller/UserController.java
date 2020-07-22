@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.dto.ErrMessage;
 import com.example.demo.dto.ManagementRequest;
 import com.example.demo.dto.ManagementUpdateRequest;
 import com.example.demo.dto.SearchRequest;
 import com.example.demo.entity.Management;
+import com.example.demo.errorcheck.ErrorCheck;
 import com.example.demo.service.UserService;
-
 
 /**
  * ユーザー情報 Controller
@@ -38,7 +39,6 @@ public class UserController {
 	 */
 	@Autowired
 	UserService userService;
-
 
 	String message = ""; // エラーメッセージ
 
@@ -58,7 +58,6 @@ public class UserController {
 		return "list";
 	}
 
-
 	/**
 	 * 検索の一覧画面を表示
 	 * @param model Model
@@ -66,12 +65,14 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/listsearch", method = RequestMethod.GET)
 	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,
-			@RequestParam(name = "Serch_subject") String serch_subject,@RequestParam(name = "customer_name") String customer_name,@RequestParam(name = "status", defaultValue = "") String status,
-			Model model){
+			@RequestParam(name = "Serch_subject") String serch_subject,
+			@RequestParam(name = "customer_name") String customer_name,
+			@RequestParam(name = "status", defaultValue = "") String status,
+			Model model) {
 
-		List<Management> customerlist = userService.getListSerch(pageable,customer_name,status,serch_subject);	// リスト型
+		List<Management> customerlist = userService.getListSerch(pageable, customer_name, status, serch_subject); // リスト型
 
-		SearchRequest searchRequest = new SearchRequest();	// 検索ワードを保持
+		SearchRequest searchRequest = new SearchRequest(); // 検索ワードを保持
 		searchRequest.setCustomer_name(customer_name);
 		searchRequest.setStatus(status);
 		searchRequest.setSerch_subject(serch_subject);
@@ -80,8 +81,6 @@ public class UserController {
 		return "list";
 	}
 
-
-
 	/**
 	 * 登録画面を表示
 	 * @param model Model
@@ -89,21 +88,21 @@ public class UserController {
 	 */
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String displayAdd(@ModelAttribute("managementRequest") ManagementRequest managementRequest,Model model) {
+	public String displayAdd(@ModelAttribute("managementRequest") ManagementRequest managementRequest, Model model) {
+
+		ErrMessage errmessage = new ErrMessage();
 
 		// 確認画面から戻ってきた場合に顧客名が選択されていなければ顧客名にnullを入れる
-		if(managementRequest.getCustomer_name() != null && managementRequest.getCustomer_name().equals("")) {
+		if (managementRequest.getCustomer_name() != null && managementRequest.getCustomer_name().equals("")) {
 			managementRequest.setCustomer_name(null);
 			// 日付表示を戻す処理
-			managementRequest.setOrderdate(managementRequest.getOrderdate().replace("/", "-")); 	// スラッシュからハイフンに置き換え
+			managementRequest.setOrderdate(managementRequest.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
 			managementRequest.setDelivery_designation(managementRequest.getDelivery_designation().replace("/", "-"));
 			managementRequest.setDelivery_date(managementRequest.getDelivery_date().replace("/", "-"));
 			managementRequest.setBilling_date(managementRequest.getBilling_date().replace("/", "-"));
 
 		}
-
-
-
+		model.addAttribute("errmessage", errmessage);
 		return "add";
 	}
 
@@ -114,8 +113,17 @@ public class UserController {
 	 */
 
 	@PostMapping(value = "/addcheck")
-	public String displayAddcheck(@ModelAttribute("managementRequest") ManagementRequest managementRequest,Model model) {
-		managementRequest.setOrderdate(managementRequest.getOrderdate().replace("-", "/")); 	// ハイフンからスラッシュに置き換え
+	public String displayAddcheck(@Validated @ModelAttribute("managementRequest") ManagementRequest managementRequest,
+			BindingResult result, Model model) {
+		long check = userService.s_numberCheck(managementRequest.getS_number());	// S番号重複チェック
+
+		ErrMessage errmessage = ErrorCheck.getErr(managementRequest,check);
+		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
+			model.addAttribute("errmessage", errmessage);
+			return "add";
+		}
+
+		managementRequest.setOrderdate(managementRequest.getOrderdate().replace("-", "/")); // ハイフンからスラッシュに置き換え
 		managementRequest.setDelivery_designation(managementRequest.getDelivery_designation().replace("-", "/"));
 		managementRequest.setDelivery_date(managementRequest.getDelivery_date().replace("-", "/"));
 		managementRequest.setBilling_date(managementRequest.getBilling_date().replace("-", "/"));
@@ -137,10 +145,10 @@ public class UserController {
 	 * @return 編集画面
 	 */
 	@GetMapping("/edit/{id}")
-	public String displayView(@PathVariable Long id, Model model){
+	public String displayView(@PathVariable Long id, Model model) {
 		Management management = userService.findById(id);
 
-		management.setOrderdate(management.getOrderdate().replace("/", "-")); 	// スラッシュからハイフンに置き換え
+		management.setOrderdate(management.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
 		management.setDelivery_designation(management.getDelivery_designation().replace("/", "-"));
 		management.setDelivery_date(management.getDelivery_date().replace("/", "-"));
 		management.setBilling_date(management.getBilling_date().replace("/", "-"));
@@ -149,66 +157,71 @@ public class UserController {
 	}
 
 	// 編集確認画面
-		@PostMapping("/editcheck")
-		public String editcheck(@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest, Model model) {
+	@PostMapping("/editcheck")
+	public String editcheck(@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest,
+			Model model) {
 
-			managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("-", "/")); 	// ハイフンからスラッシュに置き換え
-			managementUpdateRequest.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("-", "/"));
-			managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("-", "/"));
-			managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("-", "/"));
-			return "editcheck";
-		}
+		managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("-", "/")); // ハイフンからスラッシュに置き換え
+		managementUpdateRequest
+				.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("-", "/"));
+		managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("-", "/"));
+		managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("-", "/"));
+		return "editcheck";
+	}
 
-		/**
-		 * 確認画面から戻ってきた場合の編集画面を表示
-		 * @param id 表示されるデータのID
-		 * @param model Model
-		 * @return 編集画面
-		 */
-		@GetMapping("/edit")
-		public String displayedit(@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest, Model model){
+	/**
+	 * 確認画面から戻ってきた場合の編集画面を表示
+	 * @param id 表示されるデータのID
+	 * @param model Model
+	 * @return 編集画面
+	 */
+	@GetMapping("/edit")
+	public String displayedit(
+			@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest, Model model) {
 
-			managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("/", "-")); 	// スラッシュからハイフンに置き換え
-			managementUpdateRequest.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("/", "-"));
-			managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("/", "-"));
-			managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("/", "-"));
-			model.addAttribute("managementUpdateRequest", managementUpdateRequest);
-			return "edit";
-		}
+		managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
+		managementUpdateRequest
+				.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("/", "-"));
+		managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("/", "-"));
+		managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("/", "-"));
+		model.addAttribute("managementUpdateRequest", managementUpdateRequest);
+		return "edit";
+	}
 
-		// 更新処理
-		@RequestMapping(value = "/update", method = RequestMethod.POST)
-		public String update(@Validated @ModelAttribute ManagementUpdateRequest managementUpdateRequest, BindingResult result,
-				Model model) {
-			// 情報の更新
-			userService.update(managementUpdateRequest);
-			return "redirect:/list";
-		}
+	// 更新処理
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(@Validated @ModelAttribute ManagementUpdateRequest managementUpdateRequest,
+			BindingResult result,
+			Model model) {
+		// 情報の更新
+		userService.update(managementUpdateRequest);
+		return "redirect:/list";
+	}
 
-		/**
-		 * 削除画面を表示
-		 * @param id 表示されるデータのID
-		 * @param model Model
-		 * @return 削除画面
-		 */
-		@GetMapping("/delete/{id}")
-		public String delete(@PathVariable Long id, Model model){
-			Management management = userService.findById(id);
-			management.setOrderdate(management.getOrderdate().replace("/", "-")); 	// スラッシュからハイフンに置き換え
-			model.addAttribute("managementUpdateRequest", management);
+	/**
+	 * 削除画面を表示
+	 * @param id 表示されるデータのID
+	 * @param model Model
+	 * @return 削除画面
+	 */
+	@GetMapping("/delete/{id}")
+	public String delete(@PathVariable Long id, Model model) {
+		Management management = userService.findById(id);
+		management.setOrderdate(management.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
+		model.addAttribute("managementUpdateRequest", management);
 
-			return "delete";
-		}
+		return "delete";
+	}
 
-		// 削除処理
-		@RequestMapping(value = "/delete", method = RequestMethod.POST)
-		public String delete(@Validated @ModelAttribute ManagementUpdateRequest managementUpdateRequest, BindingResult result,
-				Model model) {
+	// 削除処理
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String delete(@Validated @ModelAttribute ManagementUpdateRequest managementUpdateRequest,
+			BindingResult result,
+			Model model) {
 
-			// 情報の更新
-			userService.delete(managementUpdateRequest);
-			return "redirect:/list";
-		}
-
+		// 情報の更新
+		userService.delete(managementUpdateRequest);
+		return "redirect:/list";
+	}
 
 }

@@ -33,7 +33,7 @@ public class Management implements Serializable {
 
 
 	/**
-	 * 顧客id
+	 * 顧客
 	 */
 	@Column(name="customer_name")
 	private String customer_name;
@@ -88,13 +88,13 @@ public class Management implements Serializable {
 	private String estimated_money;
 
 	/**
-	 * 請求金額
+	 * 受注金額
 	 */
 	@Column(name="Order_money")
 	private String Order_money;
 
 	/**
-	 * ステータスid
+	 * ステータス
 	 */
 	@Column(name="status")
 	private String status;

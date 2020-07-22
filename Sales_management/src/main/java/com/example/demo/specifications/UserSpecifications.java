@@ -38,4 +38,13 @@ public class UserSpecifications {
         };
     }
 
+    public static Specification<Management> s_number(String s_number) {	// S番号検索
+        return StringUtils.isEmpty(s_number) ? null : new Specification<Management>() {
+            @Override
+            public Predicate toPredicate(Root<Management> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.like(root.get("s_number"),s_number);
+            }
+        };
+    }
+
 }
