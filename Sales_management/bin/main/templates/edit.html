@@ -22,51 +22,63 @@
 							<option value="ABC">ABC</option>
 							<option value="昭和製作所">昭和製作所</option>
 					</select></td>
+					<td style="color:red;" th:if="${#fields.hasErrors('*{customer_name}')}" th:errors="*{customer_name}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注日 :</th>
 					<td><input class="address-size" type="date"
 						th:field="*{orderdate}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{orderdate}')}" th:errors="*{orderdate}"></td>
+						<td style="color:red;">[[${errmessage.orderdate}]]</td>
 				</tr>
 				<tr>
 					<th class="cell_title">S番号 :</th>
 					<td><input class="address-size" type="text"
 						th:field="*{s_number}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{s_number}')}" th:errors="*{s_number}"></td>
+					<td style="color:red;">[[${errmessage.s_number}]]</td>
 				</tr>
 				<tr>
 					<th class="cell_title">件名* :</th>
 					<td><input class="address-size" type="text"
 						th:field="*{subject}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{subject}')}" th:errors="*{subject}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">数量 :</th>
 					<td><input class="address-size" type="text"
 						th:field="*{quantity}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{quantity}')}" th:errors="*{quantity}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">納入指定日 :</th>
 					<td><input class="address-size" type="date"
 						name="delivery_designation" th:value="*{delivery_designation}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{delivery_designation}')}" th:errors="*{delivery_designation}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">納入日 :</th>
 					<td><input class="address-size" type="date"
 						th:field="*{delivery_date}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{delivery_date}')}" th:errors="*{delivery_date}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">請求日 :</th>
 					<td><input class="address-size" type="date"
 						th:field="*{billing_date}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{billing_date}')}" th:errors="*{billing_date}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">見積金額 :</th>
 					<td><input class="address-size" type="text"
 						th:field="*{estimated_money}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{estimated_money}')}" th:errors="*{estimated_money}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注金額 :</th>
 					<td><input class="address-size" type="text"
 						th:field="*{Order_money}"></td>
+						<td style="color:red;" th:if="${#fields.hasErrors('*{Order_money}')}" th:errors="*{Order_money}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">ステータス :</th>

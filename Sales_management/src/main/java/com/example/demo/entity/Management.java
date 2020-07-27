@@ -62,6 +62,13 @@ public class Management implements Serializable {
 	@Column(name="quantity")
 	private String quantity;
 
+
+	/**
+	 * 数量の単位
+	 */
+	@Column(name="unit")
+	private String unit;
+
 	/**
 	 * 納品指定日
 	 */

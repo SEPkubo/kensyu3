@@ -147,23 +147,33 @@ public class UserController {
 	@GetMapping("/edit/{id}")
 	public String displayView(@PathVariable Long id, Model model) {
 		Management management = userService.findById(id);
+		ErrMessage errmessage = new ErrMessage();
 
 		management.setOrderdate(management.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
 		management.setDelivery_designation(management.getDelivery_designation().replace("/", "-"));
 		management.setDelivery_date(management.getDelivery_date().replace("/", "-"));
 		management.setBilling_date(management.getBilling_date().replace("/", "-"));
 		model.addAttribute("managementUpdateRequest", management);
+		model.addAttribute("errmessage", errmessage);
 		return "edit";
 	}
 
 	// 編集確認画面
 	@PostMapping("/editcheck")
 	public String editcheck(@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest,
-			Model model) {
+			BindingResult result,Model model) {
+
+
+		long check = userService.s_numberCheck(managementUpdateRequest.getS_number());	// S番号重複チェック
+
+		ErrMessage errmessage = ErrorCheck.getErr(managementUpdateRequest,check);
+		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
+			model.addAttribute("errmessage", errmessage);
+			return "edit";
+		}
 
 		managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("-", "/")); // ハイフンからスラッシュに置き換え
-		managementUpdateRequest
-				.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("-", "/"));
+		managementUpdateRequest.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("-", "/"));
 		managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("-", "/"));
 		managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("-", "/"));
 		return "editcheck";
@@ -180,8 +190,7 @@ public class UserController {
 			@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest, Model model) {
 
 		managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
-		managementUpdateRequest
-				.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("/", "-"));
+		managementUpdateRequest.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("/", "-"));
 		managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("/", "-"));
 		managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("/", "-"));
 		model.addAttribute("managementUpdateRequest", managementUpdateRequest);

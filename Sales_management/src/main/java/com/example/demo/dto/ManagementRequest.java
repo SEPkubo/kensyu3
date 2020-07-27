@@ -40,6 +40,8 @@ private String subject;
 @Size(max = 5, message = "数量は5桁以内で入力してください")
 private String quantity;
 
+private String unit;
+
 /**
  * 納品指定日
  */
