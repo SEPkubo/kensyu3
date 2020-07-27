@@ -51,6 +51,10 @@
 				</tr>
 			</table>
 		</div>
+		<div id="info1"
+		style="position: absolute; top:100px; left: 230px; z-index: 2; visibility: hidden; font-size: 5; background-color: #FFFFFF; border-style: ridge;">info</div>
+		<div id="info2"
+		style="position: absolute; top:150px; left: 230px; z-index: 2; visibility: hidden; font-size: 5; background-color: #FFFFFF; border-style: ridge;">info</div>
 		<div class="kensakucategory">
 			<h4>件名：</h4>
 		</div>
@@ -80,6 +84,42 @@
 	</form>
 	<br>
 	<br>
+	<!-- ページネーション -->
+	<div th:fragment='paginationbar'>
+		<ul class='pagination pagination-centered'>
+			<li th:class="${page.firstPage}?'disabled':''"
+				style="display: inline"><span th:if='${page.firstPage}'>&lt;&lt;</span>
+				<a th:if='${not page.firstPage}'
+				th:href='@{${page.url}(page=0,size=${page.size})}'>&lt;&lt;</a></li>
+			<li th:class="${page.hasPreviousPage}? '' : 'disabled'"
+				style="display: inline"><span
+				th:if='${not page.hasPreviousPage}'>&lt;</span> <a
+				th:if='${page.hasPreviousPage}'
+				th:href='@{${page.url}(page=${page.number-2},size=${page.size},)}'>&lt;</a>
+			</li>
+
+
+			<li th:each='item : ${page.items}'
+				th:class="${item.current}? 'active' : ''" style="display: inline">
+				<span th:if='${item.current}' th:text='${item.number}'>1</span> <a
+				th:if='${not item.current}'
+				th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'>
+					<span th:text='${item.number}'>1</span>
+			</a>
+			</li>
+			<li th:class="${page.hasNextPage}? '' : 'disabled'"
+				style="display: inline"><span th:if='${not page.hasNextPage}'>&gt;</span>
+				<a th:if='${page.hasNextPage}'
+				th:href='@{${page.url}(page=${page.number},size=${page.size})}'>&gt;</a>
+			</li>
+			<li th:class="${page.lastPage}? 'disabled' : ''"
+				style="display: inline"><span th:if='${page.lastPage}'>&gt;&gt;</span>
+				<a th:if='${not page.lastPage}'
+				th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>&gt;&gt;</a>
+			</li>
+		</ul>
+		</div>
+	<!-- ページネーションここまで -->
 	<div class="list_table">
 		<table class="list">
 			<thead>
@@ -102,11 +142,12 @@
 
 			<tbody>
 				<tr th:each="customlist,list : ${customerlist}">
-					<td class="center" th:text="${list.count}"></td>
+					<td class="center" th:text="${list.count+(page.number-1)*10}"></td>
 					<td class="name" th:text="${customlist.customer_name}"></td>
 					<td class="name" th:text="${customlist.orderdate}"></td>
 					<td class="tel" th:text="${customlist.s_number}"></td>
-					<td class="tel" th:text="${customlist.subject}"></td>
+					<td class="tel" th:attr="onmouseover=|mOver('${customlist.subject}','${customlist.note}')|"
+					onmouseout="mOut()">[[${customlist.subject}]]</td>
 					<td class="tel" th:text="${customlist.quantity}"></td>
 					<td class="tel">[[${customlist.delivery_designation}]]<br>[[${customlist.delivery_date}]]
 					</td>
@@ -129,6 +170,20 @@
 		</table>
 	</div>
 	<script th:inline="javascript">
+
+	function mOver(subject,note) {		// ポップアップする件名と備考を取得
+	    document.getElementById("info1").innerHTML = subject;
+	    document.getElementById("info2").innerHTML = note;
+	    document.getElementById("info1").style.visibility = "visible";
+	    document.getElementById("info2").style.visibility = "visible";
+
+	}
+
+	function mOut() {	// 非表示にする
+	    document.getElementById("info1").style.visibility = "hidden";
+	    document.getElementById("info2").style.visibility = "hidden";
+	}
+
 	$(function() {
 
 		var $children = $('.children'); //ステータスの要素を変数に入れます。

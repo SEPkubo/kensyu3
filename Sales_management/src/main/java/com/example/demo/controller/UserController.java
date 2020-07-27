@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +24,7 @@ import com.example.demo.dto.ManagementUpdateRequest;
 import com.example.demo.dto.SearchRequest;
 import com.example.demo.entity.Management;
 import com.example.demo.errorcheck.ErrorCheck;
+import com.example.demo.pagewrapper.PageWrapper;
 import com.example.demo.service.UserService;
 
 /**
@@ -42,6 +42,8 @@ public class UserController {
 
 	String message = ""; // エラーメッセージ
 
+	int create_flg = 0; // 登録確認画面表示フラグ
+
 	/**
 	 * 一覧画面を表示
 	 * @param model Model
@@ -51,7 +53,9 @@ public class UserController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String displayList(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
 		Page<Management> customerlist = userService.getList(pageable);
+		PageWrapper<Management> page = new PageWrapper<Management>(customerlist, "/list");
 		SearchRequest searchRequest = new SearchRequest();
+		model.addAttribute("page", page);
 		model.addAttribute("customerlist", customerlist.getContent());
 		model.addAttribute("searchRequest", searchRequest);
 
@@ -70,7 +74,10 @@ public class UserController {
 			@RequestParam(name = "status", defaultValue = "") String status,
 			Model model) {
 
-		List<Management> customerlist = userService.getListSerch(pageable, customer_name, status, serch_subject); // リスト型
+		Page<Management> customerlist = userService.getListSerch(pageable, customer_name, status, serch_subject);
+
+		PageWrapper<Management> page = new PageWrapper<Management>(customerlist, "/listsearch/?customer_name="
+				+ customer_name + "&status=" + status + "&Serch_subject=" + serch_subject);
 
 		SearchRequest searchRequest = new SearchRequest(); // 検索ワードを保持
 		searchRequest.setCustomer_name(customer_name);
@@ -78,6 +85,7 @@ public class UserController {
 		searchRequest.setSerch_subject(serch_subject);
 		model.addAttribute("customerlist", customerlist);
 		model.addAttribute("searchRequest", searchRequest);
+		model.addAttribute("page", page);
 		return "list";
 	}
 
@@ -95,13 +103,20 @@ public class UserController {
 		// 確認画面から戻ってきた場合に顧客名が選択されていなければ顧客名にnullを入れる
 		if (managementRequest.getCustomer_name() != null && managementRequest.getCustomer_name().equals("")) {
 			managementRequest.setCustomer_name(null);
+
+		}
+
+		if (create_flg == 1) { // 確認画面から戻ってきた場合
 			// 日付表示を戻す処理
 			managementRequest.setOrderdate(managementRequest.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
 			managementRequest.setDelivery_designation(managementRequest.getDelivery_designation().replace("/", "-"));
 			managementRequest.setDelivery_date(managementRequest.getDelivery_date().replace("/", "-"));
 			managementRequest.setBilling_date(managementRequest.getBilling_date().replace("/", "-"));
-
+			managementRequest.setOrder_money(managementRequest.getOrder_money().replace("\\", "")); // 円マーク除去
+			managementRequest.setEstimated_money(managementRequest.getEstimated_money().replace("\\", ""));
 		}
+
+		create_flg = 0; // 確認画面フラグ
 		model.addAttribute("errmessage", errmessage);
 		return "add";
 	}
@@ -115,14 +130,17 @@ public class UserController {
 	@PostMapping(value = "/addcheck")
 	public String displayAddcheck(@Validated @ModelAttribute("managementRequest") ManagementRequest managementRequest,
 			BindingResult result, Model model) {
-		long check = userService.s_numberCheck(managementRequest.getS_number());	// S番号重複チェック
+		create_flg = 1; // 確認画面フラグ
+		long check = userService.s_numberCheck(managementRequest.getS_number()); // S番号重複チェック
 
-		ErrMessage errmessage = ErrorCheck.getErr(managementRequest,check);
+		ErrMessage errmessage = ErrorCheck.getErr(managementRequest, check); // エラーメッセージ受け取り
 		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
 			model.addAttribute("errmessage", errmessage);
 			return "add";
 		}
 
+		managementRequest.setOrder_money("\\" + managementRequest.getOrder_money()); // 円マーク追加
+		managementRequest.setEstimated_money("\\" + managementRequest.getEstimated_money());
 		managementRequest.setOrderdate(managementRequest.getOrderdate().replace("-", "/")); // ハイフンからスラッシュに置き換え
 		managementRequest.setDelivery_designation(managementRequest.getDelivery_designation().replace("-", "/"));
 		managementRequest.setDelivery_date(managementRequest.getDelivery_date().replace("-", "/"));
@@ -161,19 +179,22 @@ public class UserController {
 	// 編集確認画面
 	@PostMapping("/editcheck")
 	public String editcheck(@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest,
-			BindingResult result,Model model) {
+			BindingResult result, Model model) {
 
 
-		long check = userService.s_numberCheck(managementUpdateRequest.getS_number());	// S番号重複チェック
+		long check = userService.s_numberCheck(managementUpdateRequest.getS_number()); // S番号重複チェック
 
-		ErrMessage errmessage = ErrorCheck.getErr(managementUpdateRequest,check);
+		check = 0;	// 調整
+
+		ErrMessage errmessage = ErrorCheck.getErr(managementUpdateRequest, check);
 		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
 			model.addAttribute("errmessage", errmessage);
 			return "edit";
 		}
 
 		managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("-", "/")); // ハイフンからスラッシュに置き換え
-		managementUpdateRequest.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("-", "/"));
+		managementUpdateRequest
+				.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("-", "/"));
 		managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("-", "/"));
 		managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("-", "/"));
 		return "editcheck";
@@ -188,12 +209,14 @@ public class UserController {
 	@GetMapping("/edit")
 	public String displayedit(
 			@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest, Model model) {
-
+		ErrMessage errmessage = new ErrMessage();
 		managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
-		managementUpdateRequest.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("/", "-"));
+		managementUpdateRequest
+				.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("/", "-"));
 		managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("/", "-"));
 		managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("/", "-"));
 		model.addAttribute("managementUpdateRequest", managementUpdateRequest);
+		model.addAttribute("errmessage", errmessage);
 		return "edit";
 	}
 
@@ -216,7 +239,6 @@ public class UserController {
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Long id, Model model) {
 		Management management = userService.findById(id);
-		management.setOrderdate(management.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
 		model.addAttribute("managementUpdateRequest", management);
 
 		return "delete";

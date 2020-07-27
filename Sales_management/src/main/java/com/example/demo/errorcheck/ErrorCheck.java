@@ -11,13 +11,18 @@ public class ErrorCheck {
 
 		errmessage.setErr_flg(0);	// エラーフラグ
 
-		if (managementRequest.getOrderdate().equals("") && managementRequest.getStatus() == null) {
+		if (managementRequest.getOrderdate().equals("")) {
 
 			errmessage.setOrderdate("受注日を入力してください");
 			errmessage.setErr_flg(1);
+
+			if (managementRequest.getCustomer_name().equals("ビールシステム") && managementRequest.getStatus().equals("引合い")) {
+				errmessage.setOrderdate("");
+				errmessage.setErr_flg(0);
+			}
 		}
 
-		if(check >= 1) {
+		if(check >= 1 && !(managementRequest.getS_number().equals(""))) {
 			errmessage.setS_number("S番号が重複しています");
 			errmessage.setErr_flg(1);
 		}

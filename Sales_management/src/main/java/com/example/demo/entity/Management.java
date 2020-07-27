@@ -63,11 +63,11 @@ public class Management implements Serializable {
 	private String quantity;
 
 
-	/**
-	 * 数量の単位
-	 */
-	@Column(name="unit")
-	private String unit;
+//	/**
+//	 * 数量の単位
+//	 */
+//	@Column(name="unit")
+//	private String unit;
 
 	/**
 	 * 納品指定日
@@ -113,7 +113,7 @@ public class Management implements Serializable {
 	private String note;
 
 	/**
-	 * 備考
+	 * 削除フラグ
 	 */
 	@Column(name="delete_flg")
 	private int delete_flg;

@@ -46,11 +46,12 @@ public class UserService {
 
 
 	// 一覧取得(検索条件がある場合)
-	 public List<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
-		 return userRepository.findAll(Specification
+	 public Page<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
+		 return (Page<Management>) userRepository.findAll((Specification
 				 .where(UserSpecifications.subjectContains(serch_subject))
 				 .and(UserSpecifications.customer_nameContains(customer_name))
-				 .and(UserSpecifications.statusContains(status))
+				 .and(UserSpecifications.statusContains(status)))
+				 ,pageable
 			    );
 
 	 }
