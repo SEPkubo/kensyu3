@@ -11,16 +11,16 @@ import com.example.demo.entity.Management;
 
 
 /**
- * ユーザー情報 Repository
+ * 案件情報 Repository
  */
 @Repository
 public interface UserRepository extends JpaRepository<Management, Long>, JpaSpecificationExecutor<Management> {
 
-	@Query(value = "Select * from management where delete_flg = 0", nativeQuery = true)
+
+	@Query(value = "SELECT * FROM management INNER JOIN customer ON management.customer_id = customer.customer_id " +
+			"INNER JOIN status ON management.customer_id = status.customer_id AND management.status_id = status.status_id order by 1", nativeQuery = true)
 	 public Page<Management> All(Pageable pageable);		// 検索条件がない場合の一覧表示
 
-//	@Query(value = "Select * from management where delete_flg = 0 AND customer_name LIKE  %?1% AND status LIKE  %?2% AND subject LIKE  %?3%", nativeQuery = true)
-//	 public Page<Management> ListSerch(String customer_name,String status,String serch_subject,Pageable pageable);		// 検索条件がある場合の一覧表示
 
 
 }

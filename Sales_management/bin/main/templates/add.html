@@ -17,13 +17,13 @@
 			<table>
 				<tr>
 					<th>顧客* :</th>
-					<td><select class="parent" id="customoer" name="customer_name">
+					<td><select class="parent" id="customoer" name="customer_id">
 							<option value="" selected="selected">顧客を選択</option>
 							<option value="ビールシステム">ビールシステム</option>
 							<option value="ABC">ABC</option>
 							<option value="昭和製作所">昭和製作所</option>
 					</select></td>
-					<td style="color:red;" th:if="${#fields.hasErrors('*{customer_name}')}" th:errors="*{customer_name}"></td>
+					<td style="color:red;" th:if="${#fields.hasErrors('*{customer_id}')}" th:errors="*{customer_id}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注日 :</th>
@@ -83,7 +83,7 @@
 				</tr>
 				<tr>
 					<th class="cell_title">ステータス :</th>
-					<td><select class="children" id="status" name="status"
+					<td><select class="children" id="status" name="status_id"
 						disabled>
 							<option value="" selected="selected">ステータスを選択</option>
 							<option value="引合い" data-val="ビールシステム">引合い</option>
@@ -134,7 +134,7 @@
 		// ここから確認画面から戻ってきた場合の処理
 
 		// 顧客名の情報を受け取る
-		var alertStr2 = /*[[${managementRequest.customer_name}]]*/
+		var alertStr2 = /*[[${managementRequest.customer_id}]]*/
 
 		if(alertStr2 != null || console.log(alertStr2 === '')) {
 			document.getElementById('customoer').value =  alertStr2; // 顧客名のプルダウンに取得した値を入れる
@@ -153,7 +153,7 @@
 			  $children.removeAttr('disabled');		// ステータスを活性状態にする
 
 			  // ステータスのプルダウンに取得した値を入れる
-			  document.getElementById('status').value = /*[[${managementRequest.status}]]*/
+			  document.getElementById('status').value = /*[[${managementRequest.status_id}]]*/
 		}
 
 

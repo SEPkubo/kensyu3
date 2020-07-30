@@ -16,9 +16,7 @@
 					<th>顧客:</th>
 					<td><select class="parent" id="customoer" name="customer_name">
 							<option value="" selected="selected">顧客を選択</option>
-							<option value="ビールシステム">ビールシステム</option>
-							<option value="ABC">ABC</option>
-							<option value="昭和製作所">昭和製作所</option>
+							<option th:each="customerpulldown : ${customerpulldown}" value=[[${customerpulldown.customer_id}]]>[[${customerpulldown.customer_name}]]</option>
 					</select></td>
 				</tr>
 				<tr>
@@ -27,26 +25,6 @@
 						disabled>
 							<option value="" selected="selected">ステータスを選択</option>
 							<option value="引合い" data-val="ビールシステム">引合い</option>
-							<option value="見積済み" data-val="ビールシステム">見積済み</option>
-							<option value="受注" data-val="ビールシステム">受注</option>
-							<option value="失注" data-val="ビールシステム">失注</option>
-							<option value="製造着手" data-val="ビールシステム">製造着手</option>
-							<option value="製造完了" data-val="ビールシステム">製造完了</option>
-							<option value="納品済み" data-val="ビールシステム">納品済み</option>
-							<option value="検収済み" data-val="ビールシステム">検収済み</option>
-							<option value="請求済み" data-val="ビールシステム">請求済み</option>
-							<option value="受注" data-val="ABC">受注</option>
-							<option value="失注" data-val="ABC">失注</option>
-							<option value="製造" data-val="ABC">製造</option>
-							<option value="保管" data-val="ABC">保管</option>
-							<option value="納品" data-val="ABC">納品</option>
-							<option value="請求" data-val="ABC">請求</option>
-							<option value="発注書受領" data-val="昭和製作所">発注書受領</option>
-							<option value="仕掛中" data-val="昭和製作所">仕掛中</option>
-							<option value="納品書提出" data-val="昭和製作所">納品書提出</option>
-							<option value="受入書受領" data-val="昭和製作所">受入書受領</option>
-							<option value="請求書提出" data-val="昭和製作所">請求書提出</option>
-							<option value="失注" data-val="昭和製作所">失注</option>
 					</select></td>
 				</tr>
 			</table>
@@ -121,6 +99,7 @@
 		</div>
 	<!-- ページネーションここまで -->
 	<div class="list_table">
+	<div >
 		<table class="list">
 			<thead>
 				<tr class="jyusyoroku_list">
@@ -139,11 +118,10 @@
 					<th colspan="2">&emsp;&emsp;</th>
 				</tr>
 			</thead>
-
 			<tbody>
 				<tr th:each="customlist,list : ${customerlist}">
 					<td class="center" th:text="${list.count+(page.number-1)*10}"></td>
-					<td class="name" th:text="${customlist.customer_name}"></td>
+					<td class="name" th:text="${customlist.customer_name}">></td>
 					<td class="name" th:text="${customlist.orderdate}"></td>
 					<td class="tel" th:text="${customlist.s_number}"></td>
 					<td class="tel" th:attr="onmouseover=|mOver('${customlist.subject}','${customlist.note}')|"
@@ -154,7 +132,7 @@
 					<td class="tel">[[${customlist.billing_date}]]</td>
 					<td class="tel">[[${customlist.estimated_money}]]<br>[[${customlist.Order_money}]]
 					</td>
-					<td class="tel" th:text="*{customlist.status}"></td>
+					<td class="tel" th:text="*{customlist.status_name}"></td>
 					<td bgcolor=#808080>
 						<form th:action="@{/edit/{id}(id=*{customlist.id})}">
 							<button type="submit" class="btn-edit-delete">編集</button>
@@ -168,7 +146,8 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
+		</div>
+</div>
 	<script th:inline="javascript">
 
 	function mOver(subject,note) {		// ポップアップする件名と備考を取得

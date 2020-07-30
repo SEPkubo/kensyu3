@@ -16,10 +16,10 @@ public class ErrorCheck {
 			errmessage.setOrderdate("受注日を入力してください");
 			errmessage.setErr_flg(1);
 
-			if (managementRequest.getCustomer_name().equals("ビールシステム") && managementRequest.getStatus().equals("引合い")) {
-				errmessage.setOrderdate("");
-				errmessage.setErr_flg(0);
-			}
+//			if (managementRequest.getCustomer_id().equals("ビールシステム") && managementRequest.getStatus_id().equals("引合い")) {
+//				errmessage.setOrderdate("");
+//				errmessage.setErr_flg(0);
+//			}
 		}
 
 		if(check >= 1 && !(managementRequest.getS_number().equals(""))) {

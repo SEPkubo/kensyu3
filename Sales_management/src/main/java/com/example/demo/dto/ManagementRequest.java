@@ -15,7 +15,7 @@ public class ManagementRequest implements Serializable {
 * 顧客
 */
 @NotEmpty(message = "顧客は必須項目です")
-private String customer_name;
+private int customer_id;
 /**
  * 受注日
  */
@@ -76,7 +76,7 @@ private String Order_money;
 /**
  * ステータス
  */
-private String status;
+private int status_id;
 
 /**
  * 備考
@@ -88,19 +88,19 @@ private String note;
  */
 private int delete_flg;
 
-public String getCustomer_name() {
-	return customer_name;
+public int getCustomer_id() {
+	return customer_id;
 }
 
-public void setCustomer_name(String customer_name) {
-	this.customer_name = customer_name;
+public void setCustomer_id(int customer_id) {
+	this.customer_id = customer_id;
 }
-public String getStatus() {
-	return status;
+public int getStatus_id() {
+	return status_id;
 }
 
-public void setStatus(String status) {
-	this.status = status;
+public void setStatus_id(int status_id) {
+	this.status_id = status_id;
 }
 
 

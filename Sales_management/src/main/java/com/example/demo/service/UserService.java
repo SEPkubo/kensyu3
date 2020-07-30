@@ -13,7 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ManagementRequest;
 import com.example.demo.dto.ManagementUpdateRequest;
+import com.example.demo.entity.Customer;
 import com.example.demo.entity.Management;
+import com.example.demo.entity.Status;
+import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.StatusRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.specifications.UserSpecifications;
 
@@ -29,6 +33,13 @@ public class UserService {
 	 */
 	@Autowired
 	UserRepository userRepository;
+
+
+	@Autowired
+	CustomerRepository customerRepository;
+
+	@Autowired
+	StatusRepository statusRepository;
 
 	/**
 	 * ユーザー情報 全検索
@@ -65,6 +76,17 @@ public class UserService {
 
 	 }
 
+	 // プルダウンの顧客名取得
+	 public List<Customer> getCustomer_name() {
+		 return customerRepository.getCustomer_name();
+
+	 }
+
+	 // プルダウンのステータス情報取得
+	 public List<Status> getStatus_name() {
+		 return statusRepository.getStatus_name();
+
+	 }
 
 
 	// 案件作成
@@ -81,7 +103,7 @@ public class UserService {
 
 	private Management CreateManagement(ManagementRequest managementRequest) {
 		Management ｍanagement = new Management();
-		ｍanagement.setCustomer_name(managementRequest.getCustomer_name());
+		ｍanagement.setCustomer_id(managementRequest.getCustomer_id());
 		ｍanagement.setOrderdate(managementRequest.getOrderdate());
 		ｍanagement.setS_number(managementRequest.getS_number());
 		ｍanagement.setSubject(managementRequest.getSubject());
@@ -91,7 +113,7 @@ public class UserService {
 		ｍanagement.setBilling_date(managementRequest.getBilling_date());
 		ｍanagement.setEstimated_money(managementRequest.getEstimated_money());
 		ｍanagement.setOrder_money(managementRequest.getOrder_money());
-		ｍanagement.setStatus(managementRequest.getStatus());
+		ｍanagement.setStatus_id(managementRequest.getStatus_id());
 		ｍanagement.setNote(managementRequest.getNote());
 
 		return ｍanagement;
@@ -104,7 +126,7 @@ public class UserService {
      */
     public void update(ManagementUpdateRequest managementUpdateRequest) {
     	Management ｍanagement = findById(managementUpdateRequest.getId());
-    	ｍanagement.setCustomer_name(managementUpdateRequest.getCustomer_name());
+    	ｍanagement.setCustomer_id(managementUpdateRequest.getCustomer_id());
 		ｍanagement.setOrderdate(managementUpdateRequest.getOrderdate());
 		ｍanagement.setS_number(managementUpdateRequest.getS_number());
 		ｍanagement.setSubject(managementUpdateRequest.getSubject());
@@ -114,7 +136,7 @@ public class UserService {
 		ｍanagement.setBilling_date(managementUpdateRequest.getBilling_date());
 		ｍanagement.setEstimated_money(managementUpdateRequest.getEstimated_money());
 		ｍanagement.setOrder_money(managementUpdateRequest.getOrder_money());
-		ｍanagement.setStatus(managementUpdateRequest.getStatus());
+		ｍanagement.setStatus_id(managementUpdateRequest.getStatus_id());
 		ｍanagement.setNote(managementUpdateRequest.getNote());
         userRepository.save(ｍanagement);
     }

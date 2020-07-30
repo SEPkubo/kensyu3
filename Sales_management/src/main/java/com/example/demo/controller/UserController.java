@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,9 @@ import com.example.demo.dto.ErrMessage;
 import com.example.demo.dto.ManagementRequest;
 import com.example.demo.dto.ManagementUpdateRequest;
 import com.example.demo.dto.SearchRequest;
+import com.example.demo.entity.Customer;
 import com.example.demo.entity.Management;
+import com.example.demo.entity.Status;
 import com.example.demo.errorcheck.ErrorCheck;
 import com.example.demo.pagewrapper.PageWrapper;
 import com.example.demo.service.UserService;
@@ -40,6 +42,9 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+
+
+
 	String message = ""; // エラーメッセージ
 
 	int create_flg = 0; // 登録確認画面表示フラグ
@@ -48,16 +53,27 @@ public class UserController {
 	 * 一覧画面を表示
 	 * @param model Model
 	 * @return 一覧画面
-	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String displayList(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
-		Page<Management> customerlist = userService.getList(pageable);
+		SearchRequest searchRequest = new SearchRequest();	// 検索リスト
+		Page<Management> customerlist = userService.getList(pageable);	// pageableを使った一覧の取得
 		PageWrapper<Management> page = new PageWrapper<Management>(customerlist, "/list");
-		SearchRequest searchRequest = new SearchRequest();
+
+		List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
+
+		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
+
+		 System.out.println(statuspulldown);
+
+
+
 		model.addAttribute("page", page);
 		model.addAttribute("customerlist", customerlist.getContent());
-		model.addAttribute("searchRequest", searchRequest);
+		model.addAttribute("searchRequest", searchRequest);	// 検索ワードリスト(無いとエラーになるため)
+		model.addAttribute("customerpulldown", customerpulldown);
+		model.addAttribute("statuspulldown", statuspulldown);
+
 
 		return "list";
 	}
@@ -101,8 +117,7 @@ public class UserController {
 		ErrMessage errmessage = new ErrMessage();
 
 		// 確認画面から戻ってきた場合に顧客名が選択されていなければ顧客名にnullを入れる
-		if (managementRequest.getCustomer_name() != null && managementRequest.getCustomer_name().equals("")) {
-			managementRequest.setCustomer_name(null);
+		if (managementRequest.getCustomer_id() != 0) {
 
 		}
 
