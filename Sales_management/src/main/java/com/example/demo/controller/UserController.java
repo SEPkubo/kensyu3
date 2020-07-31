@@ -64,10 +64,8 @@ public class UserController {
 
 		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 
-		 System.out.println(statuspulldown);
 
-
-
+		System.out.println(statuspulldown);
 		model.addAttribute("page", page);
 		model.addAttribute("customerlist", customerlist.getContent());
 		model.addAttribute("searchRequest", searchRequest);	// 検索ワードリスト(無いとエラーになるため)

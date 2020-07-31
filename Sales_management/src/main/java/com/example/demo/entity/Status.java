@@ -21,7 +21,7 @@ import lombok.Data;
 public class Status implements Serializable {
 
 	/**
-	* ID
+	* 顧客ID
 	*/
 	@Id
 	@Column(name = "customer_id")
