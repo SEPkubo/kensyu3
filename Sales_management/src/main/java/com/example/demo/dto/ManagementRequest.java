@@ -14,7 +14,7 @@ public class ManagementRequest implements Serializable {
 /**
 * 顧客
 */
-@NotEmpty(message = "顧客は必須項目です")
+
 private int customer_id;
 /**
  * 受注日
@@ -40,7 +40,6 @@ private String subject;
 @Size(max = 5, message = "数量は5桁以内で入力してください")
 private String quantity;
 
-private String unit;
 
 /**
  * 納品指定日
@@ -90,6 +89,8 @@ private int delete_flg;
 
 public int getCustomer_id() {
 	return customer_id;
+
+
 }
 
 public void setCustomer_id(int customer_id) {

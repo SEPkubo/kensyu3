@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -16,6 +17,7 @@ import lombok.Data;
  */
 @Entity
 @Data
+@IdClass(Status_PrimaryKey.class)
 @Table(name = "status")
 
 public class Status implements Serializable {
@@ -31,6 +33,7 @@ public class Status implements Serializable {
 	/**
 	 * ステータスID
 	 */
+	@Id
 	@Column(name = "status_id")
 	private int status_id;
 

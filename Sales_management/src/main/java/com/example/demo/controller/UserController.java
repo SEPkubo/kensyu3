@@ -65,7 +65,6 @@ public class UserController {
 		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 
 
-		System.out.println(statuspulldown);
 		model.addAttribute("page", page);
 		model.addAttribute("customerlist", customerlist.getContent());
 		model.addAttribute("searchRequest", searchRequest);	// 検索ワードリスト(無いとエラーになるため)
@@ -114,6 +113,10 @@ public class UserController {
 
 		ErrMessage errmessage = new ErrMessage();
 
+		List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
+
+		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
+
 		// 確認画面から戻ってきた場合に顧客名が選択されていなければ顧客名にnullを入れる
 		if (managementRequest.getCustomer_id() != 0) {
 
@@ -131,6 +134,8 @@ public class UserController {
 
 		create_flg = 0; // 確認画面フラグ
 		model.addAttribute("errmessage", errmessage);
+		model.addAttribute("customerpulldown", customerpulldown);
+		model.addAttribute("statuspulldown", statuspulldown);
 		return "add";
 	}
 

@@ -6,6 +6,7 @@ public class SearchRequest implements Serializable {
 
 	// 顧客
 	private String customer_name;
+
 	// ステータス
 	private String status;
 

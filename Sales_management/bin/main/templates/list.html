@@ -16,7 +16,7 @@
 					<th>顧客:</th>
 					<td><select class="parent" id="customoer" name="customer_name">
 							<option value="" selected="selected">顧客を選択</option>
-							<option th:each="customerpulldown : ${customerpulldown}" value=[[${customerpulldown.customer_id}]]>[[${customerpulldown.customer_name}]]</option>
+							<option th:each="customerpulldown : ${customerpulldown}" th:value="${customerpulldown.customer_id}">[[${customerpulldown.customer_name}]]</option>
 					</select></td>
 				</tr>
 				<tr>
@@ -24,7 +24,7 @@
 					<td><select class="children" id="status" name="status"
 						disabled>
 							<option value="" selected="selected">ステータスを選択</option>
-							<option value="引合い" data-val="ビールシステム">引合い</option>
+							<option th:each="statuspull : ${statuspulldown}" th:value="${statuspull.status_id}" th:data-val="${statuspull.customer_id}">[[${statuspull.status_name}]]</option>
 					</select></td>
 				</tr>
 			</table>
@@ -210,7 +210,6 @@
 		$('.parent').change(function() {
 		  //選択された顧客名のvalueを取得し変数に入れる
 		  var val1 = $(this).val();
-
 		  //削除された要素をもとに戻すため.html(original)を入れておく
 		  $children.html(original).find('option').each(function() {
 		    var val2 = $(this).data('val'); //data-valの値を取得
@@ -230,6 +229,8 @@
 
 		});
 	})
+
+
 	</script>
 </body>
 </html>
