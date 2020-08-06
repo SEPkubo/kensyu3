@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.ManagementRequest;
 import com.example.demo.dto.ManagementUpdateRequest;
 import com.example.demo.entity.Customer;
-import com.example.demo.entity.Management;
+import com.example.demo.entity.ManagementList;
+import com.example.demo.entity.ManagementUpdate;
 import com.example.demo.entity.Status;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.ManagementUpdateRepository;
 import com.example.demo.repository.StatusRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.specifications.UserSpecifications;
@@ -41,6 +43,9 @@ public class UserService {
 	@Autowired
 	StatusRepository statusRepository;
 
+	@Autowired
+	ManagementUpdateRepository managementUpdateRepository;
+
 	/**
 	 * ユーザー情報 全検索
 	 * @return 検索結果
@@ -51,14 +56,14 @@ public class UserService {
 
 
 	// 一覧取得(検索条件がない場合)
-	public Page<Management> getList(Pageable pageable) {
+	public Page<ManagementList> getList(Pageable pageable) {
         return userRepository.All(pageable);
     }
 
 
 	// 一覧取得(検索条件がある場合)
-	 public Page<Management> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
-		 return (Page<Management>) userRepository.findAll((Specification
+	 public Page<ManagementList> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
+		 return (Page<ManagementList>) userRepository.findAll((Specification
 				 .where(UserSpecifications.subjectContains(serch_subject))
 				 .and(UserSpecifications.customer_nameContains(customer_name))
 				 .and(UserSpecifications.statusContains(status)))
@@ -88,6 +93,18 @@ public class UserService {
 
 	 }
 
+	 // idから顧客名取得
+	 public String findCustomer_name(int Customer_id) {
+		 return customerRepository.findCustomer_name(Customer_id);
+
+	 }
+
+	 // idからステータス情報取得
+	 public String findStatus_name(int Customer_id,int Status_id) {
+		 return statusRepository.findStatus_name(Customer_id,Status_id);
+
+	 }
+
 
 	// 案件作成
 	public void create(ManagementRequest managementRequest) {
@@ -101,8 +118,8 @@ public class UserService {
 	 * @return ユーザーTBLエンティティ
 	 */
 
-	private Management CreateManagement(ManagementRequest managementRequest) {
-		Management ｍanagement = new Management();
+	private ManagementList CreateManagement(ManagementRequest managementRequest) {
+		ManagementList ｍanagement = new ManagementList();
 		ｍanagement.setCustomer_id(managementRequest.getCustomer_id());
 		ｍanagement.setOrderdate(managementRequest.getOrderdate());
 		ｍanagement.setS_number(managementRequest.getS_number());
@@ -125,7 +142,7 @@ public class UserService {
      * @param user ユーザー情報
      */
     public void update(ManagementUpdateRequest managementUpdateRequest) {
-    	Management ｍanagement = findById(managementUpdateRequest.getId());
+    	ManagementUpdate ｍanagement = findById(managementUpdateRequest.getId());
     	ｍanagement.setCustomer_id(managementUpdateRequest.getCustomer_id());
 		ｍanagement.setOrderdate(managementUpdateRequest.getOrderdate());
 		ｍanagement.setS_number(managementUpdateRequest.getS_number());
@@ -138,7 +155,7 @@ public class UserService {
 		ｍanagement.setOrder_money(managementUpdateRequest.getOrder_money());
 		ｍanagement.setStatus_id(managementUpdateRequest.getStatus_id());
 		ｍanagement.setNote(managementUpdateRequest.getNote());
-        userRepository.save(ｍanagement);
+		//managementUpdateRepository.save(ｍanagement);
     }
 
 	 /**
@@ -146,17 +163,17 @@ public class UserService {
      * @param user ユーザー情報
      */
     public void delete(ManagementUpdateRequest managementUpdateRequest) {
-    	Management ｍanagement = findById(managementUpdateRequest.getId());
-    	ｍanagement.setDelete_flg(1);
-        userRepository.save(ｍanagement);
+//    	ManagementList ｍanagement = findById(managementUpdateRequest.getId());
+//    	ｍanagement.setDelete_flg(1);
+//        userRepository.save(ｍanagement);
     }
 
 	/**
      * 案件情報 主キー検索
      * @return 検索結果
      */
-    public Management findById(Long id) {
-        return userRepository.findById(id).get();
+    public ManagementUpdate findById(Long id) {
+        return managementUpdateRepository.findId(id);
     }
 
 

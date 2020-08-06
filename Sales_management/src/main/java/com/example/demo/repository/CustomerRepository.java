@@ -19,6 +19,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSp
 	@Query(value = "SELECT * FROM customer" , nativeQuery = true)
 	 public List<Customer> getCustomer_name();		// 顧客名を取得
 
+	@Query(value = "SELECT customer_name FROM customer WHERE customer_id = ?1" , nativeQuery = true)
+	 public String findCustomer_name(int id);		// idから顧客名を取得
+
 
 
 }

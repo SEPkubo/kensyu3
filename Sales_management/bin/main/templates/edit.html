@@ -16,13 +16,11 @@
 			<table>
 				<tr>
 					<th>顧客 :</th>
-					<td><select class="parent" id="customoer" name="customer_name">
-							<option value="" selected="selected">顧客を選択</option>
-							<option value="ビールシステム">ビールシステム</option>
-							<option value="ABC">ABC</option>
-							<option value="昭和製作所">昭和製作所</option>
+					<td><select class="parent" id="customoer" name="customer_id">
+							<option value="0" selected="selected">顧客を選択</option>
+							<option th:each="customerpulldown : ${customerpulldown}" th:value="${customerpulldown.customer_id}">[[${customerpulldown.customer_name}]]</option>
 					</select></td>
-					<td style="color:red;" th:if="${#fields.hasErrors('*{customer_name}')}" th:errors="*{customer_name}"></td>
+					<td style="color:red;" th:if="${#fields.hasErrors('*{customer_id}')}" th:errors="*{customer_id}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注日 :</th>
@@ -82,30 +80,10 @@
 				</tr>
 				<tr>
 					<th class="cell_title">ステータス :</th>
-					<td><select class="children" id="status" name="status"
+					<td><select class="children" id="status" name="status_id"
 						disabled>
-							<option value="" selected="selected">ステータスを選択</option>
-							<option value="引合い" data-val="ビールシステム">引合い</option>
-							<option value="見積済み" data-val="ビールシステム">見積済み</option>
-							<option value="受注" data-val="ビールシステム">受注</option>
-							<option value="失注" data-val="ビールシステム">失注</option>
-							<option value="製造着手" data-val="ビールシステム">製造着手</option>
-							<option value="製造完了" data-val="ビールシステム">製造完了</option>
-							<option value="納品済み" data-val="ビールシステム">納品済み</option>
-							<option value="検収済み" data-val="ビールシステム">検収済み</option>
-							<option value="請求済み" data-val="ビールシステム">請求済み</option>
-							<option value="受注" data-val="ABC">受注</option>
-							<option value="失注" data-val="ABC">失注</option>
-							<option value="製造" data-val="ABC">製造</option>
-							<option value="保管" data-val="ABC">保管</option>
-							<option value="納品" data-val="ABC">納品</option>
-							<option value="請求" data-val="ABC">請求</option>
-							<option value="発注書受領" data-val="昭和製作所">発注書受領</option>
-							<option value="仕掛中" data-val="昭和製作所">仕掛中</option>
-							<option value="納品書提出" data-val="昭和製作所">納品書提出</option>
-							<option value="受入書受領" data-val="昭和製作所">受入書受領</option>
-							<option value="請求書提出" data-val="昭和製作所">請求書提出</option>
-							<option value="失注" data-val="昭和製作所">失注</option>
+						<option value="" selected="selected">ステータスを選択</option>
+				<option th:each="statuspull : ${statuspulldown}" th:value="${statuspull.status_id}" th:data-val="${statuspull.customer_id}">[[${statuspull.status_name}]]</option>
 					</select></td>
 				</tr>
 				<tr>
@@ -134,7 +112,7 @@
 		// ここから確認画面から戻ってきた場合の処理
 
 		// 顧客名の情報を受け取る
-		var alertStr2 = /*[[${managementUpdateRequest.customer_name}]]*/
+		var alertStr2 = /*[[${managementUpdateRequest.customer_id}]]*/
 
 		if(alertStr2 != null) {
 			document.getElementById('customoer').value =  alertStr2; // 顧客名のプルダウンに取得した値を入れる
@@ -154,7 +132,7 @@
 			  $children.removeAttr('disabled');		// ステータスを活性状態にする
 
 			  // ステータスのプルダウンに取得した値を入れる
-			  document.getElementById('status').value = /*[[${managementUpdateRequest.status}]]*/
+			  document.getElementById('status').value = /*[[${managementUpdateRequest.status_id}]]*/
 		}
 
 

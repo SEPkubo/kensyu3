@@ -9,61 +9,61 @@
 <body>
 	<h3>製造部売上管理システム:案件編集</h3>
 	<div th:object="${managementUpdateRequest}">
-		<div class="table">
+		<div class="table" th:object="${namelist}">
 			<table>
 				<tr>
-					<th>顧客名 :</th>
-					<td><span th:text="*{customer_name}"></span></td>
+					<th>顧客* :</th>
+					<td><span th:text="${namelist.customer_name}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注日 :</th>
-					<td><span th:text="*{orderdate}"></span></td>
+					<td><span th:text="${managementUpdateRequest.orderdate}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">S番号 :</th>
-					<td><span th:text="*{s_number}"></span></td>
+					<td><span th:text="${managementUpdateRequest.s_number}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">件名* :</th>
-					<td><span th:text="*{subject}"></span></td>
+					<td><span th:text="${managementUpdateRequest.subject}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">数量 :</th>
-					<td><span th:text="*{quantity}"></span></td>
+					<td><span th:text="${managementUpdateRequest.quantity}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">納入指定日 :</th>
-					<td><span th:text="*{delivery_designation}"></span></td>
+					<td><span th:text="${managementUpdateRequest.delivery_designation}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">納入日 :</th>
-					<td><span th:text="*{delivery_date}"></span></td>
+					<td><span th:text="${managementUpdateRequest.delivery_date}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">請求日 :</th>
-					<td><span th:text="*{billing_date}"></span></td>
+					<td><span th:text="${managementUpdateRequest.billing_date}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">見積金額 :</th>
-					<td><span th:text="*{estimated_money}"></span></td>
+					<td><span th:text="${managementUpdateRequest.estimated_money}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注金額 :</th>
-					<td><span th:text="*{Order_money}"></span></td>
+					<td><span th:text="${managementUpdateRequest.Order_money}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">ステータス :</th>
-					<td><span th:text="*{status}"></span></td>
+					<td><span th:text="${namelist.status_name}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">備考 :</th>
-					<td><span th:text="*{note}"></span></td>
+					<td><span th:text="${managementUpdateRequest.note}"></span></td>
 				</tr>
 			</table>
 		</div>
 		<form th:action="@{/update}" th:object="${managementUpdateRequest}" method="post">
 		<input type="hidden" name="id" th:value="*{id}">
-		<input type="hidden" name="customer_name" th:value="*{customer_name}">
+		<input type="hidden" name="customer_id" th:value="*{customer_id}">
 		<input type="hidden" name="orderdate" th:value="*{orderdate}">
 		<input type="hidden" name="s_number" th:value="*{s_number}">
 		<input type="hidden" name="subject" th:value="*{subject}">
@@ -73,7 +73,7 @@
 		<input type="hidden" name="billing_date" th:value="*{billing_date}">
 		<input type="hidden" name="estimated_money" th:value="*{estimated_money}">
 		<input type="hidden" name="Order_money" th:value="*{Order_money}">
-		<input type="hidden" name="status" th:value="*{status}">
+		<input type="hidden" name="status_id" th:value="*{status_id}">
 		<input type="hidden" name="note" th:value="*{note}">
 		<div class="btn-ok">
 			<input type="submit" value="確認" class="btn">
@@ -82,7 +82,7 @@
 	</div>
 	<form th:action="@{/edit}" th:object="${managementUpdateRequest}">
 		<input type="hidden" name="id" th:value="*{id}">
-		<input type="hidden" name="customer_name" th:value="*{customer_name}">
+		<input type="hidden" name="customer_id" th:value="*{customer_id}">
 		<input type="hidden" name="orderdate" th:value="*{orderdate}">
 		<input type="hidden" name="s_number" th:value="*{s_number}">
 		<input type="hidden" name="subject" th:value="*{subject}">
@@ -92,7 +92,7 @@
 		<input type="hidden" name="billing_date" th:value="*{billing_date}">
 		<input type="hidden" name="estimated_money" th:value="*{estimated_money}">
 		<input type="hidden" name="Order_money" th:value="*{Order_money}">
-		<input type="hidden" name="status" th:value="*{status}">
+		<input type="hidden" name="status_id" th:value="*{status_id}">
 		<input type="hidden" name="note" th:value="*{note}">
 		<div class="btn-return">
 			<button type="submit" class="btn">戻る</button>

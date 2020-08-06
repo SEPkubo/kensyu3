@@ -14,13 +14,13 @@ import lombok.Data;
 
 
 /**
- * 案件一覧情報 Entity
+ * 案件一覧表示用 Entity
  */
 @Entity
 @Data
 @Table(name="management")
 
-public class Management implements Serializable {
+public class ManagementList implements Serializable {
 
 
 	/**
@@ -63,12 +63,6 @@ public class Management implements Serializable {
 		@Column(name="quantity")
 		private String quantity;
 
-
-//		/**
-//		 * 数量の単位
-//		 */
-//		@Column(name="unit")
-//		private String unit;
 
 		/**
 		 * 納品指定日

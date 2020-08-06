@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.dto.ErrMessage;
 import com.example.demo.dto.ManagementRequest;
 import com.example.demo.dto.ManagementUpdateRequest;
+import com.example.demo.dto.NameList;
 import com.example.demo.dto.SearchRequest;
 import com.example.demo.entity.Customer;
-import com.example.demo.entity.Management;
+import com.example.demo.entity.ManagementList;
+import com.example.demo.entity.ManagementUpdate;
 import com.example.demo.entity.Status;
 import com.example.demo.errorcheck.ErrorCheck;
 import com.example.demo.pagewrapper.PageWrapper;
@@ -56,9 +58,10 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String displayList(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
+		create_flg = 0;
 		SearchRequest searchRequest = new SearchRequest();	// 検索リスト
-		Page<Management> customerlist = userService.getList(pageable);	// pageableを使った一覧の取得
-		PageWrapper<Management> page = new PageWrapper<Management>(customerlist, "/list");
+		Page<ManagementList> customerlist = userService.getList(pageable);	// pageableを使った一覧の取得
+		PageWrapper<ManagementList> page = new PageWrapper<ManagementList>(customerlist, "/list");
 
 		List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
 
@@ -87,9 +90,9 @@ public class UserController {
 			@RequestParam(name = "status", defaultValue = "") String status,
 			Model model) {
 
-		Page<Management> customerlist = userService.getListSerch(pageable, customer_name, status, serch_subject);
+		Page<ManagementList> customerlist = userService.getListSerch(pageable, customer_name, status, serch_subject);
 
-		PageWrapper<Management> page = new PageWrapper<Management>(customerlist, "/listsearch/?customer_name="
+		PageWrapper<ManagementList> page = new PageWrapper<ManagementList>(customerlist, "/listsearch/?customer_name="
 				+ customer_name + "&status=" + status + "&Serch_subject=" + serch_subject);
 
 		SearchRequest searchRequest = new SearchRequest(); // 検索ワードを保持
@@ -151,6 +154,11 @@ public class UserController {
 		create_flg = 1; // 確認画面フラグ
 		long check = userService.s_numberCheck(managementRequest.getS_number()); // S番号重複チェック
 
+		NameList namelist = new NameList();
+		namelist.setCustomer_name(userService.findCustomer_name(managementRequest.getCustomer_id()));
+		namelist.setStatus_name(userService.findStatus_name(managementRequest.getCustomer_id(),managementRequest.getStatus_id()));
+		System.out.println(namelist.getCustomer_name());
+		System.out.println(namelist.getStatus_name());
 		ErrMessage errmessage = ErrorCheck.getErr(managementRequest, check); // エラーメッセージ受け取り
 		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
 			model.addAttribute("errmessage", errmessage);
@@ -163,6 +171,7 @@ public class UserController {
 		managementRequest.setDelivery_designation(managementRequest.getDelivery_designation().replace("-", "/"));
 		managementRequest.setDelivery_date(managementRequest.getDelivery_date().replace("-", "/"));
 		managementRequest.setBilling_date(managementRequest.getBilling_date().replace("-", "/"));
+		model.addAttribute("namelist", namelist);
 		return "addcheck";
 	}
 
@@ -182,7 +191,10 @@ public class UserController {
 	 */
 	@GetMapping("/edit/{id}")
 	public String displayView(@PathVariable Long id, Model model) {
-		Management management = userService.findById(id);
+		ManagementUpdate management = userService.findById(id);
+		List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
+
+		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 		ErrMessage errmessage = new ErrMessage();
 
 		management.setOrderdate(management.getOrderdate().replace("/", "-")); // スラッシュからハイフンに置き換え
@@ -191,6 +203,8 @@ public class UserController {
 		management.setBilling_date(management.getBilling_date().replace("/", "-"));
 		model.addAttribute("managementUpdateRequest", management);
 		model.addAttribute("errmessage", errmessage);
+		model.addAttribute("customerpulldown", customerpulldown);
+		model.addAttribute("statuspulldown", statuspulldown);
 		return "edit";
 	}
 
@@ -199,6 +213,9 @@ public class UserController {
 	public String editcheck(@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest,
 			BindingResult result, Model model) {
 
+		NameList namelist = new NameList();
+		namelist.setCustomer_name(userService.findCustomer_name(managementUpdateRequest.getCustomer_id()));
+		namelist.setStatus_name(userService.findStatus_name(managementUpdateRequest.getCustomer_id(),managementUpdateRequest.getStatus_id()));
 
 		long check = userService.s_numberCheck(managementUpdateRequest.getS_number()); // S番号重複チェック
 
@@ -209,12 +226,12 @@ public class UserController {
 			model.addAttribute("errmessage", errmessage);
 			return "edit";
 		}
-
 		managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("-", "/")); // ハイフンからスラッシュに置き換え
 		managementUpdateRequest
 				.setDelivery_designation(managementUpdateRequest.getDelivery_designation().replace("-", "/"));
 		managementUpdateRequest.setDelivery_date(managementUpdateRequest.getDelivery_date().replace("-", "/"));
 		managementUpdateRequest.setBilling_date(managementUpdateRequest.getBilling_date().replace("-", "/"));
+		model.addAttribute("namelist", namelist);
 		return "editcheck";
 	}
 
@@ -256,7 +273,7 @@ public class UserController {
 	 */
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Long id, Model model) {
-		Management management = userService.findById(id);
+		ManagementUpdate management = userService.findById(id);
 		model.addAttribute("managementUpdateRequest", management);
 
 		return "delete";

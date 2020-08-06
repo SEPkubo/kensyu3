@@ -12,9 +12,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class ManagementUpdateRequest extends ManagementRequest implements Serializable {
-  /**
-   * ユーザーID
-   */
-  @NotNull
-  private Long id;
+	/**
+	 * ユーザーID
+	 */
+	@NotNull
+	private Long id;
+
+
 }

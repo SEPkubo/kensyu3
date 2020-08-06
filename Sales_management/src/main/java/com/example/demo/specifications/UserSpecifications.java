@@ -8,40 +8,40 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
-import com.example.demo.entity.Management;
+import com.example.demo.entity.ManagementList;
 public class UserSpecifications {
 
-    public static Specification<Management> subjectContains(String subject) {		// 件名検索
-        return StringUtils.isEmpty(subject) ? null : new Specification<Management>() {
+    public static Specification<ManagementList> subjectContains(String subject) {		// 件名検索
+        return StringUtils.isEmpty(subject) ? null : new Specification<ManagementList>() {
             @Override
-            public Predicate toPredicate(Root<Management> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.like(root.get("subject"), "%" + subject + "%");
             }
         };
     }
 
-    public static Specification<Management> customer_nameContains(String customer_name) {	// 顧客検索
-        return StringUtils.isEmpty(customer_name) ? null : new Specification<Management>() {
+    public static Specification<ManagementList> customer_nameContains(String customer_name) {	// 顧客検索
+        return StringUtils.isEmpty(customer_name) ? null : new Specification<ManagementList>() {
             @Override
-            public Predicate toPredicate(Root<Management> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.like(root.get("customer_name"), "%" + customer_name + "%");
             }
         };
     }
 
-    public static Specification<Management> statusContains(String status) {	// ステータス検索
-        return StringUtils.isEmpty(status) ? null : new Specification<Management>() {
+    public static Specification<ManagementList> statusContains(String status) {	// ステータス検索
+        return StringUtils.isEmpty(status) ? null : new Specification<ManagementList>() {
             @Override
-            public Predicate toPredicate(Root<Management> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.like(root.get("status"), "%" + status + "%");
             }
         };
     }
 
-    public static Specification<Management> s_number(String s_number) {	// S番号検索
-        return StringUtils.isEmpty(s_number) ? null : new Specification<Management>() {
+    public static Specification<ManagementList> s_number(String s_number) {	// S番号検索
+        return StringUtils.isEmpty(s_number) ? null : new Specification<ManagementList>() {
             @Override
-            public Predicate toPredicate(Root<Management> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.like(root.get("s_number"),s_number);
             }
         };
