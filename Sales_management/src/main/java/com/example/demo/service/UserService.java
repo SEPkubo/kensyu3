@@ -108,7 +108,7 @@ public class UserService {
 
 	// 案件作成
 	public void create(ManagementRequest managementRequest) {
-		userRepository.save(CreateManagement(managementRequest));
+		managementUpdateRepository.save(CreateManagement(managementRequest));
 	}
 
 
@@ -118,8 +118,8 @@ public class UserService {
 	 * @return ユーザーTBLエンティティ
 	 */
 
-	private ManagementList CreateManagement(ManagementRequest managementRequest) {
-		ManagementList ｍanagement = new ManagementList();
+	private ManagementUpdate CreateManagement(ManagementRequest managementRequest) {
+		ManagementUpdate ｍanagement = new ManagementUpdate();
 		ｍanagement.setCustomer_id(managementRequest.getCustomer_id());
 		ｍanagement.setOrderdate(managementRequest.getOrderdate());
 		ｍanagement.setS_number(managementRequest.getS_number());
@@ -155,7 +155,7 @@ public class UserService {
 		ｍanagement.setOrder_money(managementUpdateRequest.getOrder_money());
 		ｍanagement.setStatus_id(managementUpdateRequest.getStatus_id());
 		ｍanagement.setNote(managementUpdateRequest.getNote());
-		//managementUpdateRepository.save(ｍanagement);
+		managementUpdateRepository.save(ｍanagement);
     }
 
 	 /**
@@ -163,9 +163,9 @@ public class UserService {
      * @param user ユーザー情報
      */
     public void delete(ManagementUpdateRequest managementUpdateRequest) {
-//    	ManagementList ｍanagement = findById(managementUpdateRequest.getId());
-//    	ｍanagement.setDelete_flg(1);
-//        userRepository.save(ｍanagement);
+    	ManagementUpdate ｍanagement = findById(managementUpdateRequest.getId());
+    	ｍanagement.setDelete_flg(1);
+    	managementUpdateRepository.save(ｍanagement);
     }
 
 	/**

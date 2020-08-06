@@ -9,23 +9,23 @@
 <body>
 	<h3>下記の案件を削除します。よろしいですか？</h3>
 	<div th:object="${managementUpdateRequest}">
-		<div class="table">
+		<div class="table" th:object="${namelist}">
 			<table>
 				<tr>
 					<th>顧客 :</th>
-					<td><span th:text="*{customer_name}"></span></td>
+					<td><span th:text="${namelist.customer_name}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">受注日 :</th>
-					<td><span th:text="*{orderdate}"></span></td>
+					<td><span th:text="${managementUpdateRequest.orderdate}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">S番号 :</th>
-					<td><span th:text="*{s_number}"></span></td>
+					<td><span th:text="${managementUpdateRequest.s_number}"></span></td>
 				</tr>
 				<tr>
 					<th class="cell_title">件名* :</th>
-					<td><span th:text="*{subject}"></span></td>
+					<td><span th:text="${managementUpdateRequest.subject}"></span></td>
 				</tr>
 			</table>
 		</div>

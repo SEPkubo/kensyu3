@@ -157,8 +157,6 @@ public class UserController {
 		NameList namelist = new NameList();
 		namelist.setCustomer_name(userService.findCustomer_name(managementRequest.getCustomer_id()));
 		namelist.setStatus_name(userService.findStatus_name(managementRequest.getCustomer_id(),managementRequest.getStatus_id()));
-		System.out.println(namelist.getCustomer_name());
-		System.out.println(namelist.getStatus_name());
 		ErrMessage errmessage = ErrorCheck.getErr(managementRequest, check); // エラーメッセージ受け取り
 		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
 			model.addAttribute("errmessage", errmessage);
@@ -274,8 +272,10 @@ public class UserController {
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Long id, Model model) {
 		ManagementUpdate management = userService.findById(id);
+		NameList namelist = new NameList();
+		namelist.setCustomer_name(userService.findCustomer_name(management.getCustomer_id()));
 		model.addAttribute("managementUpdateRequest", management);
-
+		model.addAttribute("namelist", namelist);
 		return "delete";
 	}
 
