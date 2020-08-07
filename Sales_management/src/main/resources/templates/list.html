@@ -14,14 +14,14 @@
 			<table class="pulldown">
 				<tr>
 					<th>顧客:</th>
-					<td><select class="parent" id="customoer" name="customer_name">
+					<td><select class="parent" id="customoer" name="customer_id">
 							<option value="" selected="selected">顧客を選択</option>
 							<option th:each="customerpulldown : ${customerpulldown}" th:value="${customerpulldown.customer_id}">[[${customerpulldown.customer_name}]]</option>
 					</select></td>
 				</tr>
 				<tr>
 					<th class="cell_title">ステータス :</th>
-					<td><select class="children" id="status" name="status"
+					<td><select class="children" id="status" name="status_id"
 						disabled>
 							<option value="" selected="selected">ステータスを選択</option>
 							<option th:each="statuspull : ${statuspulldown}" th:value="${statuspull.status_id}" th:data-val="${statuspull.customer_id}">[[${statuspull.status_name}]]</option>
@@ -172,7 +172,7 @@
 
 
 		// 顧客名の情報を受け取る
-		var alertStr2 = /*[[${searchRequest.customer_name}]]*/
+		var alertStr2 = /*[[${searchRequest.customer_id}]]*/
 
 
 		if(typeof alertStr2 != 'object' && alertStr2 != "") {
@@ -193,7 +193,7 @@
 			  $children.removeAttr('disabled');		// ステータスを活性状態にする
 
 			   //ステータスのプルダウンに取得した値を入れる
-			  document.getElementById('status').value = /*[[${searchRequest.status}]]*/
+			  document.getElementById('status').value = /*[[${searchRequest.status_id}]]*/
 
 
 

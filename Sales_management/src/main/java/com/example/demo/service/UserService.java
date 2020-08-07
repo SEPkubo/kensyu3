@@ -62,13 +62,13 @@ public class UserService {
 
 
 	// 一覧取得(検索条件がある場合)
-	 public Page<ManagementList> getListSerch(Pageable pageable,String customer_name,String status,String serch_subject) {
-		 return (Page<ManagementList>) userRepository.findAll((Specification
-				 .where(UserSpecifications.subjectContains(serch_subject))
-				 .and(UserSpecifications.customer_nameContains(customer_name))
-				 .and(UserSpecifications.statusContains(status)))
-				 ,pageable
-			    );
+	 public Page<ManagementList> getListSerch(Pageable pageable,String customer_id,String status_id,String serch_subject) {
+		 System.out.println("b");
+		 return (Page<ManagementList>) userRepository.find(pageable
+				 ,(Specification
+						 .where(UserSpecifications.subjectContains(serch_subject))));
+
+
 
 	 }
 

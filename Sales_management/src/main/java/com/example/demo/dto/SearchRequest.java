@@ -4,29 +4,32 @@ import java.io.Serializable;
 
 public class SearchRequest implements Serializable {
 
-	// 顧客
-	private String customer_name;
+	// 顧客id
+	private int customer_id;
 
-	// ステータス
-	private String status;
+	// ステータスid
+	private int status_id;
 
 	// 件名
 	private String serch_subject;
 
 
-	public String getCustomer_name() {
-		return customer_name;
+
+
+	public int getCustomer_id() {
+		return customer_id;
 	}
 
-	public void setCustomer_name(String customer_name) {
-		this.customer_name = customer_name;
-	}
-	public String getStatus() {
-		return status;
+	public void setCustomer_id(int customer_id) {
+		this.customer_id = customer_id;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public int getStatus_id() {
+		return status_id;
+	}
+
+	public void setStatus_id(int status_id) {
+		this.status_id = status_id;
 	}
 
 	public String getSerch_subject() {

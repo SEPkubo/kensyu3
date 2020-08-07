@@ -15,25 +15,26 @@ public class UserSpecifications {
         return StringUtils.isEmpty(subject) ? null : new Specification<ManagementList>() {
             @Override
             public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            	System.out.println("a");
                 return cb.like(root.get("subject"), "%" + subject + "%");
             }
         };
     }
 
-    public static Specification<ManagementList> customer_nameContains(String customer_name) {	// 顧客検索
-        return StringUtils.isEmpty(customer_name) ? null : new Specification<ManagementList>() {
+    public static Specification<ManagementList> customer_nameContains(int customer_id) {	// 顧客検索
+        return StringUtils.isEmpty(customer_id) ? null : new Specification<ManagementList>() {
             @Override
             public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.like(root.get("customer_name"), "%" + customer_name + "%");
+                return cb.le(root.get("customer_id"), customer_id);
             }
         };
     }
 
-    public static Specification<ManagementList> statusContains(String status) {	// ステータス検索
-        return StringUtils.isEmpty(status) ? null : new Specification<ManagementList>() {
+    public static Specification<ManagementList> statusContains(int status_id) {	// ステータス検索
+        return StringUtils.isEmpty(status_id) ? null : new Specification<ManagementList>() {
             @Override
             public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.like(root.get("status"), "%" + status + "%");
+                return cb.le(root.get("status"), status_id);
             }
         };
     }

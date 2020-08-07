@@ -86,18 +86,20 @@ public class UserController {
 	@RequestMapping(value = "/listsearch", method = RequestMethod.GET)
 	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,
 			@RequestParam(name = "Serch_subject") String serch_subject,
-			@RequestParam(name = "customer_name") String customer_name,
-			@RequestParam(name = "status", defaultValue = "") String status,
+			@RequestParam(name = "customer_id") String customer_id,
+			@RequestParam(name = "status_id",defaultValue = "") String status_id,
 			Model model) {
-
-		Page<ManagementList> customerlist = userService.getListSerch(pageable, customer_name, status, serch_subject);
+		System.out.println(serch_subject);
+//		System.out.println(customer_id);
+//		System.out.println(status_id);
+		Page<ManagementList> customerlist = userService.getListSerch(pageable, customer_id, status_id, serch_subject);	// 検索
 
 		PageWrapper<ManagementList> page = new PageWrapper<ManagementList>(customerlist, "/listsearch/?customer_name="
-				+ customer_name + "&status=" + status + "&Serch_subject=" + serch_subject);
+				+ customer_id + "&status=" + status_id + "&Serch_subject=" + serch_subject);
 
 		SearchRequest searchRequest = new SearchRequest(); // 検索ワードを保持
-		searchRequest.setCustomer_name(customer_name);
-		searchRequest.setStatus(status);
+//		searchRequest.setCustomer_id(customer_id);
+//		searchRequest.setStatus_id(status_id);
 		searchRequest.setSerch_subject(serch_subject);
 		model.addAttribute("customerlist", customerlist);
 		model.addAttribute("searchRequest", searchRequest);
