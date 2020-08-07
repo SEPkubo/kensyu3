@@ -92,10 +92,14 @@ public class UserController {
 		System.out.println(serch_subject);
 //		System.out.println(customer_id);
 //		System.out.println(status_id);
-		Page<ManagementList> customerlist = userService.getListSerch(pageable, customer_id, status_id, serch_subject);	// 検索
+		Page<ManagementUpdate> customerlist = userService.getListSerch(pageable, customer_id, status_id, serch_subject);	// 検索
 
-		PageWrapper<ManagementList> page = new PageWrapper<ManagementList>(customerlist, "/listsearch/?customer_name="
+		PageWrapper<ManagementUpdate> page = new PageWrapper<ManagementUpdate>(customerlist, "/listsearch/?customer_name="
 				+ customer_id + "&status=" + status_id + "&Serch_subject=" + serch_subject);
+
+		List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
+
+		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 
 		SearchRequest searchRequest = new SearchRequest(); // 検索ワードを保持
 //		searchRequest.setCustomer_id(customer_id);
@@ -104,6 +108,8 @@ public class UserController {
 		model.addAttribute("customerlist", customerlist);
 		model.addAttribute("searchRequest", searchRequest);
 		model.addAttribute("page", page);
+		model.addAttribute("customerpulldown", customerpulldown);
+		model.addAttribute("statuspulldown", statuspulldown);
 		return "list";
 	}
 
