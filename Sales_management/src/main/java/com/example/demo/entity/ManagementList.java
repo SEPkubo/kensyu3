@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -113,21 +117,37 @@ public class ManagementList implements Serializable {
 		@Column(name="delete_flg")
 		private int delete_flg;
 
-		/**
-		 * 顧客名
-		 */
-		@Column(name="customer_name")
-		private String customer_name;
+//		/**
+//		 * 顧客名
+//		 */
+//		@Column(name="customer_name")
+//		private String customer_name;
+//
+//
+//
+//		/**
+//		 * ステータス名
+//		 */
+//		@Column(name="status_name")
+//		private String status_name;
 
 
+		 /**
+	     * Join Customer Entity(顧客エンティティ)
+	     */
+	    @ManyToOne(fetch = FetchType.LAZY)
+	    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", insertable = false, updatable = false)
+	    private Customer customer;
 
-		/**
-		 * ステータス名
-		 */
-		@Column(name="status_name")
-		private String status_name;
-
-
+	    /**
+	     * Join Status Entity(ステータスエンティティ)
+	     */
+	    @ManyToOne(fetch = FetchType.LAZY)
+	    @JoinColumns({
+	        @JoinColumn(name="customer_id", referencedColumnName="customer_id", insertable = false, updatable = false),
+	        @JoinColumn(name="status_id", referencedColumnName="status_id", insertable = false, updatable = false)
+	    })
+	    private Status status;
 
 
 

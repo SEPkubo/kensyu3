@@ -57,17 +57,16 @@ public class UserService {
 
 	// 一覧取得(検索条件がない場合)
 	public Page<ManagementList> getList(Pageable pageable) {
-        return userRepository.All(pageable);
+        return userRepository.findAll(pageable);
     }
 
 
 	// 一覧取得(検索条件がある場合)
-	 public Page<ManagementUpdate> getListSerch(Pageable pageable,String customer_id,String status_id,String serch_subject) {
-		 return (Page<ManagementUpdate>) managementUpdateRepository.findAll((Specification
-				 .where(UserSpecifications.subjectContains(serch_subject)))
-				 .and(UserSpecifications.listJoin(serch_subject))
-				 .and(UserSpecifications.listJoinStatus(serch_subject))
-				 .and(UserSpecifications.listJoinStatus2(serch_subject))
+	 public Page<ManagementList> getListSerch(Pageable pageable,int customer_id,int status_id,String serch_subject) {
+		 return (Page<ManagementList>) userRepository.findAll((Specification
+				 .where(UserSpecifications.subjectContains(serch_subject))
+				 .and(UserSpecifications.customer_nameContains(customer_id))
+				 .and(UserSpecifications.statusContains(status_id)))
 				 ,pageable);
 
 

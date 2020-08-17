@@ -15,7 +15,7 @@
 				<tr>
 					<th>顧客:</th>
 					<td><select class="parent" id="customoer" name="customer_id">
-							<option value="" selected="selected">顧客を選択</option>
+							<option value="-1" selected="selected">顧客を選択</option>
 							<option th:each="customerpulldown : ${customerpulldown}" th:value="${customerpulldown.customer_id}">[[${customerpulldown.customer_name}]]</option>
 					</select></td>
 				</tr>
@@ -23,7 +23,7 @@
 					<th class="cell_title">ステータス :</th>
 					<td><select class="children" id="status" name="status_id"
 						disabled>
-							<option value="" selected="selected">ステータスを選択</option>
+							<option value="-1" selected="selected">ステータスを選択</option>
 							<option th:each="statuspull : ${statuspulldown}" th:value="${statuspull.status_id}" th:data-val="${statuspull.customer_id}">[[${statuspull.status_name}]]</option>
 					</select></td>
 				</tr>
@@ -121,7 +121,7 @@
 			<tbody>
 				<tr th:each="customlist,list : ${customerlist}">
 					<td class="center" th:text="${list.count+(page.number-1)*10}"></td>
-					<td class="name" th:text="${customlist.customer_name}">></td>
+					<td class="name" th:text="${customlist.customer.customer_name}">></td>
 					<td class="name" th:text="${customlist.orderdate}"></td>
 					<td class="tel" th:text="${customlist.s_number}"></td>
 					<td class="tel" th:attr="onmouseover=|mOver('${customlist.subject}','${customlist.note}')|"
@@ -132,7 +132,7 @@
 					<td class="tel">[[${customlist.billing_date}]]</td>
 					<td class="tel">[[${customlist.estimated_money}]]<br>[[${customlist.Order_money}]]
 					</td>
-					<td class="tel" th:text="*{customlist.status_name}"></td>
+					<td class="tel" th:text="*{customlist.status.status_name}"></td>
 					<td bgcolor=#808080>
 						<form th:action="@{/edit/{id}(id=*{customlist.id})}">
 							<button type="submit" class="btn-edit-delete">編集</button>

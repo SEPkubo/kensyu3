@@ -38,7 +38,7 @@ public class Status implements Serializable {
 	private int status_id;
 
 	/**
-	 * 顧客名
+	 * ステータス名
 	 */
 	@Column(name = "status_name")
 	private String status_name;

@@ -60,7 +60,7 @@ public class UserController {
 	public String displayList(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
 		create_flg = 0;
 		SearchRequest searchRequest = new SearchRequest();	// 検索リスト
-		Page<ManagementList> customerlist = userService.getList(pageable);	// pageableを使った一覧の取得
+		Page<ManagementList> customerlist = userService.getList(pageable);
 		PageWrapper<ManagementList> page = new PageWrapper<ManagementList>(customerlist, "/list");
 
 		List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
@@ -86,15 +86,14 @@ public class UserController {
 	@RequestMapping(value = "/listsearch", method = RequestMethod.GET)
 	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,
 			@RequestParam(name = "Serch_subject") String serch_subject,
-			@RequestParam(name = "customer_id") String customer_id,
-			@RequestParam(name = "status_id",defaultValue = "") String status_id,
+			@RequestParam(name = "customer_id") int customer_id,
+			@RequestParam(name = "status_id",required = false) int status_id,
 			Model model) {
-		System.out.println(serch_subject);
-//		System.out.println(customer_id);
-//		System.out.println(status_id);
-		Page<ManagementUpdate> customerlist = userService.getListSerch(pageable, customer_id, status_id, serch_subject);	// 検索
-
-		PageWrapper<ManagementUpdate> page = new PageWrapper<ManagementUpdate>(customerlist, "/listsearch/?customer_name="
+		System.out.println(status_id);
+		status_id = 1;
+		Page<ManagementList> customerlist = userService.getListSerch(pageable, customer_id, status_id, serch_subject);	// 検索
+		System.out.println(customerlist.getContent());
+		PageWrapper<ManagementList> page = new PageWrapper<ManagementList>(customerlist, "/listsearch/?customer_name="
 				+ customer_id + "&status=" + status_id + "&Serch_subject=" + serch_subject);
 
 		List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
