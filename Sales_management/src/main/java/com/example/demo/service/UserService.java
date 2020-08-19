@@ -57,7 +57,9 @@ public class UserService {
 
 	// 一覧取得(検索条件がない場合)
 	public Page<ManagementList> getList(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return (Page<ManagementList>) userRepository.findAll((Specification
+				 .where(UserSpecifications.delete_flgCheck()))
+				 ,pageable);
     }
 
 
@@ -66,22 +68,15 @@ public class UserService {
 		 return (Page<ManagementList>) userRepository.findAll((Specification
 				 .where(UserSpecifications.subjectContains(serch_subject))
 				 .and(UserSpecifications.customer_nameContains(customer_id))
-				 .and(UserSpecifications.statusContains(status_id)))
+				 .and(UserSpecifications.statusContains(status_id))
+				 .and(UserSpecifications.delete_flgCheck()))
 				 ,pageable);
 
 
 
 	 }
 
-		// 一覧取得(検索条件がある場合)
-//	 public Page<ManagementList> getListSerch(Pageable pageable,String customer_id,String status_id,String serch_subject) {
-//		 return (Page<ManagementList>) userRepository.find(pageable
-//				 ,(Specification
-//						 .where(UserSpecifications.subjectContains(serch_subject))));
-//
-//
-//
-//	 }
+
 
 
 	// S番号重複チェック

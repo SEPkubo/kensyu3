@@ -40,7 +40,7 @@ public class ManagementList implements Serializable {
 		 * 顧客
 		 */
 		@Column(name="customer_id")
-		private int customer_id;
+		private int customerid;	// 'customer_id'にすると並び替えでエラーが出るため
 
 
 		/**

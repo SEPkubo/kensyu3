@@ -15,26 +15,36 @@ public class UserSpecifications {
         return StringUtils.isEmpty(subject) ? null : new Specification<ManagementList>() {
             @Override
             public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            	System.out.println("a");
+
                 return cb.like(root.get("subject"), "%" + subject + "%");
             }
         };
     }
 
     public static Specification<ManagementList> customer_nameContains(int customer_id) {	// 顧客検索
-        return StringUtils.isEmpty(customer_id) ? null : new Specification<ManagementList>() {
+        return customer_id == -1 ? null : new Specification<ManagementList>() {	// customer_idが-1なら検索しない
             @Override
             public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.equal(root.get("customer_id"), customer_id);
+                return cb.equal(root.get("customerid"), customer_id);
             }
         };
     }
 
     public static Specification<ManagementList> statusContains(int status_id) {	// ステータス検索
-        return StringUtils.isEmpty(status_id) ? null : new Specification<ManagementList>() {
+        return status_id == -1 ? null : new Specification<ManagementList>() {	// status_idが-1なら検索しない
             @Override
             public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            	System.out.println("status");
                 return cb.equal(root.get("status_id"), status_id);
+            }
+        };
+    }
+
+    public static Specification<ManagementList> delete_flgCheck() {	// 削除フラグチェック
+        return  new Specification<ManagementList>() {
+            @Override
+            public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get("delete_flg"), 0);
             }
         };
     }

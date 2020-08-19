@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,7 +58,12 @@ public class UserController {
 	 * @return 一覧画面
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String displayList(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
+	public String displayList(@PageableDefault(page = 0, size = 10, direction = Direction.ASC,
+                sort = {
+                    "customerid",
+                    "orderdate"
+                    }
+                ) Pageable pageable, Model model) {
 		create_flg = 0;
 		SearchRequest searchRequest = new SearchRequest();	// 検索リスト
 		Page<ManagementList> customerlist = userService.getList(pageable);
@@ -84,15 +90,17 @@ public class UserController {
 	 * @return 検索の一覧画面
 	 */
 	@RequestMapping(value = "/listsearch", method = RequestMethod.GET)
-	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,
+	public String displayListsearch(@PageableDefault(page = 0, size = 10, direction = Direction.ASC,
+                sort = {
+                    "customerid",
+                    "orderdate"
+                    }
+                ) Pageable pageable,
 			@RequestParam(name = "Serch_subject") String serch_subject,
 			@RequestParam(name = "customer_id") int customer_id,
-			@RequestParam(name = "status_id",required = false) int status_id,
+			@RequestParam(name = "status_id",defaultValue = "-1") int status_id,
 			Model model) {
-		System.out.println(status_id);
-		status_id = 1;
 		Page<ManagementList> customerlist = userService.getListSerch(pageable, customer_id, status_id, serch_subject);	// 検索
-		System.out.println(customerlist.getContent());
 		PageWrapper<ManagementList> page = new PageWrapper<ManagementList>(customerlist, "/listsearch/?customer_name="
 				+ customer_id + "&status=" + status_id + "&Serch_subject=" + serch_subject);
 
@@ -101,9 +109,9 @@ public class UserController {
 		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 
 		SearchRequest searchRequest = new SearchRequest(); // 検索ワードを保持
-//		searchRequest.setCustomer_id(customer_id);
-//		searchRequest.setStatus_id(status_id);
 		searchRequest.setSerch_subject(serch_subject);
+		searchRequest.setCustomer_id(customer_id);
+		searchRequest.setStatus_id(status_id);
 		model.addAttribute("customerlist", customerlist);
 		model.addAttribute("searchRequest", searchRequest);
 		model.addAttribute("page", page);
@@ -166,7 +174,11 @@ public class UserController {
 		namelist.setStatus_name(userService.findStatus_name(managementRequest.getCustomer_id(),managementRequest.getStatus_id()));
 		ErrMessage errmessage = ErrorCheck.getErr(managementRequest, check); // エラーメッセージ受け取り
 		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
+			List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
+			List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 			model.addAttribute("errmessage", errmessage);
+			model.addAttribute("customerpulldown", customerpulldown);
+			model.addAttribute("statuspulldown", statuspulldown);
 			return "add";
 		}
 
@@ -219,16 +231,25 @@ public class UserController {
 			BindingResult result, Model model) {
 
 		NameList namelist = new NameList();
+		long check = 0;
 		namelist.setCustomer_name(userService.findCustomer_name(managementUpdateRequest.getCustomer_id()));
 		namelist.setStatus_name(userService.findStatus_name(managementUpdateRequest.getCustomer_id(),managementUpdateRequest.getStatus_id()));
 
-		long check = userService.s_numberCheck(managementUpdateRequest.getS_number()); // S番号重複チェック
+		ManagementUpdate management = userService.findById(managementUpdateRequest.getId());
 
-		check = 0;	// 調整
+
+		if(!(management.getS_number().equals(managementUpdateRequest.getS_number()))) {	// S番号が変更されていたらチェックを行う
+			 check = userService.s_numberCheck(managementUpdateRequest.getS_number()); // S番号重複チェック
+		}
+
 
 		ErrMessage errmessage = ErrorCheck.getErr(managementUpdateRequest, check);
 		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
+			List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
+			List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 			model.addAttribute("errmessage", errmessage);
+			model.addAttribute("customerpulldown", customerpulldown);
+			model.addAttribute("statuspulldown", statuspulldown);
 			return "edit";
 		}
 		managementUpdateRequest.setOrderdate(managementUpdateRequest.getOrderdate().replace("-", "/")); // ハイフンからスラッシュに置き換え

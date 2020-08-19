@@ -110,6 +110,37 @@
 		var original = $children.html(); //後のイベントで、不要なoption要素を削除するため、オリジナルをとっておく
 
 
+		// 顧客名の情報を受け取る
+		var alertStr2 = /*[[${managementRequest.customer_id}]]*/
+
+
+		if(typeof alertStr2 != 'object' && alertStr2 != "") {
+			document.getElementById('customoer').value =  alertStr2; // 顧客名のプルダウンに取得した値を入れる
+			 var val1 = alertStr2;
+
+			  //ここから下と同じ処理
+			 $children.html(original).find('option').each(function() {
+			    var val2 = $(this).data('val');
+
+			    if (val1 != val2) {
+			   	 $(this).not(':first-child').remove();
+			  	}
+
+			 });
+
+			   //ここまで同じ処理
+			  $children.removeAttr('disabled');		// ステータスを活性状態にする
+
+			   //ステータスのプルダウンに取得した値を入れる
+			  document.getElementById('status').value = /*[[${managementRequest.status_id}]]*/
+
+
+
+		}
+
+		// ここまで
+
+
 		//顧客名のselect要素が変更になるとイベントが発生
 		$('.parent').change(function() {
 		  //選択された顧客名のvalueを取得し変数に入れる
