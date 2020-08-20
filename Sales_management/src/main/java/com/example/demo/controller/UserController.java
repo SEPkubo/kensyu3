@@ -125,7 +125,6 @@ public class UserController {
 	 * @param model Model
 	 * @return 登録画面
 	 */
-
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String displayAdd(@ModelAttribute("managementRequest") ManagementRequest managementRequest, Model model) {
 
@@ -244,7 +243,7 @@ public class UserController {
 
 
 		ErrMessage errmessage = ErrorCheck.getErr(managementUpdateRequest, check);
-		if (result.hasErrors() || errmessage.getErr_flg() == 1) {
+		if (result.hasErrors() || errmessage.getErr_flg() == 1) {	// エラー判定
 			List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
 			List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 			model.addAttribute("errmessage", errmessage);
