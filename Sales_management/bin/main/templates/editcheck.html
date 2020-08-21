@@ -29,7 +29,7 @@
 				</tr>
 				<tr>
 					<th class="cell_title">数量 :</th>
-					<td><span th:text="${managementUpdateRequest.quantity}"></span></td>
+					<td>[[${managementUpdateRequest.quantity}]][[${managementUpdateRequest.unit}]]</td>
 				</tr>
 				<tr>
 					<th class="cell_title">納入指定日 :</th>
@@ -68,6 +68,7 @@
 		<input type="hidden" name="s_number" th:value="*{s_number}">
 		<input type="hidden" name="subject" th:value="*{subject}">
 		<input type="hidden" name="quantity" th:value="*{quantity}">
+		<input type="hidden" name="unit" th:value="*{unit}">
 		<input type="hidden" name="delivery_designation" th:value="*{delivery_designation}">
 		<input type="hidden" name="delivery_date" th:value="*{delivery_date}">
 		<input type="hidden" name="billing_date" th:value="*{billing_date}">
@@ -87,6 +88,7 @@
 		<input type="hidden" name="s_number" th:value="*{s_number}">
 		<input type="hidden" name="subject" th:value="*{subject}">
 		<input type="hidden" name="quantity" th:value="*{quantity}">
+		<input type="hidden" name="unit" th:value="*{unit}">
 		<input type="hidden" name="delivery_designation" th:value="*{delivery_designation}">
 		<input type="hidden" name="delivery_date" th:value="*{delivery_date}">
 		<input type="hidden" name="billing_date" th:value="*{billing_date}">

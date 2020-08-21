@@ -19,6 +19,7 @@ import lombok.Data;
 
 /**
  * 案件一覧表示用 Entity
+ * 一覧画面で使用
  */
 @Entity
 @Data
@@ -66,6 +67,13 @@ public class ManagementList implements Serializable {
 		 */
 		@Column(name="quantity")
 		private String quantity;
+
+
+		/**
+		 * 単位
+		 */
+		@Column(name="unit")
+		private String unit;
 
 
 		/**
@@ -117,19 +125,6 @@ public class ManagementList implements Serializable {
 		@Column(name="delete_flg")
 		private int delete_flg;
 
-//		/**
-//		 * 顧客名
-//		 */
-//		@Column(name="customer_name")
-//		private String customer_name;
-//
-//
-//
-//		/**
-//		 * ステータス名
-//		 */
-//		@Column(name="status_name")
-//		private String status_name;
 
 
 		 /**

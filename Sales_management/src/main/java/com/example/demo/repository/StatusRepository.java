@@ -14,7 +14,7 @@ import com.example.demo.entity.Status;
  * 顧客情報 Repository
  */
 @Repository
-public interface StatusRepository extends JpaRepository<Status, Long>, JpaSpecificationExecutor<Status> {
+public interface StatusRepository extends JpaRepository<Status, Long>, JpaSpecificationExecutor<Status> {	// 複合主キーに対してLongのみ(後々の問題になる可能性あり)
 
 	@Query(value = "SELECT * FROM status" , nativeQuery = true)
 	 public List<Status> getStatus_name();		// ステータス情報を取得

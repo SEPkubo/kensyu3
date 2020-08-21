@@ -126,7 +126,7 @@
 					<td class="tel" th:text="${customlist.s_number}"></td>
 					<td class="tel" th:attr="onmouseover=|mOver('${customlist.subject}','${customlist.note}')|"
 					onmouseout="mOut()">[[${customlist.subject}]]</td>
-					<td class="tel">[[${customlist.quantity}]]</td>
+					<td class="tel">[[${customlist.quantity}]][[${customlist.unit}]]</td>
 					<td class="tel">[[${customlist.delivery_designation}]]<br>[[${customlist.delivery_date}]]
 					</td>
 					<td class="tel">[[${customlist.billing_date}]]</td>

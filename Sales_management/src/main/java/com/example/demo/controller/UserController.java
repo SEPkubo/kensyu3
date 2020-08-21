@@ -75,42 +75,45 @@ public class UserController {
 
 		// 同じ顧客名を数える仕組み
 		//CoustomerCount coustomercount = new CoustomerCount();
-		int cheakid = customerlist.getContent().get(0).getCustomerid();	// 最初の顧客IDを入れる
-		int count = 0;	// 同じ顧客名が続いたカウント
-		int customercnt[] = new int[10];
-		int listcnt = 0;	// 配列カウント
-
-
-		for (int i = 0;i < customerlist.getSize();i++) {	// リスト分ループ
-
-			if (cheakid != customerlist.getContent().get(i).getCustomerid()) {	//顧客IDが変わるか次が無いなら入る
-				cheakid = customerlist.getContent().get(i).getCustomerid();	// 次に数える顧客IDを代入
-				customercnt[listcnt] = count;	// カウントした数を配列に入れる
-				count = 0;	// カウントを初期化
-				listcnt++;	// 配列の数字をプラス
-			}
-
-			if (i+1 >= customerlist.getSize()) {		// リストの最後
-				if (cheakid == customerlist.getContent().get(i).getCustomerid() ) {	// あとで短く修正
-					count++;
-					customercnt[listcnt] = count;
-					break;
-				}
-				customercnt[listcnt] = count;
-			}
-			count++;
-
-		}
-		for (int i = 0;i < listcnt + 1; i++) {
-			model.addAttribute("customercnt" + i, customercnt[i]);	// 一つずつ出力
-		}
+//		int cheakid = customerlist.getContent().get(0).getCustomerid();	// 最初の顧客IDを入れる
+//		int count = 0;	// 同じ顧客名が続いたカウント
+//		int customercnt[] = new int[10];
+//
+//		int listcnt = 0;	// 配列カウント
+//		long size = 10;	// 表示するリストの数
+//		if (pageable.getPageNumber() * 10 - customerlist.getTotalElements() < 10) {	// リストが10よりも少ないか判定
+//			size = pageable.getPageNumber() * 10 - customerlist.getTotalElements();
+//		}
+//
+//		for (int i = 0;i < size;i++) {	// リスト分ループ
+//
+//			if (cheakid != customerlist.getContent().get(i).getCustomerid()) {	//顧客IDが変わるか次が無いなら入る
+//				cheakid = customerlist.getContent().get(i).getCustomerid();	// 次に数える顧客IDを代入
+//				customercnt[listcnt] = count;	// カウントした数を配列に入れる
+//				count = 0;	// カウントを初期化
+//				listcnt++;	// 配列の数字をプラス
+//			}
+//
+//			if (i+1 >= size) {		// リストの最後
+//				if (cheakid == customerlist.getContent().get(i).getCustomerid() ) {	// あとで短く修正
+//					count++;
+//					customercnt[listcnt] = count;
+//					break;
+//				}
+//				customercnt[listcnt] = count;
+//			}
+//			count++;
+//
+//		}
+//		for (int i = 0;i < listcnt + 1; i++) {
+//			model.addAttribute("customercnt" + i, customercnt[i]);	// 一つずつ出力
+//		}
 		// ここまで
 		model.addAttribute("page", page);
 		model.addAttribute("customerlist", customerlist.getContent());
 		model.addAttribute("searchRequest", searchRequest);	// 検索ワードリスト(無いとエラーになるため)
 		model.addAttribute("customerpulldown", customerpulldown);
 		model.addAttribute("statuspulldown", statuspulldown);
-
 		return "list";
 	}
 

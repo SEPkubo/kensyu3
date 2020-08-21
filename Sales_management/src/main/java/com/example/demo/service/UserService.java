@@ -131,6 +131,7 @@ public class UserService {
 		ｍanagement.setS_number(managementRequest.getS_number());
 		ｍanagement.setSubject(managementRequest.getSubject());
 		ｍanagement.setQuantity(managementRequest.getQuantity());
+		ｍanagement.setUnit(managementRequest.getUnit());
 		ｍanagement.setDelivery_designation(managementRequest.getDelivery_designation());
 		ｍanagement.setDelivery_date(managementRequest.getDelivery_date());
 		ｍanagement.setBilling_date(managementRequest.getBilling_date());
@@ -154,6 +155,7 @@ public class UserService {
 		ｍanagement.setS_number(managementUpdateRequest.getS_number());
 		ｍanagement.setSubject(managementUpdateRequest.getSubject());
 		ｍanagement.setQuantity(managementUpdateRequest.getQuantity());
+		ｍanagement.setUnit(managementUpdateRequest.getUnit());
 		ｍanagement.setDelivery_designation(managementUpdateRequest.getDelivery_designation());
 		ｍanagement.setDelivery_date(managementUpdateRequest.getDelivery_date());
 		ｍanagement.setBilling_date(managementUpdateRequest.getBilling_date());

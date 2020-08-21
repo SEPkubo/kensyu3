@@ -63,6 +63,12 @@ public class ManagementUpdate implements Serializable {
 		@Column(name="quantity")
 		private String quantity;
 
+		/**
+		 * 単位
+		 */
+		@Column(name="unit")
+		private String unit;
+
 
 		/**
 		 * 納品指定日

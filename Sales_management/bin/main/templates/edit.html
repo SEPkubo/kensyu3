@@ -46,6 +46,8 @@
 					<th class="cell_title">数量 :</th>
 					<td><input class="address-size" type="text"
 						th:field="*{quantity}"></td>
+						<td><input class="address-size" type="text"
+						th:field="*{unit}"></td>
 						<td style="color:red;" th:if="${#fields.hasErrors('*{quantity}')}" th:errors="*{quantity}"></td>
 				</tr>
 				<tr>
