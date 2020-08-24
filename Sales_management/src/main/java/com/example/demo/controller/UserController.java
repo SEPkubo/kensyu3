@@ -313,6 +313,18 @@ public class UserController {
 		return "edit";
 	}
 
+	/**
+	 * ログイン画面を表示
+	 * @param model Model
+	 * @return 登録画面
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String displayLogin(Model model) {
+
+
+		return "login";
+	}
+
 	// 更新処理
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(@Validated @ModelAttribute ManagementUpdateRequest managementUpdateRequest,

@@ -1,0 +1,36 @@
+@charset "UTF-8";
+.btn {
+  background-color: #808080;
+  color: black;
+  border : solid 1px #000 ;
+  width: 150px;
+}
+
+
+.table {
+	left:110px;
+	position: absolute;
+}
+
+.address-txt {
+	width: 300px;
+}
+
+th{
+	text-align: right;
+	vertical-align: top;
+}
+
+.mailaddress {
+
+}
+
+.name-size {
+	width: 280px;
+}
+
+.btn-login {
+	position: absolute;
+	top:150px;
+	left:250px;
+}
