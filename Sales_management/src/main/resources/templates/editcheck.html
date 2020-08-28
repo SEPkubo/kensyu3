@@ -81,7 +81,7 @@
 		</div>
 		</form>
 	</div>
-	<form th:action="@{/edit}" th:object="${managementUpdateRequest}">
+	<form th:action="@{/edit}" th:object="${managementUpdateRequest}" method="post">
 		<input type="hidden" name="id" th:value="*{id}">
 		<input type="hidden" name="customer_id" th:value="*{customer_id}">
 		<input type="hidden" name="orderdate" th:value="*{orderdate}">

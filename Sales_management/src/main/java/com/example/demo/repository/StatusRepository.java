@@ -16,9 +16,15 @@ import com.example.demo.entity.Status;
 @Repository
 public interface StatusRepository extends JpaRepository<Status, Long>, JpaSpecificationExecutor<Status> {	// 複合主キーに対してLongのみ(後々の問題になる可能性あり)
 
+	/**
+	 * プルダウンに使用
+	 */
 	@Query(value = "SELECT * FROM status" , nativeQuery = true)
 	 public List<Status> getStatus_name();		// ステータス情報を取得
 
+	/**
+	 * 登録や編集の確認画面で使用
+	 */
 	@Query(value = "SELECT status_name FROM status WHERE customer_id = ?1 AND status_id = ?2" , nativeQuery = true)
 	 public String findStatus_name(int customer_id,int status_id);		// idから顧客名を取得
 

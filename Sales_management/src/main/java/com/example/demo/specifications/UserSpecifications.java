@@ -8,6 +8,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
+import com.example.demo.entity.Login;
 import com.example.demo.entity.ManagementList;
 public class UserSpecifications {
 
@@ -57,5 +58,27 @@ public class UserSpecifications {
             }
         };
     }
+
+    // ログイン認証
+    public static Specification<Login> LoginCheckMailaddress(String mailaddress) {	// メールアドレス確認
+        return  new Specification<Login>() {
+            @Override
+            public Predicate toPredicate(Root<Login> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.like(root.get("mailaddress"),mailaddress);
+            }
+        };
+    }
+
+    // ログイン認証
+    public static Specification<Login> LoginCheckPassword(String password) {	// パスワード確認
+        return  new Specification<Login>() {
+            @Override
+            public Predicate toPredicate(Root<Login> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.like(root.get("password"),password);
+            }
+        };
+    }
+
+
 
 }

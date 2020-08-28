@@ -1,17 +1,21 @@
 package com.example.demo.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,11 +50,63 @@ public class UserController {
 	UserService userService;
 
 
-
-
 	String message = ""; // エラーメッセージ
 
 	int create_flg = 0; // 登録確認画面表示フラグ
+	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();		// ハッシュ化エンコーダ
+
+
+	/**
+	 * ログイン画面を表示
+	 * @param model Model
+	 * @return ログイン画面
+	 */
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String displayLogin(@ModelAttribute("LoginRequest") ManagementRequest LoginRequest,Model model) {
+
+		model.addAttribute("addresserr", "");
+		model.addAttribute("passworderr", "");
+		model.addAttribute("loginerr", "");
+
+		return "login";
+	}
+
+
+	/**
+	 * ログインチェック
+	 * @param model Model
+	 * @return 一覧画面にリダイレクト
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping(value = "/logincheck", method = RequestMethod.POST)
+	public String LoginCheck(HttpServletRequest request,Model model) throws UnsupportedEncodingException {
+		String mailaddress = request.getParameter("mailaddress");	// メールアドレス
+		String password = request.getParameter("password");	// パスワード
+
+		String addresserr = ErrorCheck.addresscheck(mailaddress);	// メールアドレスの文字数制限メッセージ
+		String passworderr = ErrorCheck.passwordcheck(password);	// パスワードの文字数制限メッセージ
+		String loginerr = "";
+
+		String checkpass = userService.getLoginCheck(mailaddress);		// 入力されたメールアドレスが使われているパスワードを取得
+
+		ErrorCheck.addresscheck(mailaddress);
+		if(addresserr != "" || passworderr != "") {
+			model.addAttribute("addresserr", addresserr);
+			model.addAttribute("passworderr", passworderr);
+			model.addAttribute("loginerr", loginerr);
+			return "login";
+		}
+
+		if (passwordEncoder.matches(password, checkpass)) {	// パスワードチェック
+			return "redirect:list";
+        }
+
+
+		loginerr = "メールアドレスもしくはパスワードが間違っているか入力されていません。";
+		model.addAttribute("loginerr", loginerr);
+		return "login";
+	}
 
 	/**
 	 * 一覧画面を表示
@@ -73,42 +129,7 @@ public class UserController {
 
 		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 
-		// 同じ顧客名を数える仕組み
-		//CoustomerCount coustomercount = new CoustomerCount();
-//		int cheakid = customerlist.getContent().get(0).getCustomerid();	// 最初の顧客IDを入れる
-//		int count = 0;	// 同じ顧客名が続いたカウント
-//		int customercnt[] = new int[10];
-//
-//		int listcnt = 0;	// 配列カウント
-//		long size = 10;	// 表示するリストの数
-//		if (pageable.getPageNumber() * 10 - customerlist.getTotalElements() < 10) {	// リストが10よりも少ないか判定
-//			size = pageable.getPageNumber() * 10 - customerlist.getTotalElements();
-//		}
-//
-//		for (int i = 0;i < size;i++) {	// リスト分ループ
-//
-//			if (cheakid != customerlist.getContent().get(i).getCustomerid()) {	//顧客IDが変わるか次が無いなら入る
-//				cheakid = customerlist.getContent().get(i).getCustomerid();	// 次に数える顧客IDを代入
-//				customercnt[listcnt] = count;	// カウントした数を配列に入れる
-//				count = 0;	// カウントを初期化
-//				listcnt++;	// 配列の数字をプラス
-//			}
-//
-//			if (i+1 >= size) {		// リストの最後
-//				if (cheakid == customerlist.getContent().get(i).getCustomerid() ) {	// あとで短く修正
-//					count++;
-//					customercnt[listcnt] = count;
-//					break;
-//				}
-//				customercnt[listcnt] = count;
-//			}
-//			count++;
-//
-//		}
-//		for (int i = 0;i < listcnt + 1; i++) {
-//			model.addAttribute("customercnt" + i, customercnt[i]);	// 一つずつ出力
-//		}
-		// ここまで
+
 		model.addAttribute("page", page);
 		model.addAttribute("customerlist", customerlist.getContent());
 		model.addAttribute("searchRequest", searchRequest);	// 検索ワードリスト(無いとエラーになるため)
@@ -158,7 +179,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 登録画面
 	 */
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String displayAdd(@ModelAttribute("managementRequest") ManagementRequest managementRequest, Model model) {
 
 		ErrMessage errmessage = new ErrMessage();
@@ -238,7 +259,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 編集画面
 	 */
-	@GetMapping("/edit/{id}")
+	@PostMapping("/edit/{id}")
 	public String displayView(@PathVariable Long id, Model model) {
 		ManagementUpdate management = userService.findById(id);
 		List<Customer> customerpulldown = userService.getCustomer_name();	// プルダウンの顧客リスト
@@ -299,7 +320,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 編集画面
 	 */
-	@GetMapping("/edit")
+	@PostMapping("/edit")
 	public String displayedit(
 			@ModelAttribute("managementUpdateRequest") ManagementUpdateRequest managementUpdateRequest, Model model) {
 		ErrMessage errmessage = new ErrMessage();
@@ -313,17 +334,7 @@ public class UserController {
 		return "edit";
 	}
 
-	/**
-	 * ログイン画面を表示
-	 * @param model Model
-	 * @return 登録画面
-	 */
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String displayLogin(Model model) {
 
-
-		return "login";
-	}
 
 	// 更新処理
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -341,7 +352,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 削除画面
 	 */
-	@GetMapping("/delete/{id}")
+	@PostMapping("/delete/{id}")
 	public String delete(@PathVariable Long id, Model model) {
 		ManagementUpdate management = userService.findById(id);
 		NameList namelist = new NameList();

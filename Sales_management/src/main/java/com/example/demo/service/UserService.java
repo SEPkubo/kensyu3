@@ -18,6 +18,7 @@ import com.example.demo.entity.ManagementList;
 import com.example.demo.entity.ManagementUpdate;
 import com.example.demo.entity.Status;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.LoginRepository;
 import com.example.demo.repository.ManagementUpdateRepository;
 import com.example.demo.repository.StatusRepository;
 import com.example.demo.repository.UserRepository;
@@ -46,13 +47,13 @@ public class UserService {
 	@Autowired
 	ManagementUpdateRepository managementUpdateRepository;
 
+	@Autowired
+	LoginRepository loginRepository;
+
 	/**
 	 * ユーザー情報 全検索
 	 * @return 検索結果
 	 */
-
-
-
 
 
 	// 一覧取得(検索条件がない場合)
@@ -76,6 +77,13 @@ public class UserService {
 
 	 }
 
+		// ログイン情報確認
+	 public String getLoginCheck(String mailaddress) {
+		 return loginRepository.getPassword(mailaddress);
+
+
+
+	 }
 
 
 

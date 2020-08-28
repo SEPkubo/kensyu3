@@ -8,16 +8,19 @@
 </head>
 <body>
 	<h3>製造部売上管理システム:ログイン</h3>
-
+	<form th:action="@{/logincheck}" method="post">
 	<div class="table">
+	<h4>[[${loginerr}]]</h4>
 		<table>
 			<tr>
 				<th>メールアドレス :</th>
-				<td><input class="mailaddress" type="text"></td>
+				<td><input class="mailaddress" name="mailaddress" type="text"></td>
+				<td>[[${addresserr}]]</td>
 			</tr>
 			<tr>
 				<th>パスワード :</th>
-				<td><input class="password" type="text"></td>
+				<td><input class="password" name="password" type="password"></td>
+				<td>[[${passworderr}]]</td>
 			</tr>
 		</table>
 	</div>
@@ -25,5 +28,6 @@
 	<div class="btn-login">
 		<input type="submit" value="ログイン" class="btn">
 	</div>
+	</form>
 </body>
 </html>

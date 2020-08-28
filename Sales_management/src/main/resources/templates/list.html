@@ -57,7 +57,7 @@
 		</div> -->
 
 	</form>
-	<form th:action="@{/add}">
+	<form th:action="@{/add}" method="post">
 		<button type="submit" class="btn-sinki">新規登録</button>
 	</form>
 	<br>
@@ -134,12 +134,12 @@
 					</td>
 					<td class="tel" th:text="*{customlist.status.status_name}"></td>
 					<td bgcolor=#808080>
-						<form th:action="@{/edit/{id}(id=*{customlist.id})}">
+						<form th:action="@{/edit/{id}(id=*{customlist.id})}" method="post">
 							<button type="submit" class="btn-edit-delete">編集</button>
 						</form>
 					</td>
 					<td bgcolor=#808080>
-						<form th:action="@{/delete/{id}(id=*{customlist.id})}">
+						<form th:action="@{/delete/{id}(id=*{customlist.id})}" method="post">
 							<button type="submit" class="btn-edit-delete">削除</button>
 						</form>
 					</td>
