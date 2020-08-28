@@ -94,3 +94,11 @@ table.list tr.jyusyoroku_list {
 	left:600px;
 	position: absolute;
 }
+
+ul {
+	width: 200px;
+}
+li {
+	display: inline-block;
+	width: 120px;
+}

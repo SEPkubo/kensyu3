@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h3>製造部売上管理システム:案件一覧</h3>
-	<form th:action="@{/listsearch}">
+	<form th:action="@{/listsearch}" method="post">
 		<div class="pulldown_kensaku">
 			<table class="pulldown">
 				<tr>
@@ -66,37 +66,39 @@
 	<div th:fragment='paginationbar'>
 		<ul class='pagination pagination-centered'>
 			<li th:class="${page.firstPage}?'disabled':''"
-				style="display: inline"><span th:if='${page.firstPage}'>&lt;&lt;</span>
-				<a th:if='${not page.firstPage}'
-				th:href='@{${page.url}(page=0,size=${page.size})}'>&lt;&lt;</a></li>
+				style="display: inline"><button th:if='${page.firstPage}' disabled>&lt;&lt;</button>
+				<form th:action='@{${page.url}(page=0,size=${page.size})}' method="post">
+				<button th:if='${not page.firstPage}' type="submit">&lt;&lt;</button>
+				</form></li>
 			<li th:class="${page.hasPreviousPage}? '' : 'disabled'"
-				style="display: inline"><span
-				th:if='${not page.hasPreviousPage}'>&lt;</span> <a
-				th:if='${page.hasPreviousPage}'
-				th:href='@{${page.url}(page=${page.number-2},size=${page.size},)}'>&lt;</a>
+				style="display: inline"><button
+				th:if='${not page.hasPreviousPage}' disabled>&lt;</button>
+				<form th:action='@{${page.url}(page=${page.number-2},size=${page.size})}' method="post">
+				<button th:if='${page.hasPreviousPage}'>&lt;</button></form>
 			</li>
 
 
 			<li th:each='item : ${page.items}'
 				th:class="${item.current}? 'active' : ''" style="display: inline">
-				<span th:if='${item.current}' th:text='${item.number}'>1</span> <a
-				th:if='${not item.current}'
-				th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'>
-					<span th:text='${item.number}'>1</span>
-			</a>
+				<button th:if='${item.current}' th:text='${item.number}' disabled>1</button>
+				<form th:action='@{${page.url}(page=${item.number-1},size=${page.size})}' method="post">
+				<button th:if='${not item.current}' type="submit" th:text='${item.number}'>1</button>
+		</form>
 			</li>
 			<li th:class="${page.hasNextPage}? '' : 'disabled'"
-				style="display: inline"><span th:if='${not page.hasNextPage}'>&gt;</span>
-				<a th:if='${page.hasNextPage}'
-				th:href='@{${page.url}(page=${page.number},size=${page.size})}'>&gt;</a>
+				style="display: inline"><button th:if='${not page.hasNextPage}' disabled>&gt;</button>
+				<form th:action='@{${page.url}(page=${page.number},size=${page.size})}' method="post">
+				<button th:if='${page.hasNextPage}' type="submit">&gt;</button>
+				</form>
 			</li>
 			<li th:class="${page.lastPage}? 'disabled' : ''"
-				style="display: inline"><span th:if='${page.lastPage}'>&gt;&gt;</span>
-				<a th:if='${not page.lastPage}'
-				th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>&gt;&gt;</a>
+				style="display: inline"><button th:if='${page.lastPage}' disabled>&gt;&gt;</button>
+				<form th:action='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}' method="post">
+				<button th:if='${not page.lastPage}' type="submit">&gt;&gt;</button>
+				</form>
 			</li>
 		</ul>
-		</div>
+	</div>
 	<!-- ページネーションここまで -->
 	<div class="list_table">
 	<div >

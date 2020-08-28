@@ -36,20 +36,27 @@ public class ErrorCheck {
 
 	}
 
+
+	/**
+	 * ログイン画面のメールアドレスエラーメッセージ
+	 */
 	public static String addresscheck(String address) throws UnsupportedEncodingException {
 
 		String addressmessage = "";
-		if (address.getBytes("Shift-JIS").length > 255) {
+		if (address.getBytes("Shift-JIS").length >= 255) {
 			addressmessage = "255桁以上です";
 		}
 		return addressmessage;
 
 	}
 
+	/**
+	 * ログイン画面のパスワードエラーメッセージ
+	 */
 public static String passwordcheck(String password) throws UnsupportedEncodingException {
 
 		String passwordmessage = "";
-		if (password.getBytes("Shift-JIS").length > 17) {
+		if (password.getBytes("Shift-JIS").length >= 17) {
 			passwordmessage = "17桁以上です";
 		}
 		return passwordmessage;

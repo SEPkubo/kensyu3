@@ -62,10 +62,10 @@ public class UserController {
 	 * @return ログイン画面
 	 */
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String displayLogin(@ModelAttribute("LoginRequest") ManagementRequest LoginRequest,Model model) {
+	@RequestMapping(value={"/login", "/list", "/listsearch","/add","/addcheck","/edit/{id}","/editcheck","/delete/{id}"}, method = RequestMethod.GET)
+	public String displayLogin(Model model) {
 
-		model.addAttribute("addresserr", "");
+		model.addAttribute("addresserr", "");	// エラーメッセージに空文字を設定
 		model.addAttribute("passworderr", "");
 		model.addAttribute("loginerr", "");
 
@@ -76,7 +76,7 @@ public class UserController {
 	/**
 	 * ログインチェック
 	 * @param model Model
-	 * @return 一覧画面にリダイレクト
+	 * @return ログイン成功:一覧画面	ログイン失敗:ログイン画面
 	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping(value = "/logincheck", method = RequestMethod.POST)
@@ -86,7 +86,7 @@ public class UserController {
 
 		String addresserr = ErrorCheck.addresscheck(mailaddress);	// メールアドレスの文字数制限メッセージ
 		String passworderr = ErrorCheck.passwordcheck(password);	// パスワードの文字数制限メッセージ
-		String loginerr = "";
+		String loginerr = "";	// ログインできなかった場合のメッセージ
 
 		String checkpass = userService.getLoginCheck(mailaddress);		// 入力されたメールアドレスが使われているパスワードを取得
 
@@ -98,8 +98,9 @@ public class UserController {
 			return "login";
 		}
 
+
 		if (passwordEncoder.matches(password, checkpass)) {	// パスワードチェック
-			return "redirect:list";
+			return "forward:/list";
         }
 
 
@@ -113,7 +114,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 一覧画面
 	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public String displayList(@PageableDefault(page = 0, size = 10, direction = Direction.ASC,
                 sort = {
                     "customerid",
@@ -143,7 +144,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 検索の一覧画面
 	 */
-	@RequestMapping(value = "/listsearch", method = RequestMethod.GET)
+	@RequestMapping(value = "/listsearch", method = RequestMethod.POST)
 	public String displayListsearch(@PageableDefault(page = 0, size = 10, direction = Direction.ASC,
                 sort = {
                     "customerid",
@@ -188,10 +189,6 @@ public class UserController {
 
 		List<Status> statuspulldown = userService.getStatus_name();	// プルダウンのステータス情報
 
-		// 確認画面から戻ってきた場合に顧客名が選択されていなければ顧客名にnullを入れる
-		if (managementRequest.getCustomer_id() != 0) {
-
-		}
 
 		if (create_flg == 1) { // 確認画面から戻ってきた場合
 			// 日付表示を戻す処理
@@ -199,8 +196,8 @@ public class UserController {
 			managementRequest.setDelivery_designation(managementRequest.getDelivery_designation().replace("/", "-"));
 			managementRequest.setDelivery_date(managementRequest.getDelivery_date().replace("/", "-"));
 			managementRequest.setBilling_date(managementRequest.getBilling_date().replace("/", "-"));
-			managementRequest.setOrder_money(managementRequest.getOrder_money().replace("\\", "")); // 円マーク除去
-			managementRequest.setEstimated_money(managementRequest.getEstimated_money().replace("\\", ""));
+//			managementRequest.setOrder_money(managementRequest.getOrder_money().replace("\\", "")); // 円マーク除去
+//			managementRequest.setEstimated_money(managementRequest.getEstimated_money().replace("\\", ""));
 		}
 
 		create_flg = 0; // 確認画面フラグ
@@ -235,8 +232,8 @@ public class UserController {
 			return "add";
 		}
 
-		managementRequest.setOrder_money("\\" + managementRequest.getOrder_money()); // 円マーク追加
-		managementRequest.setEstimated_money("\\" + managementRequest.getEstimated_money());
+//		managementRequest.setOrder_money("\\" + managementRequest.getOrder_money()); // 円マーク追加
+//		managementRequest.setEstimated_money("\\" + managementRequest.getEstimated_money());
 		managementRequest.setOrderdate(managementRequest.getOrderdate().replace("-", "/")); // ハイフンからスラッシュに置き換え
 		managementRequest.setDelivery_designation(managementRequest.getDelivery_designation().replace("-", "/"));
 		managementRequest.setDelivery_date(managementRequest.getDelivery_date().replace("-", "/"));
@@ -250,7 +247,7 @@ public class UserController {
 		// 登録処理
 		managementRequest.setDelete_flg(0);
 		userService.create(managementRequest);
-		return "redirect:list";
+		return "forward:/list";
 	}
 
 	/**
@@ -343,7 +340,7 @@ public class UserController {
 			Model model) {
 		// 情報の更新
 		userService.update(managementUpdateRequest);
-		return "redirect:/list";
+		return "forward:/list";
 	}
 
 	/**
@@ -370,7 +367,7 @@ public class UserController {
 
 		// 情報の更新
 		userService.delete(managementUpdateRequest);
-		return "redirect:/list";
+		return "forward:/list";
 	}
 
 }
