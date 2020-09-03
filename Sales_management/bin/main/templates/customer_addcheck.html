@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>製造部売上管理システム</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="/css/add.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<h3>製造部売上管理システム:顧客登録</h3>
+	<form th:action="@{/customer_create}"
+		method="post">
+
+
+		<div class="table">
+			<table>
+				<tr>
+					<th>顧客* :</th>
+					<td th:text="${customer_name}"></td>
+				</tr>
+				<tr>
+					<th class="cell_title">ステータス :</th>
+					<td th:text="${status1}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status2}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status3}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status4}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status5}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status6}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status7}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status8}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status9}"></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td th:text="${status10}"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="btn-ok">
+		<input type="hidden" name="customer_name" th:value="${customer_name}">
+		<input type="hidden" name="status1" th:value="${status1}">
+		<input type="hidden" name="status2" th:value="${status2}">
+		<input type="hidden" name="status3" th:value="${status3}">
+		<input type="hidden" name="status4" th:value="${status4}">
+		<input type="hidden" name="status5" th:value="${status5}">
+		<input type="hidden" name="status6" th:value="${status6}">
+		<input type="hidden" name="status7" th:value="${status7}">
+		<input type="hidden" name="status8" th:value="${status8}">
+		<input type="hidden" name="status9" th:value="${status9}">
+		<input type="hidden" name="status10" th:value="${status10}">
+			<input type="submit" value="確認" class="btn">
+		</div>
+	</form>
+	<form th:action="@{/customer_add}" method="post">
+		<div class="btn-return">
+			<button type="submit" class="btn">戻る</button>
+		</div>
+	</form>
+
+</body>
+</html>

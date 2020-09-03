@@ -28,6 +28,13 @@ public interface StatusRepository extends JpaRepository<Status, Long>, JpaSpecif
 	@Query(value = "SELECT status_name FROM status WHERE customer_id = ?1 AND status_id = ?2" , nativeQuery = true)
 	 public String findStatus_name(int customer_id,int status_id);		// idから顧客名を取得
 
+	/**
+	 * 顧客編集画面で使用
+	 */
+	@Query(value = "SELECT * FROM status WHERE customer_id = ?1 AND status_id = ?2" , nativeQuery = true)
+	 public Status findid(Long customer_id,int status_id);		// idから顧客名を取得
+
+
 
 
 }

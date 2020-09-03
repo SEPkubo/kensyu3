@@ -15,7 +15,7 @@ public class Status_PrimaryKey implements Serializable {
 	* 顧客ID
 	*/
 	@Column(name = "customer_id")
-	private int customer_id;
+	private Long customer_id;
 
 	/**
 	 * ステータスID

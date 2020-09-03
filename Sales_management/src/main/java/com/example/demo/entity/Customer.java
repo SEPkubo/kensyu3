@@ -27,7 +27,7 @@ public class Customer implements Serializable {
 	    @Id
 	    @Column(name="customer_id")
 	    @GeneratedValue(strategy=GenerationType.IDENTITY)
-	    private int customer_id;
+	    private Long customer_id;
 
 
 		/**

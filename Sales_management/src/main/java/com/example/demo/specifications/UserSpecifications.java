@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.example.demo.entity.Login;
 import com.example.demo.entity.ManagementList;
+import com.example.demo.entity.Status;
 public class UserSpecifications {
 
     public static Specification<ManagementList> subjectContains(String subject) {		// 件名検索
@@ -75,6 +76,16 @@ public class UserSpecifications {
             @Override
             public Predicate toPredicate(Root<Login> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.like(root.get("password"),password);
+            }
+        };
+    }
+
+    // 顧客編集画面で使用
+    public static Specification<Status> findstatus(Long id) {	// 顧客idからステータス情報取得
+        return  new Specification<Status>() {
+            @Override
+            public Predicate toPredicate(Root<Status> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get("customer_id"), id);
             }
         };
     }

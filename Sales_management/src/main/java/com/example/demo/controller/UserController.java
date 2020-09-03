@@ -331,6 +331,149 @@ public class UserController {
 		return "edit";
 	}
 
+	/**
+	 * 一覧画面を表示
+	 * @param model Model
+	 * @return 一覧画面
+	 */
+	@RequestMapping(value = "/customer_list", method = RequestMethod.GET)
+	public String customer_list(Model model) {
+
+		List<Customer> list = userService.getcoustomer_list();	// 顧客リスト
+
+		model.addAttribute("list", list);
+		return "customer_list";
+	}
+
+
+	/**
+	 * 顧客登録画面を表示
+	 * @param model Model
+	 * @return 登録画面
+	 */
+	@RequestMapping(value = "/customer_add", method = RequestMethod.GET)
+	public String CustomerAdd(Model model) {
+
+
+
+		return "customer_add";
+	}
+
+	/**
+	 * 顧客登録確認画面を表示
+	 * @param model Model
+	 * @return 登録画面
+	 */
+	@RequestMapping(value = "/customer_addcheck", method = RequestMethod.POST)
+	public String CustomerAddCheck(HttpServletRequest request,Model model) {
+
+
+
+		model.addAttribute("customer_name", request.getParameter("customer_name"));
+		model.addAttribute("status1", request.getParameter("status1"));
+		model.addAttribute("status2", request.getParameter("status2"));
+		model.addAttribute("status3", request.getParameter("status3"));
+		model.addAttribute("status4", request.getParameter("status4"));
+		model.addAttribute("status5", request.getParameter("status5"));
+		model.addAttribute("status6", request.getParameter("status6"));
+		model.addAttribute("status7", request.getParameter("status7"));
+		model.addAttribute("status8", request.getParameter("status8"));
+		model.addAttribute("status9", request.getParameter("status9"));
+		model.addAttribute("status10", request.getParameter("status10"));
+		return "customer_addcheck";
+	}
+
+
+
+	/**
+	 * 顧客編集画面を表示
+	 * @param id 表示されるデータのID
+	 * @param model Model
+	 * @return 顧客編集画面
+	 */
+	@PostMapping("/customer_edit/{id}")
+	public String customer_edit(@PathVariable Long id, Model model) {
+		Customer customer = userService.findByCustomer_Id(id);
+		List<Status> status = userService.getStatusList(id);
+
+		for(int i = 0;i < 10;i++) {	// 10回ループさせる
+			if(status.size() - 1 >= i) {		// ステータス情報がある場合、情報を代入する
+				model.addAttribute("status" + (i+1), status.get(i).getStatus_name());
+			} else {
+				model.addAttribute("status" + (i+1), "");	// ステータス情報が無い場合
+			}
+		}
+		model.addAttribute("customer", customer);
+
+		return "customer_edit";
+	}
+
+	/**
+	 * 顧客編集確認画面を表示
+	 * @param id 表示されるデータのID
+	 * @param model Model
+	 * @return 顧客編集確認画面
+	 */
+	@PostMapping("/customer_editcheck")
+	public String customer_editcheck(HttpServletRequest request,Model model) {
+		model.addAttribute("customer_name", request.getParameter("customer_name"));
+		model.addAttribute("customer_id", request.getParameter("customer_id"));
+		model.addAttribute("status1", request.getParameter("status1"));
+		model.addAttribute("status2", request.getParameter("status2"));
+		model.addAttribute("status3", request.getParameter("status3"));
+		model.addAttribute("status4", request.getParameter("status4"));
+		model.addAttribute("status5", request.getParameter("status5"));
+		model.addAttribute("status6", request.getParameter("status6"));
+		model.addAttribute("status7", request.getParameter("status7"));
+		model.addAttribute("status8", request.getParameter("status8"));
+		model.addAttribute("status9", request.getParameter("status9"));
+		model.addAttribute("status10", request.getParameter("status10"));
+
+		return "customer_editcheck";
+	}
+
+
+	@RequestMapping(value = "/customer_create", method = RequestMethod.POST)
+	public String customer_create(HttpServletRequest request,Model model) {
+		// 顧客登録処理
+		Long id = userService.customer_create(request.getParameter("customer_name"));	// 登録処理を行った後IDを返す
+		int count = 1;
+
+
+		// ステータス登録処理
+		for (int i = 0;i < 10;i++) {
+
+			if (request.getParameter("status" + (i+1)).isEmpty() == false) {	// ステータス名が入力されているものを登録する
+				userService.status_create(id,count,request.getParameter("status" + (i+1)));		// 登録処理
+				count++;
+			}
+
+		}
+
+		return "forward:/list";
+	}
+
+	@RequestMapping(value = "/customer_update", method = RequestMethod.POST)
+	public String customer_update(HttpServletRequest request,Model model) {
+		// 顧客更新処理
+
+		Long id = (long) Integer.parseInt(request.getParameter("customer_id"));	// Long型に変更
+		userService.customer_update(id,request.getParameter("customer_name"));	// 顧客名の変更
+
+		int count = 1;
+		// ステータス登録処理
+		for (int i = 0;i < 10;i++) {
+
+			if (request.getParameter("status" + (i+1)).isEmpty() == false) {	// ステータス名が入力されているものを登録する
+				userService.status_update(id,count,request.getParameter("status" + (i+1)));		// 登録処理
+				count++;
+			}
+
+		}
+
+		return "forward:/list";
+	}
+
 
 
 	// 更新処理

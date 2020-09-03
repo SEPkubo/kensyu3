@@ -96,9 +96,7 @@ table.list tr.jyusyoroku_list {
 }
 
 ul {
-	width: 200px;
+	display: flex;
 }
-li {
-	display: inline-block;
-	width: 120px;
-}
+
+

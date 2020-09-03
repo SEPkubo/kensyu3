@@ -73,9 +73,13 @@ public class UserService {
 				 .and(UserSpecifications.delete_flgCheck()))
 				 ,pageable);
 
-
-
 	 }
+
+
+		// 顧客一覧取得
+		public List<Customer> getcoustomer_list() {
+	        return customerRepository.findAll();
+	    }
 
 		// ログイン情報確認
 	 public String getLoginCheck(String mailaddress) {
@@ -124,6 +128,55 @@ public class UserService {
 	public void create(ManagementRequest managementRequest) {
 		managementUpdateRepository.save(CreateManagement(managementRequest));
 	}
+
+	// 顧客登録
+		public Long customer_create(String customer_name) {
+			Long id;
+			Customer customer = new Customer();
+			customer.setCustomer_name(customer_name);
+			customerRepository.save(customer);	// 顧客の登録処理を行う
+			id = customer.getCustomer_id();
+			return id;		// 登録した顧客のIDを返す
+		}
+
+		// ステータス登録
+		public void status_create(Long customer_id,int status_id,String status_name) {
+			Status status = new Status();
+			status.setCustomer_id(customer_id);
+			status.setStatus_id(status_id);
+			status.setStatus_name(status_name);
+			statusRepository.save(status);	// ステータスの登録処理を行う
+
+		}
+
+		// 顧客編集
+		public void customer_update(Long customer_id,String customer_name) {
+
+			Customer customer = customerRepository.getOne(customer_id);
+			System.out.println(customer);
+			customer.setCustomer_name(customer_name);
+			customerRepository.save(customer);
+
+
+		}
+
+		// ステータス編集
+				public void status_update(Long customer_id,int status_id,String status_name) {
+					Status status = statusRepository.findid(customer_id,status_id);
+					if(status != null) {
+						status.setStatus_name(status_name);
+					} else {
+						status = new Status();
+						status.setCustomer_id(customer_id);
+						status.setStatus_id(status_id);
+						status.setStatus_name(status_name);
+
+					}
+
+					statusRepository.save(status);	// ステータスの更新処理を行う
+
+				}
+
 
 
 	/**
@@ -190,6 +243,21 @@ public class UserService {
      */
     public ManagementUpdate findById(Long id) {
         return managementUpdateRepository.findId(id);
+    }
+
+	/**
+     * 顧客情報 ID検索
+     * 顧客編集画面で使用
+     * @return 検索結果
+     */
+    public Customer findByCustomer_Id(Long id) {
+        return customerRepository.findById(id).get();		// 顧客idで情報を取得
+    }
+
+	// 一覧取得(検索条件がない場合)
+	public List<Status> getStatusList(Long id) {
+        return statusRepository.findAll((Specification
+				 .where(UserSpecifications.findstatus(id))));
     }
 
 
