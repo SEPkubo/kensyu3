@@ -5,7 +5,9 @@ import java.io.Serializable;
 public class SearchRequest implements Serializable {
 
 	// 顧客id
-	private int customer_id;
+	private Long customer_id;
+
+
 
 	// ステータスid
 	private int status_id;
@@ -15,12 +17,11 @@ public class SearchRequest implements Serializable {
 
 
 
-
-	public int getCustomer_id() {
+	public Long getCustomer_id() {
 		return customer_id;
 	}
 
-	public void setCustomer_id(int customer_id) {
+	public void setCustomer_id(Long customer_id) {
 		this.customer_id = customer_id;
 	}
 

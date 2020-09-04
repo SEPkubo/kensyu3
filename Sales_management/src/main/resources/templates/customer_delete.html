@@ -4,12 +4,13 @@
 <head>
 <title>製造部売上管理システム</title>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<link href="/css/add.css" rel="stylesheet"></link>
+<link href="/css/customer_delete.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
 <body>
-	<h3>製造部売上管理システム:顧客削除</h3>
-	<form th:action="@{/customer_update}"
+	<h3>下記の顧客を削除します。よろしいですか？</h3>
+	<h4>[[${errmessage}]]</h4>
+	<form th:action="@{/customer_deleteupdate}"
 		method="post">
 
 
@@ -17,11 +18,11 @@
 			<table>
 				<tr>
 					<th>顧客* :</th>
-					<td th:text="${customer_name}"></td>
+					<td th:text="${customer.customer_name}"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">ステータス :</th>
-					<td th:text="${status1}"></td>
+					<td  th:text="${status1}"></td>
 				</tr>
 				<tr>
 					<th></th>
@@ -62,11 +63,11 @@
 			</table>
 		</div>
 		<div class="btn-ok">
-		<input type="hidden" name="customer_id" th:value="${customer_id}">
+		<input type="hidden" name="customer_id" th:value="${customer.customer_id}">
 			<input type="submit" value="確認" class="btn">
 		</div>
 	</form>
-	<form th:action="@{/customer_list}" method="get">
+	<form th:action="@{/customer_list}" method="post">
 		<div class="btn-return">
 			<button type="submit" class="btn">戻る</button>
 		</div>

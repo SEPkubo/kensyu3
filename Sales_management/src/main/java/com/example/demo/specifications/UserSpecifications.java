@@ -8,6 +8,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
+import com.example.demo.entity.Customer;
 import com.example.demo.entity.Login;
 import com.example.demo.entity.ManagementList;
 import com.example.demo.entity.Status;
@@ -23,7 +24,7 @@ public class UserSpecifications {
         };
     }
 
-    public static Specification<ManagementList> customer_nameContains(int customer_id) {	// 顧客検索
+    public static Specification<ManagementList> customer_nameContains(Long customer_id) {	// 顧客検索
         return customer_id == -1 ? null : new Specification<ManagementList>() {	// customer_idが-1なら検索しない
             @Override
             public Predicate toPredicate(Root<ManagementList> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -86,6 +87,15 @@ public class UserSpecifications {
             @Override
             public Predicate toPredicate(Root<Status> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.equal(root.get("customer_id"), id);
+            }
+        };
+    }
+
+    public static Specification<Customer> customer_delete_flgCheck() {	// 顧客削除フラグチェック
+        return  new Specification<Customer>() {
+            @Override
+            public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get("delete_flg"), 0);
             }
         };
     }

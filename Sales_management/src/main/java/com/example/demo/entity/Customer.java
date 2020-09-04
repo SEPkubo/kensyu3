@@ -36,6 +36,11 @@ public class Customer implements Serializable {
 		@Column(name="customer_name")
 		private String customer_name;
 
+		/**
+		 * 削除フラグ
+		 */
+		@Column(name="delete_flg")
+		private int delete_flg;
 
 
 

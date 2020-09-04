@@ -1,0 +1,63 @@
+@charset "UTF-8";
+.btn {
+  background-color: #808080;
+  color: black;
+  border : solid 1px #000 ;
+  width: 150px;
+}
+
+
+.btn-return {
+	margin-top:441px;
+	margin-left:400px;
+}
+
+.btn-ok {
+	position: absolute;
+	margin-left:200px;
+	margin-top:420px;
+}
+
+.table {
+	left:110px;
+	position: absolute;
+}
+
+.address-txt {
+	width: 300px;
+}
+
+.category {
+	width: 177px;
+	border-color:#9932CC;
+}
+
+
+
+th{
+	text-align: right;
+	vertical-align: top;
+}
+
+.address-size {
+	width: 560px;
+}
+
+.name-size {
+	width: 280px;
+}
+
+textarea {
+    resize: none;
+    font-family: arial, sans-serif;
+}
+
+.unit {
+	top:118px;
+	left:277px;
+	position: absolute;
+}
+
+h4 {
+	color: #ff0000;
+}

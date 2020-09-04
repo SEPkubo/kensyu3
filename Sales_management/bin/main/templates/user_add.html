@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>製造部売上管理システム</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="/css/add.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<h3>製造部売上管理システム:ユーザ登録</h3>
+	<form th:action="@{/customer_addcheck}" method="post">
+
+
+		<div class="table">
+			<table>
+				<tr>
+					<th>メールアドレス* :</th>
+					<td><input class="address-size" type="text"
+						name="customer_name"></td>
+				</tr>
+				<tr>
+					<th class="cell_title">パスワード :</th>
+					<td><input class="address-size" type="text" name="status1"></td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="btn-ok">
+			<input type="submit" value="確認" class="btn">
+		</div>
+	</form>
+	<form th:action="@{/list}" method="post">
+		<div class="btn-return">
+			<button type="submit" class="btn">戻る</button>
+		</div>
+	</form>
+
+</body>
+</html>

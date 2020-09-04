@@ -10,8 +10,11 @@
 <body>
 	<h3>製造部売上管理システム:顧客一覧</h3>
 
-<form th:action="@{/customer_add}" method="get">
+<form th:action="@{/customer_add}" method="post">
 		<button type="submit" class="btn-sinki">顧客登録</button>
+	</form>
+	<form th:action="@{/list}" method="post">
+		<button type="submit" class="btn-sinki">案件一覧</button>
 	</form>
 	<br>
 	<br>
@@ -35,7 +38,7 @@
 						</form>
 					</td>
 					<td bgcolor=#808080>
-						<form th:action="@{/delete/{id}(id=*{list.customer_id})}" method="post">
+						<form th:action="@{/customer_delete/{id}(id=*{list.customer_id})}" method="post">
 							<button type="submit" class="btn-edit-delete">削除</button>
 						</form>
 					</td>

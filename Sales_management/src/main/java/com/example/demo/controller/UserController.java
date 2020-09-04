@@ -152,7 +152,7 @@ public class UserController {
                     }
                 ) Pageable pageable,
 			@RequestParam(name = "Serch_subject") String serch_subject,
-			@RequestParam(name = "customer_id") int customer_id,
+			@RequestParam(name = "customer_id") Long customer_id,
 			@RequestParam(name = "status_id",defaultValue = "-1") int status_id,
 			Model model) {
 		Page<ManagementList> customerlist = userService.getListSerch(pageable, customer_id, status_id, serch_subject);	// 検索
@@ -336,7 +336,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 一覧画面
 	 */
-	@RequestMapping(value = "/customer_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/customer_list", method = RequestMethod.POST)
 	public String customer_list(Model model) {
 
 		List<Customer> list = userService.getcoustomer_list();	// 顧客リスト
@@ -351,7 +351,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 登録画面
 	 */
-	@RequestMapping(value = "/customer_add", method = RequestMethod.GET)
+	@RequestMapping(value = "/customer_add", method = RequestMethod.POST)
 	public String CustomerAdd(Model model) {
 
 
@@ -403,6 +403,7 @@ public class UserController {
 				model.addAttribute("status" + (i+1), "");	// ステータス情報が無い場合
 			}
 		}
+
 		model.addAttribute("customer", customer);
 
 		return "customer_edit";
@@ -432,6 +433,37 @@ public class UserController {
 		return "customer_editcheck";
 	}
 
+	/**
+	 * 顧客削除画面を表示
+	 * @param id 表示されるデータのID
+	 * @param model Model
+	 * @return 顧客削除画面
+	 */
+	@PostMapping("/customer_delete/{id}")
+	public String customer_delete(@PathVariable Long id,HttpServletRequest request, Model model) {
+
+
+		String errmessage = (String) request.getAttribute("errmessage");
+		if (errmessage != null) {	// エラーメッセージがある場合は代入する
+			model.addAttribute("errmessage", errmessage);
+		} else {
+			model.addAttribute("errmessage", "");
+		}
+		Customer customer = userService.findByCustomer_Id(id);
+		List<Status> status = userService.getStatusList(id);
+
+		for(int i = 0;i < 10;i++) {	// 10回ループさせる
+			if(status.size() - 1 >= i) {		// ステータス情報がある場合、情報を代入する
+				model.addAttribute("status" + (i+1), status.get(i).getStatus_name());
+			} else {
+				model.addAttribute("status" + (i+1), "");	// ステータス情報が無い場合
+			}
+		}
+		model.addAttribute("customer", customer);
+
+		return "customer_delete";
+	}
+
 
 	@RequestMapping(value = "/customer_create", method = RequestMethod.POST)
 	public String customer_create(HttpServletRequest request,Model model) {
@@ -450,7 +482,7 @@ public class UserController {
 
 		}
 
-		return "forward:/list";
+		return "forward:/customer_list";
 	}
 
 	@RequestMapping(value = "/customer_update", method = RequestMethod.POST)
@@ -471,7 +503,24 @@ public class UserController {
 
 		}
 
-		return "forward:/list";
+		return "forward:/customer_list";
+	}
+
+	@RequestMapping(value = "/customer_deleteupdate", method = RequestMethod.POST)
+	public String customer_deleteupdate(HttpServletRequest request,Model model) {
+		// 顧客削除処理
+
+		Long id = (long) Integer.parseInt(request.getParameter("customer_id"));	// Long型に変更
+
+		if (userService.getListcheck(id) >= 1) {	// 削除予定の顧客idが使われている案件を確認
+			model.addAttribute("errmessage", "顧客名が案件に使われているため削除できません");	// エラーメッセージ
+			return "forward:customer_delete/" + id;	// 削除予定の顧客名が案件に使われている場合エラーメッセージを表示
+		} else {
+			userService.customer_deleteupdate(id);	// 顧客削除
+		}
+
+
+		return "forward:/customer_list";
 	}
 
 
