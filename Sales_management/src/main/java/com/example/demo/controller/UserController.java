@@ -4,18 +4,22 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,21 +60,27 @@ public class UserController {
 	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();		// ハッシュ化エンコーダ
 
 
-	/**
-	 * ログイン画面を表示
-	 * @param model Model
-	 * @return ログイン画面
-	 */
+	@GetMapping(path = "login")
+    public String login(@RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout,
+            Model model, HttpSession session) {
 
-	@RequestMapping(value={"/login", "/list", "/listsearch","/add","/addcheck","/edit/{id}","/editcheck","/delete/{id}"}, method = RequestMethod.GET)
-	public String displayLogin(Model model) {
-
-		model.addAttribute("addresserr", "");	// エラーメッセージに空文字を設定
-		model.addAttribute("passworderr", "");
-		model.addAttribute("loginerr", "");
-
-		return "login";
-	}
+        model.addAttribute("showErrorMsg", false);
+        model.addAttribute("showLogoutedMsg", false);
+        if (error != null) {
+            if (session != null) {
+                AuthenticationException ex = (AuthenticationException) session
+                        .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+                if (ex != null) {
+                    model.addAttribute("showErrorMsg", true);
+                    model.addAttribute("errorMsg", ex.getMessage());
+                }
+            }
+        } else if (logout != null) {
+            model.addAttribute("showLogoutedMsg", true);
+        }
+        return "login";
+    }
 
 
 	/**
@@ -114,7 +124,7 @@ public class UserController {
 	 * @param model Model
 	 * @return 一覧画面
 	 */
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String displayList(@PageableDefault(page = 0, size = 10, direction = Direction.ASC,
                 sort = {
                     "customerid",
@@ -462,6 +472,19 @@ public class UserController {
 		model.addAttribute("customer", customer);
 
 		return "customer_delete";
+	}
+
+	/**
+	 * ユーザ登録画面を表示
+	 * @param model Model
+	 * @return ユーザ登録画面
+	 */
+	@RequestMapping(value = "/user_add", method = RequestMethod.GET)
+	public String user_add(Model model) {
+
+
+
+		return "user_add";
 	}
 
 

@@ -63,6 +63,9 @@
 	<form th:action="@{/customer_list}" method="post">
 		<button type="submit" class="btn-customerlist">顧客一覧</button>
 	</form>
+	<form class="form-signin" th:action="@{/logout}" method="post">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">ログアウト</button>
+   </form>
 	<br>
 	<br>
 	<!-- ページネーション -->
