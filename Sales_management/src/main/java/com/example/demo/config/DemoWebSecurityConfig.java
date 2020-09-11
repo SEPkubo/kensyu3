@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -22,8 +23,12 @@ class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
             // AUTHORIZE
             .authorizeRequests()
             /* */.mvcMatchers("/log").permitAll()		// 認証を除外するものを指定
+            	.antMatchers("/add","/addcheck","/edit/**","/editcheck","/delete/**","/customer_add","/customer_addcheck","/customer_edit/**","/customer_editcheck","/customer_delete/**").hasRole("ADMIN")	// ADMIN権限を持つユーザのみアクセス可能
             /* */.anyRequest().authenticated()	// 除外したもの以外は要認証
             .and()
+            .exceptionHandling()
+            .accessDeniedPage("/err");	// 認証エラー画面
+        http
             // LOGIN
             .formLogin()
             /* */.loginPage("/login")	// 使用するログイン画面
@@ -31,6 +36,12 @@ class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
             /* */.defaultSuccessUrl("/list")	// ログイン後の遷移画面
         // end
         ;
+
+        // ログアウト設定
+        http
+        	.logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))       // ログアウト処理のパス
+            .logoutSuccessUrl("/list");	// ログイン完了後のパス
 
 
     }

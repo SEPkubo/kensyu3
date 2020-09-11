@@ -47,7 +47,6 @@ public class UserAccountService implements UserDetailsService {
 	}
 
 	private Collection<GrantedAuthority> getAuthorities(Account account){	// 権限のセット
-
 		if(account.isAdmin()){
 			return AuthorityUtils.createAuthorityList("ROLE_ADMIN","ROLE_USER");
 		}else{

@@ -4,12 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>ログイン</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
+
 </head>
 <body>
 <div class="container">
-   <p style="text-align: center;">オリジナルログインフォームです</p>
+   <p>売上管理システム:ログイン画面</p>
    <form class="form-signin" th:action="@{/login}" method="post">
         <div th:if="${showErrorMsg}" class="alert alert-danger" role="alert" th:text="${errorMsg}">
             ※エラーメッセージ※
@@ -19,7 +18,7 @@
         </div>
 
         <p>
-          <input type="text" id="username" name="username" class="form-control" placeholder="ユーザID" required autofocus>
+          <input type="text" id="username" name="username" class="form-control" placeholder="メールアドレス" required autofocus>
         </p>
         <p>
           <input type="password" id="password" name="password" class="form-control" placeholder="パスワード" required>

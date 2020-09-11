@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>製造部売上管理システム</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="/css/err.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<h3>製造部売上管理システム:エラー画面</h3>
+	<br>
+	<div class="kengen">
+	<h2>権限がありません</h2>
+	</div>
+	<form th:action="@{/list}" method="get">
+		<div class="btn-return">
+			<button type="submit" class="btn">OK</button>
+		</div>
+	</form>
+
+</body>
+</html>

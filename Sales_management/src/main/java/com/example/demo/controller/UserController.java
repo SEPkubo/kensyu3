@@ -487,6 +487,19 @@ public class UserController {
 		return "user_add";
 	}
 
+	/**
+	 * エラー画面を表示
+	 * @param model Model
+	 * @return エラー画面
+	 */
+	@RequestMapping(value = "/err", method = RequestMethod.POST)
+	public String err(Model model) {
+
+
+
+		return "err";
+	}
+
 
 	@RequestMapping(value = "/customer_create", method = RequestMethod.POST)
 	public String customer_create(HttpServletRequest request,Model model) {

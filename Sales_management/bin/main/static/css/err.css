@@ -1,0 +1,21 @@
+@charset "UTF-8";
+.btn {
+  background-color: #808080;
+  color: black;
+  border : solid 1px #000 ;
+  width: 150px;
+}
+
+
+.btn-return {
+	margin-top:100px;
+	margin-left:210px;
+}
+
+
+
+.kengen {
+	position: absolute;
+	left:200px;
+}
+

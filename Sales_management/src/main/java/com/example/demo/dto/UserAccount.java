@@ -16,7 +16,7 @@ public class UserAccount implements UserDetails {
 
 	protected UserAccount(){}
 
-	public UserAccount(Account account,Collection<GrantedAuthority> authorities){
+	public UserAccount(Account account,Collection<GrantedAuthority> authorities){	// 権限情報を保持するリスト
 		this.user = account;
 		this.authorities = authorities;
 	}
