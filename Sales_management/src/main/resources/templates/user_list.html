@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>売上管理システム</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="/css/user_list.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<h3>製造部売上管理システム:ユーザ一覧</h3>
+
+	<form th:action="@{/user_add}" method="get">
+		<button type="submit" class="btn-customerlist">ユーザ登録</button>
+	</form>
+	<form th:action="@{/list}" method="get">
+		<button type="submit" class="btn-sinki">案件一覧</button>
+	</form>
+	<form th:action="@{/customer_list}" method="post">
+		<button type="submit" class="btn-customerlist">顧客一覧</button>
+	</form>
+	<br>
+	<br>
+	<div class="list_table">
+	<div >
+		<table class="list">
+			<thead>
+				<tr class="jyusyoroku_list">
+					<th>No.</th>
+					<th>ユーザ</th>
+					<th colspan="2">&emsp;&emsp;</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+</div>
+
+</body>
+</html>

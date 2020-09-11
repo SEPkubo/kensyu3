@@ -1,0 +1,114 @@
+table.list{
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+table.list th, table.list td {
+    border: 1px solid #000000;
+    padding: 6px;
+}
+
+table.pulldown{
+	border: 0px solid #ffffff;
+}
+
+table.pulldown th{
+	text-align: right;
+}
+
+table.list tr.jyusyoroku_list {
+    background-color: #6495ED;
+}
+
+.center {
+    text-align: center;
+}
+
+.address {
+	width: 300px;
+	overflow: hidden
+}
+
+.listaddress {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+
+  max-width: 300px;
+}
+.name {
+	width: 150px;
+}
+
+.tel {
+	width: 100px;
+}
+
+.btn {
+	width: 70px;
+}
+
+.kensaku {
+	top:50px;
+	left:1000px;
+	position: absolute;
+}
+
+.btn-kensaku {
+	width: 170px;
+	border-width: 0px;
+	background-color: #808080;
+}
+
+.kensaku-txt {
+	border-width: 0px;
+}
+
+.btn-edit-delete {
+	background-color: #808080;
+	border-width: 0px;
+	border-color:#808080;
+}
+
+.kensakucategory {
+	top:33px;
+	margin-left:930px;
+	position: absolute;
+}
+
+.btn-sinki {
+	border-style: solid;
+	background-color: #808080;
+	border-width: thin;
+	border-color:#000000;
+	width: 120px;
+
+}
+
+.btn-customerlist {
+	border-style: solid;
+	background-color: #808080;
+	border-width: thin;
+	border-color:#000000;
+	width: 120px;
+	left:50px;
+
+}
+
+.list_table {
+	top:130px;
+}
+
+.pulldown_kensaku{
+	left:600px;
+	position: absolute;
+}
+
+ul {
+	display: flex;
+}
+
+
+
+

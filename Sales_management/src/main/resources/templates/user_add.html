@@ -4,33 +4,41 @@
 <head>
 <title>製造部売上管理システム</title>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<link href="/css/add.css" rel="stylesheet"></link>
+<link href="/css/user_add.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
 <body>
 	<h3>製造部売上管理システム:ユーザ登録</h3>
-	<form th:action="@{/customer_addcheck}" method="post">
+	<h3>[[${errmessage}]]</h3>
+	<br>
+	<form th:action="@{/user_addcheck}" method="post">
 
 
 		<div class="table">
 			<table>
 				<tr>
-					<th>メールアドレス* :</th>
-					<td><input class="address-size" type="text"
-						name="customer_name"></td>
+					<th>メールアドレス :</th>
+					<td><input type="text"
+						name="username"></td>
 				</tr>
 				<tr>
 					<th class="cell_title">パスワード :</th>
-					<td><input class="address-size" type="text" name="status1"></td>
+					<td><input type="password" name="password"></td>
 				</tr>
-
+				<tr>
+				<th>権限：</th>
+				<td>
+				<input type="radio" name="admin" value="1"/>あり
+    			<input type="radio" name="admin" value="0" checked/>なし
+    			</td>
+				</tr>
 			</table>
 		</div>
 		<div class="btn-ok">
 			<input type="submit" value="確認" class="btn">
 		</div>
 	</form>
-	<form th:action="@{/list}" method="post">
+	<form th:action="@{/user_list}" method="post">
 		<div class="btn-return">
 			<button type="submit" class="btn">戻る</button>
 		</div>

@@ -38,8 +38,8 @@ import com.example.demo.entity.ManagementUpdate;
 import com.example.demo.entity.Status;
 import com.example.demo.errorcheck.ErrorCheck;
 import com.example.demo.pagewrapper.PageWrapper;
+import com.example.demo.service.UserAccountService;
 import com.example.demo.service.UserService;
-
 /**
  * ユーザー情報 Controller
  */
@@ -52,6 +52,9 @@ public class UserController {
 	 */
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	UserAccountService userAccountService;
 
 
 	String message = ""; // エラーメッセージ
@@ -257,7 +260,7 @@ public class UserController {
 		// 登録処理
 		managementRequest.setDelete_flg(0);
 		userService.create(managementRequest);
-		return "forward:/list";
+		return "redirect:/list";
 	}
 
 	/**
@@ -342,9 +345,9 @@ public class UserController {
 	}
 
 	/**
-	 * 一覧画面を表示
+	 * 顧客一覧画面を表示
 	 * @param model Model
-	 * @return 一覧画面
+	 * @return 顧客一覧画面
 	 */
 	@RequestMapping(value = "/customer_list", method = RequestMethod.POST)
 	public String customer_list(Model model) {
@@ -481,10 +484,33 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user_add", method = RequestMethod.GET)
 	public String user_add(Model model) {
-
+		model.addAttribute("errmessage","");
 
 
 		return "user_add";
+	}
+
+	/**
+	 * ユーザ登録確認画面を表示
+	 * @param model Model
+	 * @return ユーザ登録確認画面
+	 */
+	@RequestMapping(value = "/user_addcheck", method = RequestMethod.POST)
+	public String user_addcheck(HttpServletRequest request,Model model) {
+		if (userAccountService.cheakuser(request.getParameter("username")) == false || request.getParameter("username").isEmpty()) {
+			model.addAttribute("errmessage","既に使われているメールアドレスまたは入力されていません");
+			return "user_add";
+		}
+		int admin = Integer.parseInt(request.getParameter("admin"));
+		if (admin == 0) {
+			model.addAttribute("adminmessage", "なし");
+		} else {
+			model.addAttribute("adminmessage", "あり");
+		}
+		model.addAttribute("username", request.getParameter("username"));
+		model.addAttribute("password", request.getParameter("password"));
+		model.addAttribute("admin", admin);
+		return "user_addcheck";
 	}
 
 	/**
@@ -498,6 +524,17 @@ public class UserController {
 
 
 		return "err";
+	}
+
+	/**
+	 * ユーザ一覧画面を表示
+	 * @param model Model
+	 * @return ユーザ一覧画面
+	 */
+	@RequestMapping(value = "/user_list", method = RequestMethod.POST)
+	public String user_list(Model model) {
+
+		return "user_list";
 	}
 
 
@@ -560,6 +597,16 @@ public class UserController {
 	}
 
 
+	@RequestMapping(value = "/user_create", method = RequestMethod.POST)
+	public String user_create(HttpServletRequest request,Model model) {
+		// ユーザ登録処理
+		boolean admin = false;
+		if (Integer.parseInt(request.getParameter("admin")) == 1) {
+			admin = true;
+		}
+		userAccountService.registerAdmin(request.getParameter("username"),request.getParameter("password"),admin);
+		return "forward:/user_list";
+	}
 
 	// 更新処理
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -568,7 +615,7 @@ public class UserController {
 			Model model) {
 		// 情報の更新
 		userService.update(managementUpdateRequest);
-		return "forward:/list";
+		return "redirect:/list";
 	}
 
 	/**
@@ -595,7 +642,7 @@ public class UserController {
 
 		// 情報の更新
 		userService.delete(managementUpdateRequest);
-		return "forward:/list";
+		return "redirect:/list";
 	}
 
 }

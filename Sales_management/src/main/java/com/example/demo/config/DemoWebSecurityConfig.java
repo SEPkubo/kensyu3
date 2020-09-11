@@ -22,7 +22,7 @@ class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             // AUTHORIZE
             .authorizeRequests()
-            /* */.mvcMatchers("/log").permitAll()		// 認証を除外するものを指定
+            /* */.mvcMatchers().permitAll()		// 認証を除外するものを指定
             	.antMatchers("/add","/addcheck","/edit/**","/editcheck","/delete/**","/customer_add","/customer_addcheck","/customer_edit/**","/customer_editcheck","/customer_delete/**").hasRole("ADMIN")	// ADMIN権限を持つユーザのみアクセス可能
             /* */.anyRequest().authenticated()	// 除外したもの以外は要認証
             .and()
@@ -41,7 +41,7 @@ class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
         	.logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))       // ログアウト処理のパス
-            .logoutSuccessUrl("/list");	// ログイン完了後のパス
+            .logoutSuccessUrl("/login");	// ログアウト成功したあとのURL
 
 
     }

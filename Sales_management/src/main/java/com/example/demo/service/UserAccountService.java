@@ -37,7 +37,6 @@ public class UserAccountService implements UserDetailsService {
 	        }
 
 	        if (!ac.isEnabled()) {
-	        	System.out.println("2");
 	            throw new UsernameNotFoundException("User not found: " + username);
 	        }
 
@@ -56,17 +55,18 @@ public class UserAccountService implements UserDetailsService {
 	}
 
     @Transactional
-    public void registerAdmin(String username, String password) {	// 権限ありユーザ作成
-    	System.out.println(passwordEncoder.encode(password));
-        Account user = new Account(username, passwordEncoder.encode(password),true);
+    public void registerAdmin(String username, String password,boolean admin) {	// ユーザ作成
+        Account user = new Account(username, passwordEncoder.encode(password),admin);
         repository.save(user);
     }
 
-    @Transactional
-    public void registerUser(String username, String password) {	// 権限なしユーザ作成
-    	System.out.println(passwordEncoder.encode(password));
-        Account user = new Account(username, passwordEncoder.encode(password),false);
-        repository.save(user);
+    public boolean cheakuser(String username) {	// ユーザがすでに使われていないか確認
+    	Account ac = repository.findByUsername(username);
+        if (ac != null) {
+        	return false;
+        }
+        return true;
     }
+
 
 }
