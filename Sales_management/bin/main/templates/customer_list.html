@@ -28,13 +28,18 @@
 				<tr class="jyusyoroku_list">
 					<th>No.</th>
 					<th>顧客</th>
-					<th colspan="2">&emsp;&emsp;</th>
+					<th colspan="3">&emsp;&emsp;</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="list : ${list}">
 					<td class="center" th:text="${listStat.count}"></td>
 					<td class="name" th:text="${list.customer_name}"></td>
+					<td bgcolor=#808080>
+						<form th:action="@{/customer_status_list/{id}(id=*{list.customer_id})}" method="post">
+							<button type="submit" class="btn-edit-delete">ステータス</button>
+						</form>
+					</td>
 					<td bgcolor=#808080>
 						<form th:action="@{/customer_edit/{id}(id=*{list.customer_id})}" method="post">
 							<button type="submit" class="btn-edit-delete">編集</button>

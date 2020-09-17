@@ -8,6 +8,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
+import com.example.demo.entity.Account;
 import com.example.demo.entity.Customer;
 import com.example.demo.entity.Login;
 import com.example.demo.entity.ManagementList;
@@ -81,7 +82,7 @@ public class UserSpecifications {
         };
     }
 
-    // 顧客編集画面で使用
+    // ステータス一覧画面で使用
     public static Specification<Status> findstatus(Long id) {	// 顧客idからステータス情報取得
         return  new Specification<Status>() {
             @Override
@@ -91,11 +92,30 @@ public class UserSpecifications {
         };
     }
 
+    // ステータス一覧画面で使用
+    public static Specification<Status> customer_status_delete_flgCheck() {	// ステータス削除フラグチェック
+        return  new Specification<Status>() {
+            @Override
+            public Predicate toPredicate(Root<Status> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get("delete_flg"), 0);
+            }
+        };
+    }
+
     public static Specification<Customer> customer_delete_flgCheck() {	// 顧客削除フラグチェック
         return  new Specification<Customer>() {
             @Override
             public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.equal(root.get("delete_flg"), 0);
+            }
+        };
+    }
+
+    public static Specification<Account> user_enabledCheck() {	// 顧客削除フラグチェック
+        return  new Specification<Account>() {
+            @Override
+            public Predicate toPredicate(Root<Account> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                return cb.equal(root.get("enabled"), true);
             }
         };
     }

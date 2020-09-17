@@ -43,4 +43,10 @@ public class Status implements Serializable {
 	@Column(name = "status_name")
 	private String status_name;
 
+	/**
+	 * 削除フラグ
+	 */
+	@Column(name = "delete_flg")
+	private int delete_flg;
+
 }

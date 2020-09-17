@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>売上管理システム</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="/css/customer_list.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<h3>製造部売上管理システム:ステータス一覧</h3>
+	<form th:action="@{/customer_status_add}" method="post">
+	<input type="hidden" name="customer_id" th:value="${customer_id}">
+		<button type="submit" class="btn-sinki">ステータス登録</button>
+	</form>
+
+	<form th:action="@{/customer_list}" method="post">
+		<button type="submit" class="btn-sinki">顧客一覧</button>
+	</form>
+
+	<br>
+	<br>
+	<div class="list_table">
+	<div >
+		<table class="list">
+			<thead>
+				<tr class="jyusyoroku_list">
+					<th>No.</th>
+					<th>ステータス</th>
+					<th colspan="2">&emsp;&emsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="list : ${list}">
+					<td class="center" th:text="${listStat.count}"></td>
+					<td class="name" th:text="${list.status_name}"></td>
+					<td bgcolor=#808080>
+						<form th:action="@{/customer_status_edit/{id}(id=*{list.status_id})}" method="post">
+							<input type="hidden" name="customer_id" th:value="${customer_id}">
+							<button type="submit" class="btn-edit-delete">編集</button>
+						</form>
+					</td>
+					<td bgcolor=#808080>
+						<form th:action="@{/customer_status_delete/{id}(id=*{list.status_id})}" method="post">
+							<input type="hidden" name="customer_id" th:value="${customer_id}">
+							<button type="submit" class="btn-edit-delete">削除</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+</div>
+
+</body>
+</html>

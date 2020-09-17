@@ -130,6 +130,8 @@ public class UserService {
 
 	// ステータス登録
 	public void status_create(Long customer_id, int status_id, String status_name) {
+
+
 		Status status = new Status();
 		status.setCustomer_id(customer_id);
 		status.setStatus_id(status_id);
@@ -147,22 +149,30 @@ public class UserService {
 
 	}
 
+//	// 顧客名取得
+//		public String find_customer(Long id) {
+//
+//			return customerRepository.findById(id);
+//		}
+
 	// ステータス編集
 	public void status_update(Long customer_id, int status_id, String status_name) {
 		Status status = statusRepository.findid(customer_id, status_id);
-		if (status != null) {
-			status.setStatus_name(status_name);
-		} else {
-			status = new Status();
-			status.setCustomer_id(customer_id);
-			status.setStatus_id(status_id);
-			status.setStatus_name(status_name);
 
-		}
+			status.setStatus_name(status_name);
 
 		statusRepository.save(status); // ステータスの更新処理を行う
 
 	}
+	// ステータス削除
+		public void status_deleteupdate(Long customer_id, int status_id) {
+			Status status = statusRepository.findid(customer_id, status_id);
+
+				status.setDelete_flg(1);
+
+			statusRepository.save(status); // ステータスの削除処理を行う
+
+		}
 
 	// 顧客削除
 	public void customer_deleteupdate(Long customer_id) {
@@ -254,11 +264,18 @@ public class UserService {
 		return customerRepository.findById(id).get(); // 顧客idで情報を取得
 	}
 
-	// 一覧取得(検索条件がない場合)
+	// ステータス一覧取得
 	public List<Status> getStatusList(Long id) {
 		return statusRepository.findAll((Specification
-				.where(UserSpecifications.findstatus(id))));
+				.where(UserSpecifications.findstatus(id)
+				.and(UserSpecifications.customer_status_delete_flgCheck()))));
 	}
+
+	// ステータスカウント(ステータス登録画面で使用)
+		public int statusCount(Long id) {
+			return (int) statusRepository.count((Specification
+					.where(UserSpecifications.findstatus(id))));
+		}
 
 	public List<Map<String, Object>> queryForList(String string) {
 		return null;

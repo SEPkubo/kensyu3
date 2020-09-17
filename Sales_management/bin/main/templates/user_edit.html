@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>製造部売上管理システム</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="/css/user_edit.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<h3>製造部売上管理システム:ユーザ編集</h3>
+	<h3>[[${errmessage}]]</h3>
+	<br><br>
+	<form th:action="@{/user_passwordedit}" method="post">
+	<input type="hidden" name="id" th:value="${id}">
+		<div class="btn-password">
+			<button type="submit" class="btn">パスワード変更</button>
+		</div>
+	</form>
+	<form th:action="@{/user_editcheck}" method="post">
+
+
+		<div class="table">
+			<table>
+				<tr>
+					<th>メールアドレス :</th>
+					<td><input type="text"
+						name="username" th:value="${user.username}"></td>
+				</tr>
+				<tr>
+				<th>権限：</th>
+				<td th:if='${user.admin}'>
+				<input type="radio" name="admin" value="1" checked/>あり
+    			<input type="radio" name="admin" value="0"/>なし
+    			</td>
+    			<td th:if='${user.admin} == false'>
+				<input type="radio" name="admin" value="1"/>あり
+    			<input type="radio" name="admin" value="0" checked/>なし
+    			</td>
+				</tr>
+			</table>
+		</div>
+		<div class="btn-ok">
+			<input type="hidden" name="id" th:value="${id}">
+			<input type="submit" value="確認" class="btn">
+		</div>
+	</form>
+	<form th:action="@{/user_list}" method="post">
+		<div class="btn-return">
+			<button type="submit" class="btn">戻る</button>
+		</div>
+	</form>
+
+</body>
+</html>

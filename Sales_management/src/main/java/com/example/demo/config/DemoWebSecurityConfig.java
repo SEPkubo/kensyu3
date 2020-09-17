@@ -23,7 +23,8 @@ class DemoWebSecurityConfig extends WebSecurityConfigurerAdapter {
             // AUTHORIZE
             .authorizeRequests()
             /* */.mvcMatchers().permitAll()		// 認証を除外するものを指定
-            	.antMatchers("/add","/addcheck","/edit/**","/editcheck","/delete/**","/customer_add","/customer_addcheck","/customer_edit/**","/customer_editcheck","/customer_delete/**").hasRole("ADMIN")	// ADMIN権限を持つユーザのみアクセス可能
+            	.antMatchers("/add","/addcheck","/edit/**","/editcheck","/delete/**","/customer_add","/customer_addcheck",
+            			"/customer_edit/**","/customer_editcheck","/customer_delete/**","/user_add","/user_edit/**").hasRole("ADMIN")	// ADMIN権限を持つユーザのみアクセス可能
             /* */.anyRequest().authenticated()	// 除外したもの以外は要認証
             .and()
             .exceptionHandling()

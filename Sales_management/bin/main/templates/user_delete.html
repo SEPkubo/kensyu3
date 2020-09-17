@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>製造部売上管理システム</title>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="/css/user_delete.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+	<h3>製造部売上管理システム:下記のユーザを削除します。よろしいですか？</h3>
+	<h3>[[${errmessage}]]</h3>
+	<br>
+	<form th:action="@{/user_deleteupdate}"
+		method="post">
+
+
+		<div class="table">
+			<table>
+				<tr>
+					<th>メールアドレス :</th>
+					<td th:text="${user.username}"></td>
+				</tr>
+				<tr>
+					<th class="cell_title">権限 :</th>
+					<td th:text="${admin_message}"></td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="btn-ok">
+		<input type="hidden" name="id" th:value="${user.id}">
+			<input type="submit" value="OK" class="btn">
+		</div>
+	</form>
+	<form th:action="@{/user_list}" method="post">
+		<div class="btn-return">
+			<button type="submit" class="btn">戻る</button>
+		</div>
+	</form>
+
+</body>
+</html>

@@ -10,7 +10,7 @@
 <body>
 	<h3>製造部売上管理システム:ユーザ一覧</h3>
 
-	<form th:action="@{/user_add}" method="get">
+	<form th:action="@{/user_add}" method="post">
 		<button type="submit" class="btn-customerlist">ユーザ登録</button>
 	</form>
 	<form th:action="@{/list}" method="get">
@@ -27,10 +27,30 @@
 			<thead>
 				<tr class="jyusyoroku_list">
 					<th>No.</th>
-					<th>ユーザ</th>
+					<th>メールアドレス</th>
+					<th>権限</th>
 					<th colspan="2">&emsp;&emsp;</th>
 				</tr>
 			</thead>
+			<tbody>
+				<tr th:each="user_list : ${user_list}">
+					<td class="center" th:text="${user_listStat.count}"></td>
+					<td class="name" th:text="${user_list.username}"></td>
+					<td><span th:if='${user_list.admin}'>あり</span>
+					<span th:if='${user_list.admin} == false'>なし</span></td>
+					<td bgcolor=#808080>
+						<form th:action="@{/user_edit/{id}(id=*{user_list.id})}" method="post">
+							<button type="submit" class="btn-edit-delete">編集</button>
+						</form>
+					</td>
+					<td bgcolor=#808080>
+						<form th:action="@{/user_delete/{id}(id=*{user_list.id})}" method="post">
+							<button type="submit" class="btn-edit-delete">削除</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+
 		</table>
 		</div>
 </div>

@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dto.UserAccount;
 import com.example.demo.entity.Account;
 import com.example.demo.repository.AccountRepository;
-
+import com.example.demo.specifications.UserSpecifications;
 @Service
 public class UserAccountService implements UserDetailsService {
 
@@ -60,6 +62,20 @@ public class UserAccountService implements UserDetailsService {
         repository.save(user);
     }
 
+    @Transactional
+    public void user_update(Long id,String username,boolean admin) {	// ユーザ更新
+        Account user = getAccount(id);
+        user.setUsername(username);
+        user.setAdmin(admin);
+        repository.save(user);
+    }
+
+    public void user_passwordupdate(Long id,String password) {	// ユーザパスワード更新
+        Account user = getAccount(id);
+        user.setPassword(passwordEncoder.encode(password));
+        repository.save(user);
+    }
+
     public boolean cheakuser(String username) {	// ユーザがすでに使われていないか確認
     	Account ac = repository.findByUsername(username);
         if (ac != null) {
@@ -67,6 +83,23 @@ public class UserAccountService implements UserDetailsService {
         }
         return true;
     }
+
+    public void user_deleteupdate(Long id) {	// ユーザ削除
+        Account user = getAccount(id);
+        user.setEnabled(false);
+        repository.save(user);
+    }
+
+ // 顧客一覧取得
+ 	public List<Account> getuser_list() {
+ 		return repository.findAll((Specification
+				.where(UserSpecifications.user_enabledCheck())));
+ 	}
+
+ 	// idからアカウント情報取得
+ 	public Account getAccount(Long id) {
+ 		return repository.findById(id);
+ 	}
 
 
 }

@@ -1,0 +1,36 @@
+@charset "UTF-8";
+.btn {
+  background-color: #808080;
+  color: black;
+  border : solid 1px #000 ;
+  width: 150px;
+  height:28px;
+}
+
+
+.btn-return {
+	margin-top:100px;
+	margin-left:290px;
+}
+
+.btn-ok {
+	position: absolute;
+	margin-left:110px;
+	margin-top:100px;
+}
+
+th{
+	text-align: right;
+	vertical-align: top;
+}
+
+.table {
+	left:110px;
+	position: absolute;
+}
+
+.btn-password {
+	margin-top:65px;
+	margin-left:235px;
+	position: absolute;
+}
