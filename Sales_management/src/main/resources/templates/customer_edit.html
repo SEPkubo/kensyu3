@@ -4,17 +4,18 @@
 <head>
 <title>製造部売上管理システム</title>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<link href="/css/add.css" rel="stylesheet"></link>
+<link href="/css/customer_edit.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
 <body>
 	<h3>製造部売上管理システム:顧客編集</h3>
 	<form th:action="@{/customer_editcheck}" method="post">
+	<br>
 	<div class="table">
 			<table>
 				<tr>
 					<th>顧客* :</th>
-					<td><input class="address-size" type="text" name="customer_name"
+					<td><input class="customer_name" type="text" name="customer_name"
 						th:value="${customer.customer_name}"></td>
 				</tr>
 

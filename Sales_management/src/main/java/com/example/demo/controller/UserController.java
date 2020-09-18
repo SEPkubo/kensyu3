@@ -525,7 +525,7 @@ public class UserController {
 	 * @param model Model
 	 * @return ユーザ登録画面
 	 */
-	@RequestMapping(value = "/user_add", method = RequestMethod.GET)
+	@RequestMapping(value = "/user_add", method = RequestMethod.POST)
 	public String user_add(Model model) {
 		model.addAttribute("errmessage", "");
 
@@ -582,8 +582,8 @@ public class UserController {
 		Long id = (long) Integer.parseInt(request.getParameter("id"));
 		Account user = userAccountService.getAccount(id);
 
-		if (!(user.getUsername().equals(request.getParameter("username"))
-				&& userAccountService.cheakuser(request.getParameter("username")) == false)) {
+		if (!(user.getUsername().equals(request.getParameter("username")))
+				&& userAccountService.cheakuser(request.getParameter("username")) == false) {
 			model.addAttribute("errmessage", "既に使われているメールアドレスです");
 			model.addAttribute("id", id);
 			model.addAttribute("user", user);

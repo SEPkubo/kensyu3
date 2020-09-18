@@ -4,30 +4,30 @@
 <head>
 <title>製造部売上管理システム</title>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<link href="/css/add.css" rel="stylesheet"></link>
+<link href="/css/customer_add.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
 <body>
-	<h3>製造部売上管理システム:ステータス登録</h3>
-	<form th:action="@{/customer_status_create}"
+	<h3>製造部売上管理システム:顧客登録</h3>
+	<form th:action="@{/customer_create}"
 		method="post">
 
-
+		<br>
 		<div class="table">
 			<table>
 				<tr>
-					<th>ステータス :</th>
-					<td th:text="${status_name}"></td>
+					<th>顧客* :</th>
+					<td th:text="${customer_name}"></td>
 				</tr>
 
 			</table>
 		</div>
 		<div class="btn-ok">
-		<input type="hidden" name="customer_name" th:value="${stauts_name}">
+		<input type="hidden" name="customer_name" th:value="${customer_name}">
 			<input type="submit" value="登録" class="btn">
 		</div>
 	</form>
-	<form th:action="@{/customer_status_list}" method="post">
+	<form th:action="@{/customer_list}" method="post">
 		<div class="btn-return">
 			<button type="submit" class="btn">戻る</button>
 		</div>

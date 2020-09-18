@@ -8,14 +8,14 @@
 
 
 .btn-return {
-	margin-top:438px;
-	margin-left:400px;
+	margin-top:120px;
+	margin-left:290px;
 }
 
 .btn-ok {
 	position: absolute;
-	margin-left:200px;
-	margin-top:420px;
+	margin-left:110px;
+	margin-top:120px;
 }
 
 .table {
@@ -56,4 +56,8 @@ textarea {
 	top:118px;
 	left:277px;
 	position: absolute;
+}
+
+.customer_name {
+	width: 200px;
 }
